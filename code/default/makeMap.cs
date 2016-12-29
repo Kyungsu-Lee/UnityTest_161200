@@ -16,19 +16,17 @@ public class makeMap : MonoBehaviour
 		_block = new Block (block.transform);
 		_character = new Character (character.transform);
 
-		Map map = new Map (_block, 8, 7);
+		Map map = new Map (_block, 5, 7);
 		map.setPosition (-2.7f, -1.4f);
 
 		_character.connectMap (map);
 		_character.locateAt (0, 0);
 		_character.locaScale = new Vector3 (map.Unitlength * 0.8f,map.Unitlength * 0.8f, character.transform.localScale.z);
 
-		Resource.instruction.move ().up ().five ();
+		//Resource.instruction.move ().up ().five ();
 
 		_character.fails += failCondition;
-		_character.move (Resource.instruction);
-
-
+		//_character.move (Resource.instruction);
 
 	}
 	

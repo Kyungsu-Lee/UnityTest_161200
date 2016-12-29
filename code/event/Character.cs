@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using Instruction;
+using System.Threading;
 
 namespace ObjectHierachy
 {
@@ -16,8 +17,8 @@ namespace ObjectHierachy
 		private Transform obj;
 
 		private Map map;
-		private int x;
-		private int y;
+		public int x;
+		public int y;
 
 		public Character (Transform obj)
 		{
@@ -30,6 +31,17 @@ namespace ObjectHierachy
 		{
 			get { return obj.GetComponent<Transform> ().localScale; }
 			set { obj.GetComponent<Transform> ().localScale = value; }
+		}
+
+		public Vector3 position
+		{
+			get { return obj.GetComponent<Transform> ().position; }
+			set { obj.GetComponent<Transform> ().position = value; }
+		}
+
+		public float speed {
+			get;
+			set;
 		}
 
 		public void connectMap(Map map)
@@ -46,41 +58,51 @@ namespace ObjectHierachy
 		}
 
 
-		public void move(Instruction.Instruction instruction)
-		{
-			Instruction.Instruction _tmp = instruction.next;
 
-			if (!instruction.checkValid ()) {
-				fails ();
+		private static void faultInstruction()
+		{
+			Debug.Log ("failed");
+		}
+
+		public bool checkDistance(float delta)
+		{
+			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
+		}
+
+		public void move(out INSTRUCTION direction)
+		{
+
+			direction = INSTRUCTION.MOVE;
+			Instruction.Instruction _tmp = Resource.instruction.next;
+
+			if (!_tmp.checkValid ()) {
+				Resource.instruction = new Instructions ();
+				Debug.Log ("Wrong Instruction");
+				Debug.Log (Resource.instruction.ToString ());
 				return;
 			}
 
+
+
 			while (_tmp != null) {
 
-				Debug.Log (_tmp.instruction.ToString ());
-
-				INSTRUCTION direction;
 				int count = 0;
 
 
-				if (_tmp.instruction == INSTRUCTION.MOVE) 
-				{
+				if (_tmp.instruction == INSTRUCTION.MOVE) {
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
 
 
-					for (int i = 0; i < count; i++) 
-					{
+					for (int i = 0; i < count; i++) {
 						int _x = x;
 						int _y = y;
 
 
 						if (direction == INSTRUCTION.LEFT) {
 							x--;
-						}
-
-						else if (direction == INSTRUCTION.UP) {
+						} else if (direction == INSTRUCTION.UP) {
 							y++;
 						} else if (direction == INSTRUCTION.DOWN) {
 							y--;
@@ -88,26 +110,39 @@ namespace ObjectHierachy
 							x++;
 						}
 
-						if (!map.checkBound (x, y)) {
+						if (!Map.instance.checkBound (x, y)) {
 							x = _x;
 							y = _y;
 						}
 
-						this.locateAt (x,y);
-						map.get (x, y).changColor ();
 					}
 
-				} else if (_tmp.instruction == INSTRUCTION.JUMP) {
-				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
+				} else {
 				}
 			}
-
 		}
 
 
-		private static void faultInstruction()
+		public void moveUp()
 		{
-			Debug.Log ("failed");
+			position = new Vector3 (position.x, position.y + map.get (0, 0).length () / speed, position.z);
+		}
+		public void moveDown()
+		{
+			position = new Vector3 (position.x, position.y - map.get (0, 0).length () / speed, position.z);
+		}
+		public void moveLeft()
+		{
+			position = new Vector3 (position.x - map.get (0, 0).length () / speed, position.y , position.z);
+		}
+		public void moveRight()
+		{
+			position = new Vector3 (position.x+  map.get (0, 0).length () / speed, position.y, position.z);
+		}
+
+		public void setPosition()
+		{
+			position = map.get (x, y).getposition ();
 		}
 	}
 }

@@ -185,5 +185,18 @@ namespace Instruction
 			else
 				return INSTRUCTION.DIRECTION;
 		}
+
+		public override string ToString ()
+		{
+			string str = "";
+			Instruction _tmp = this;
+
+			while (_tmp != null) {
+				str += _tmp.instruction.ToString () + " ";
+				_tmp = _tmp.next;
+			}
+
+			return str;
+		}
 	}
 }
