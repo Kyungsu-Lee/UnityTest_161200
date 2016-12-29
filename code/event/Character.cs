@@ -14,7 +14,7 @@ namespace ObjectHierachy
 		public delegate void failedInstruction();
 		public failedInstruction fails = faultInstruction;
 
-		private Transform obj;
+		public Transform obj;
 
 		private Map map;
 		public int x;
@@ -71,8 +71,8 @@ namespace ObjectHierachy
 
 		public void move(out INSTRUCTION direction, Instruction.Instruction instruction)
 		{
-
-			direction = INSTRUCTION.MOVE;	// just for initialize
+			
+			direction = INSTRUCTION.NULL;	// just for initialize
 			Instruction.Instruction _tmp = instruction;
 
 			if (_tmp.instruction == INSTRUCTION.NULL)
@@ -112,6 +112,29 @@ namespace ObjectHierachy
 				} 
 				else if(_tmp.instruction == INSTRUCTION.JUMP)
 				{
+					direction = _tmp.next.instruction;
+					count = 2;
+
+					for (int i = 0; i < count; i++) {
+						int _x = x;
+						int _y = y;
+
+
+						if (direction == INSTRUCTION.LEFT) {
+							x--;
+						} else if (direction == INSTRUCTION.UP) {
+							y++;
+						} else if (direction == INSTRUCTION.DOWN) {
+							y--;
+						} else if (direction == INSTRUCTION.RIGHT) {
+							x++;
+						}
+
+						if (!Map.instance.checkBound (x, y)) {
+							x = _x;
+							y = _y;
+						}
+					}
 					
 				}
 			}

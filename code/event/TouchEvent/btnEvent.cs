@@ -21,7 +21,7 @@ public class btnEvent : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		character = Character.characters [0] as Character;
+		character = Resource.character;
 
 		character.speed = 7f;
 	}
@@ -67,6 +67,9 @@ public class btnEvent : MonoBehaviour {
 
 	public void OnMouseUp()
 	{
+		character = Resource.character;
+		character.speed = 7f;
+
 
 		if (this.transform.Equals (btns [0].transform))
 			Resource.instruction.move ();
@@ -93,17 +96,9 @@ public class btnEvent : MonoBehaviour {
 		else if (this.transform.Equals (btns [11].transform))
 			Resource.instruction.five ();
 		else if (this.transform.Equals (btns [12].transform)) {
-
 			_INSTRUCTION = true;
-
-			//character.move (out direction);
-			//checkMoveDirection ();
-
-			//Resource.instruction = new Instructions ();
 		}
-
-
-		//Debug.Log (Resource.instruction.ToString ());
+			
 	}
 
 	public void checkMoveDirection()
@@ -132,7 +127,6 @@ public class btnEvent : MonoBehaviour {
 		Instruction.Instruction _tmp = Resource.instruction;
 		if(_tmp.instruction == INSTRUCTION.NULL)
 			_tmp = _tmp.next;
-		_tmp += new Instructions ();
 
 		Instruction.Instruction _trim = new Instructions ();
 		_trim.make (_tmp);
@@ -142,7 +136,7 @@ public class btnEvent : MonoBehaviour {
 			_trim.make (_tmp);
 			_tmp = _tmp.next;
 		}
-
+		Debug.Log (_trim.ToString ());
 		character.move (out direction, _trim);
 		checkMoveDirection ();
 
