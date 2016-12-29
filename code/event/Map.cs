@@ -30,11 +30,11 @@ namespace ObjectHierachy
 			for (int i = 0; i < n; i++)
 				for (int j = 0; j < n; j++) {
 					Block _tmp = block.makeBlock ();
-					_tmp.localscale = new Vector3 (size / (n * _tmp.localscale.x + (n - 1) / 90.0f), size / (n * _tmp.localscale.x + (n - 1) / 90.0f), _tmp.localscale.z);
+					_tmp.localscale = new Vector3 (size / (n * _tmp.localscale.x + (n - 1) / 80.0f), size / (n * _tmp.localscale.x + (n - 1) / 80.0f), _tmp.localscale.z);
 					blocks [i] [j] = _tmp;
 				}
 
-			border = blocks [0] [0].length ()/90.0f;
+			border = blocks [0] [0].length ()/80.0f;
 
 			instance = this;
 		}

@@ -22,7 +22,7 @@ public class BlockEvent : MonoBehaviour {
 
 	public void OnMouseOver()
 	{
-		((Character)Character.characters [0]).move (block);
+		
 	}
 
 }

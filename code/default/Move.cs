@@ -12,6 +12,7 @@ public class Move : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		character = new Character (circle.transform);
+		character.connectMap (Map.instance);
 	}
 	
 	// Update is called once per frame
@@ -21,7 +22,6 @@ public class Move : MonoBehaviour {
 
 	public void move()
 	{
-		Debug.Log (x + " " + y);
 
 		int _x = x;
 		int _y = y;
@@ -50,7 +50,7 @@ public class Move : MonoBehaviour {
 		}
 
 			if (click) {
-				character.move (Map.instance.get (x, y));
+			character.locateAt (x,y);
 			Map.instance.get (x, y).changColor ();
 				click = false;
 			}
