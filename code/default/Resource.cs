@@ -6,6 +6,10 @@ namespace Instruction
 {
 public static class Resource {
 
-	public static Instruction instruction = new Instructions();
+		public static Instruction instruction = new Instructions();
+
+		public delegate void FAILEVENT();
+
+		public static FAILEVENT failEvent = null;
 }
 }

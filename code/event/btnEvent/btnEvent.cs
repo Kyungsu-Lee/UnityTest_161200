@@ -16,6 +16,8 @@ public class btnEvent : MonoBehaviour {
 	bool MOVERIGHT 	= false;
 	bool MOVELEFT 	= false;
 
+	bool _INSTRUCTION	= false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -28,10 +30,10 @@ public class btnEvent : MonoBehaviour {
 	void Update () {
 
 
+		//move character
 		if (MOVE && character.checkDistance (Map.instance.get (0, 0).length () / character.speed * 100 / 99)) {
 
 			if (MOVEUP) {
-
 				character.moveUp ();
 			} else if (MOVEDOWN) {
 				character.moveDown ();
@@ -41,7 +43,6 @@ public class btnEvent : MonoBehaviour {
 				character.moveLeft ();
 			}
 
-			Debug.Log (Vector3.Distance (character.position, Map.instance.get (character.x, character.y).getposition ()));
 		} 
 		else if (MOVE)
 		{
@@ -52,6 +53,14 @@ public class btnEvent : MonoBehaviour {
 			MOVEDOWN 	= false;
 			MOVERIGHT 	= false;
 			MOVELEFT 	= false;
+
+
+			_INSTRUCTION = true;
+		}
+
+		//instruction check
+		if (_INSTRUCTION) {
+			checkInstruction ();
 		}
 
 	}
@@ -85,15 +94,16 @@ public class btnEvent : MonoBehaviour {
 			Resource.instruction.five ();
 		else if (this.transform.Equals (btns [12].transform)) {
 
+			_INSTRUCTION = true;
 
-			character.move (out direction);
-			checkMoveDirection ();
+			//character.move (out direction);
+			//checkMoveDirection ();
 
-			Resource.instruction = new Instructions ();
+			//Resource.instruction = new Instructions ();
 		}
 
 
-		Debug.Log (Resource.instruction.ToString ());
+		//Debug.Log (Resource.instruction.ToString ());
 	}
 
 	public void checkMoveDirection()
@@ -103,5 +113,47 @@ public class btnEvent : MonoBehaviour {
 		MOVERIGHT 	= (direction == INSTRUCTION.RIGHT);
 		MOVELEFT 	= (direction == INSTRUCTION.LEFT);
 		MOVE 		= true;
+	}
+
+	public void checkInstruction()
+	{
+
+		if (Resource.instruction == null || !Resource.instruction.checkValid ()) 
+		{
+			Resource.instruction = new Instructions ();
+			Resource.failEvent += failEvent;
+			Resource.failEvent ();
+			Resource.failEvent -= failEvent;
+			_INSTRUCTION = false;
+
+			return;
+		}
+
+		Instruction.Instruction _tmp = Resource.instruction;
+		if(_tmp.instruction == INSTRUCTION.NULL)
+			_tmp = _tmp.next;
+		_tmp += new Instructions ();
+
+		Instruction.Instruction _trim = new Instructions ();
+		_trim.make (_tmp);
+		_tmp = _tmp.next;
+
+		while (_tmp != null && !(_tmp is Action)) {
+			_trim.make (_tmp);
+			_tmp = _tmp.next;
+		}
+
+		character.move (out direction, _trim);
+		checkMoveDirection ();
+
+		Resource.instruction = _tmp;
+		_INSTRUCTION = false;
+
+
+	}
+
+	public void failEvent()
+	{
+		Debug.Log ("failed");
 	}
 }

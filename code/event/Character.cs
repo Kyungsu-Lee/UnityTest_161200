@@ -69,25 +69,18 @@ namespace ObjectHierachy
 			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
 		}
 
-		public void move(out INSTRUCTION direction)
+		public void move(out INSTRUCTION direction, Instruction.Instruction instruction)
 		{
 
-			direction = INSTRUCTION.MOVE;
-			Instruction.Instruction _tmp = Resource.instruction.next;
+			direction = INSTRUCTION.MOVE;	// just for initialize
+			Instruction.Instruction _tmp = instruction;
 
-			if (!_tmp.checkValid ()) {
-				Resource.instruction = new Instructions ();
-				Debug.Log ("Wrong Instruction");
-				Debug.Log (Resource.instruction.ToString ());
-				return;
-			}
+			if (_tmp.instruction == INSTRUCTION.NULL)
+				_tmp = _tmp.next;
 
-
-
-			while (_tmp != null) {
-
+			if (_tmp != null) 
+			{
 				int count = 0;
-
 
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
 					direction = _tmp.next.instruction;
@@ -116,8 +109,10 @@ namespace ObjectHierachy
 						}
 
 					}
-
-				} else {
+				} 
+				else if(_tmp.instruction == INSTRUCTION.JUMP)
+				{
+					
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public class makeMap : MonoBehaviour
 		_character = new Character (character.transform);
 
 		Map map = new Map (_block, 5, 7);
-		map.setPosition (-2.7f, -1.4f);
+		map.setPosition (-2.3f, -0.85f);
 
 		_character.connectMap (map);
 		_character.locateAt (0, 0);

@@ -198,5 +198,35 @@ namespace Instruction
 
 			return str;
 		}
+
+		public void make(Instruction instruction)
+		{
+			if (instruction.instruction == INSTRUCTION.MOVE)
+				make ("move");
+			else if (instruction.instruction == INSTRUCTION.JUMP)
+				make ("jump");
+			else if (instruction.instruction == INSTRUCTION.BREAK)
+				make ("break");
+			else if (instruction.instruction == INSTRUCTION.UP)
+				make ("up");
+			else if (instruction.instruction == INSTRUCTION.JUMP)
+				make ("jump");
+			else if (instruction.instruction == INSTRUCTION.DOWN)
+				make ("down");
+			else if (instruction.instruction == INSTRUCTION.RIGHT)
+				make ("right");
+			else if (instruction.instruction == INSTRUCTION.LEFT)
+				make ("left");
+			else if (instruction.instruction == INSTRUCTION.ONE)
+				make ("one");
+			else if (instruction.instruction == INSTRUCTION.TWO)
+				make ("two");
+			else if (instruction.instruction == INSTRUCTION.THREE)
+				make ("three");
+			else if (instruction.instruction == INSTRUCTION.FOUR)
+				make ("four");
+			else if (instruction.instruction == INSTRUCTION.FIVE)
+				make ("five");
+		}
 	}
 }
