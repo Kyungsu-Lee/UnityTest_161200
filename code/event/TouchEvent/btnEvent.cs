@@ -152,11 +152,12 @@ public class btnEvent : MonoBehaviour {
 		} while (_tmp != null && !(_tmp is Action)); 
 
 
-		Debug.Log (_trim.ToString ());
 		character.move (out direction, out MOVE, _trim);
 		checkMoveDirection ();
 
-		Debug.Log (direction + " : " + MOVE);
+		if (direction != INSTRUCTION.NULL)
+			Resource.currentDirection = direction;
+		
 
 		Resource.instruction = _tmp;
 		_INSTRUCTION = !MOVE;

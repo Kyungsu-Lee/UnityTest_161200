@@ -80,9 +80,17 @@ namespace ObjectHierachy
 					}
 
 				} else if (_tmp.instruction == INSTRUCTION.JUMP) {
-					
-					direction = _tmp.next.instruction;
+
+					if(_tmp != null && _tmp.next != null)
+						direction = _tmp.next.instruction;
+
+					else
+						direction = Resource.currentDirection;
+
 					count = 2;
+
+					int __x = x;
+					int __y = y;
 
 					for (int i = 0; i < count; i++) {
 						int _x = x;
@@ -99,7 +107,7 @@ namespace ObjectHierachy
 							x++;
 						}
 
-						if (i == 0 && map.get (x, y).OnObject == null) {
+						if (i == 0 && map.get (x, y).OnObject == null ) {
 							x = _x;
 							y = _y;
 							MOVE = false;
@@ -107,16 +115,35 @@ namespace ObjectHierachy
 							break;
 						}
 
-						if (!Map.instance.checkBound (x, y)) {
+						if( (i == 1 && map.get(x,y).OnObject != null))
+						{
+							x = __x;
+							y = __y;
+							MOVE =false;
+
+							break;
+						}
+
+
+						if (!Map.instance.checkBound (x, y) && i == 0) {
 							x = _x;
 							y = _y;
+						} else if(!Map.instance.checkBound (x, y)) {
+							x = __x;
+							y = __y;
 						}
+
 					}
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
 					MOVE = false;
-					direction = _tmp.next.instruction;
 
+					if(_tmp != null && _tmp.next != null)
+						direction = _tmp.next.instruction;
+
+					else
+						direction = Resource.currentDirection;
+					
 					int _x = x;
 					int _y = y;
 
@@ -131,7 +158,6 @@ namespace ObjectHierachy
 						_x++;
 					}
 
-					Debug.Log (_x + " " + _y + " : " + map.get (_x, _y).OnObject);
 
 					if (map.get (_x, _y).OnObject != null) {
 						map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);

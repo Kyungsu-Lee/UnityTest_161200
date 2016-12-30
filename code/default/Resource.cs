@@ -15,5 +15,7 @@ public static class Resource {
 
 		public static Character character;
 		public static UnityEngine.GameObject[] characters;
+
+		public static INSTRUCTION currentDirection;
 }
 }
