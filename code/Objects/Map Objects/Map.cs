@@ -8,7 +8,7 @@ namespace ObjectHierachy
 		public static Map instance;
 		private Block[][] blocks;
 
-		private int size = 0;
+		public int size = 0;
 
 
 		//property
@@ -53,7 +53,12 @@ namespace ObjectHierachy
 
 		public bool checkBound(int x, int y)
 		{
-			return 0 <= x && x < size && 0 <= y && y < size;
+			return (0 <= x && x < size && 0 <= y && y < size);
+		}
+
+		public bool checkObtcle(int x, int y)
+		{
+			return (get (x, y).OnObject == null);
 		}
 
 		public float Unitlength

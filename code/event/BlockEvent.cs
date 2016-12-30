@@ -17,12 +17,17 @@ public class BlockEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
-	public void OnMouseOver()
+	public void OnMouseDown()
 	{
-		
+
+		int n = Map.instance.size;
+
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				Debug.Log (i + " " + j + " : " +Map.instance.get (i, j).OnObject);
 	}
 
 }

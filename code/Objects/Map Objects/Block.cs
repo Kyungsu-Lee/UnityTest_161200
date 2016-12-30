@@ -9,6 +9,11 @@ namespace ObjectHierachy
 		Color defaultColor = new Color (0.25f, 0, 34f, 0.1f);
 		Color changedColor = Color.green;
 
+		public MapObject OnObject {
+			get;
+			set;
+		}
+
 		public Block(Transform obj)
 		{
 			this.obj = obj;

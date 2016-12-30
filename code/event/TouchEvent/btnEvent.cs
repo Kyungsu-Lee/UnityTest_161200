@@ -6,6 +6,7 @@ using ObjectHierachy;
 public class btnEvent : MonoBehaviour {
 
 	public GameObject[] btns;
+	public GameObject square;
 
 	Character character;
 	INSTRUCTION direction;
@@ -96,7 +97,9 @@ public class btnEvent : MonoBehaviour {
 		else if (this.transform.Equals (btns [11].transform))
 			Resource.instruction.five ();
 		else if (this.transform.Equals (btns [12].transform)) {
-			_INSTRUCTION = true;
+				_INSTRUCTION = true;
+
+			Debug.Log (Resource.instruction.ToString ());
 		}
 			
 	}
@@ -107,13 +110,17 @@ public class btnEvent : MonoBehaviour {
 		MOVEDOWN 	= (direction == INSTRUCTION.DOWN);
 		MOVERIGHT 	= (direction == INSTRUCTION.RIGHT);
 		MOVELEFT 	= (direction == INSTRUCTION.LEFT);
-		MOVE 		= true;
 	}
 
 	public void checkInstruction()
 	{
+		if (Resource.instruction == null) {
+			_INSTRUCTION = false;
+			Resource.instruction = new Instructions ();
+			return;
+		}
 
-		if (Resource.instruction == null || !Resource.instruction.checkValid ()) 
+		if (!Resource.instruction.checkValid ()) 
 		{
 			Resource.instruction = new Instructions ();
 			Resource.failEvent += failEvent;
@@ -128,26 +135,43 @@ public class btnEvent : MonoBehaviour {
 		if(_tmp.instruction == INSTRUCTION.NULL)
 			_tmp = _tmp.next;
 
-		Instruction.Instruction _trim = new Instructions ();
-		_trim.make (_tmp);
-		_tmp = _tmp.next;
+		// just enter the switch
+		if (_tmp == null) {
+			Resource.instruction = new Instructions ();
+			_INSTRUCTION = false;
+			return;
+		}
 
-		while (_tmp != null && !(_tmp is Action)) {
+		// input instructions
+		Instruction.Instruction _trim = new Instructions ();
+
+		do {
 			_trim.make (_tmp);
 			_tmp = _tmp.next;
-		}
+
+		} while (_tmp != null && !(_tmp is Action)); 
+
+
 		Debug.Log (_trim.ToString ());
-		character.move (out direction, _trim);
+		character.move (out direction, out MOVE, _trim);
 		checkMoveDirection ();
 
-		Resource.instruction = _tmp;
-		_INSTRUCTION = false;
+		Debug.Log (direction + " : " + MOVE);
 
+		Resource.instruction = _tmp;
+		_INSTRUCTION = !MOVE;
 
 	}
 
 	public void failEvent()
 	{
-		Debug.Log ("failed");
+		square.GetComponent<SpriteRenderer> ().color = new Color (1, 0, 0);
+		Invoke ("White", 0.1f);
+	}
+
+	public void White()
+	{
+		square.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1);
+
 	}
 }

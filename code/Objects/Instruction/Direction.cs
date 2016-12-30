@@ -21,7 +21,7 @@ namespace Instruction
 			return (before is Action) &&
 					(
 					(before.instruction == INSTRUCTION.MOVE && next is Number) ||
-					(before.instruction != INSTRUCTION.MOVE && next is Action || next == null)
+					(before.instruction != INSTRUCTION.MOVE && (next is Action || next == null))
 					);
 		} 
 	}
