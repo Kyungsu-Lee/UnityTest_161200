@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace ObjectHierachy
 {
-	public class Obtacle : MapObject
+	public class Accessory : MapObject
 	{
-		public Obtacle (Transform obj)
+		public Accessory (Transform obj)
 		{
 			this.obj = obj;
 		}

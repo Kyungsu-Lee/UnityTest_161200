@@ -22,6 +22,7 @@ public class CharacterTouchEvent : MonoBehaviour {
 			if ( ((UnityEngine.GameObject)Resource.characters[i]).transform.Equals(this.transform)  )
 			{
 				Resource.character = ((Character)Character.characters [i]);
+				Debug.Log (Resource.character.index);
 				break;
 			}
 		}

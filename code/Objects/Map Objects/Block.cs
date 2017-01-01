@@ -14,6 +14,11 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public int index {
+			get;
+			set;
+		}
+
 		public Block(Transform obj)
 		{
 			this.obj = obj;
@@ -22,10 +27,13 @@ namespace ObjectHierachy
 
 		public void changColor()
 		{
-			if(obj.GetComponent<SpriteRenderer>().color.Equals(defaultColor))
-				obj.GetComponent<SpriteRenderer> ().color = changedColor;
-			else
-				obj.GetComponent<SpriteRenderer> ().color = defaultColor;
+			
+			//if(obj.GetComponent<SpriteRenderer>().color.Equals(defaultColor))
+			//	obj.GetComponent<SpriteRenderer> ().color = changedColor;
+			//else
+			//	obj.GetComponent<SpriteRenderer> ().color = defaultColor;
+				
+			obj.GetComponent<SpriteRenderer> ().color = new Color((Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.r, (Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.g, (Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.b, 0.3f);
 		}
 
 		public Block makeBlock()

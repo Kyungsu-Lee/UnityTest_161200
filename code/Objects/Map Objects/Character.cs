@@ -26,6 +26,7 @@ namespace ObjectHierachy
 			set;
 		}
 
+
 		private static void faultInstruction()
 		{
 			Debug.Log ("failed");
@@ -36,6 +37,11 @@ namespace ObjectHierachy
 			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
 		}
 
+		public Character makeCharacter()
+		{
+			Transform _tmp = MonoBehaviour.Instantiate (this.obj);
+			return new Character (_tmp);
+		}
 
 		public void move(out INSTRUCTION direction, out bool MOVE, Instruction.Instruction instruction)
 		{
@@ -72,11 +78,15 @@ namespace ObjectHierachy
 							x++;
 						}
 
-						if (!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y))) {
-							x = _x;
-							y = _y;
-							break;
+						//if ((Map.instance.checkBoundWithIndex (this.index, x, y) && map.get (x, y).OnObject != null && !(map.get (x, y).OnObject is Accessory))) 
+						{
+							if (!(Map.instance.checkBoundWithIndex (this.index, x, y) && Map.instance.checkObtcle (x, y))) {
+								x = _x;
+								y = _y;
+								break;
+							}
 						}
+
 					}
 
 				} else if (_tmp.instruction == INSTRUCTION.JUMP) {
@@ -107,33 +117,37 @@ namespace ObjectHierachy
 							x++;
 						}
 
-						if (i == 0 && map.get (x, y).OnObject == null ) {
-							x = _x;
-							y = _y;
-							MOVE = false;
-
-							break;
-						}
-
-						if( (i == 1 && map.get(x,y).OnObject != null))
+						//if (Map.instance.checkBoundWithIndex (this.index, x, y) && map.get (x, y).OnObject != null && !(map.get (x, y).OnObject is Accessory)) 
 						{
-							x = __x;
-							y = __y;
-							MOVE =false;
+							
+							if (i == 0 && map.get (x, y).OnObject == null) {
+								x = _x;
+								y = _y;
+								MOVE = false;
 
-							break;
-						}
+								break;
+							}
+
+							if ((i == 1 && map.get (x, y).OnObject != null)) {
+								x = __x;
+								y = __y;
+								MOVE = false;
+
+								break;
+							}
 
 
-						if (!Map.instance.checkBound (x, y) && i == 0) {
-							x = _x;
-							y = _y;
-						} else if(!Map.instance.checkBound (x, y)) {
-							x = __x;
-							y = __y;
+							if (!Map.instance.checkBound (x, y) && i == 0) {
+								x = _x;
+								y = _y;
+							} else if (!Map.instance.checkBoundWithIndex (this.index, x, y)) {
+								x = __x;
+								y = __y;
+							}
 						}
 
 					}
+
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
 					MOVE = false;
@@ -159,7 +173,7 @@ namespace ObjectHierachy
 					}
 
 
-					if (map.get (_x, _y).OnObject != null) {
+					if (map.get (_x, _y).OnObject != null && map.get(_x, _y).OnObject is Obtacle && map.get(_x, _y).index == this.index) {
 						map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);
 						map.get (_x, _y).OnObject = null;
 					}
@@ -173,6 +187,7 @@ namespace ObjectHierachy
 		public void moveUp()
 		{
 			position = new Vector3 (position.x, position.y + map.get (0, 0).length () / speed, position.z);
+
 		}
 		public void moveDown()
 		{
@@ -187,6 +202,10 @@ namespace ObjectHierachy
 			position = new Vector3 (position.x+  map.get (0, 0).length () / speed, position.y, position.z);
 		}
 
+		public void makeColorChange()
+		{
+			map.get (x, y).changColor ();
+		}
 	}
 }
 

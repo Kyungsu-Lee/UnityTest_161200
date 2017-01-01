@@ -9,7 +9,7 @@ namespace ObjectHierachy
 		protected int x = -1;
 		protected int y = -1;
 
-		protected Transform obj;
+		public Transform obj;
 
 		protected Map map;
 
@@ -29,6 +29,11 @@ namespace ObjectHierachy
 			set { obj.GetComponent<Transform> ().position = value; }
 		}
 
+		public int index
+		{
+			get;
+			set;
+		}
 
 		public void setPosition()
 		{

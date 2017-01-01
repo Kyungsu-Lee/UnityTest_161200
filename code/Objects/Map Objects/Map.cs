@@ -56,9 +56,14 @@ namespace ObjectHierachy
 			return (0 <= x && x < size && 0 <= y && y < size);
 		}
 
+		public bool checkBoundWithIndex(int index, int x, int y)
+		{
+			return checkBound(x, y) && (index == get(x,y).index);
+		}
+
 		public bool checkObtcle(int x, int y)
 		{
-			return (get (x, y).OnObject == null);
+			return (get (x, y).OnObject == null) || (get(x,y).OnObject != null && get(x,y).OnObject is Accessory);
 		}
 
 		public float Unitlength

@@ -19,6 +19,8 @@ public class btnEvent : MonoBehaviour {
 
 	bool _INSTRUCTION	= false;
 
+	public GameObject popup;
+
 	// Use this for initialization
 	void Start () {
 
@@ -57,12 +59,14 @@ public class btnEvent : MonoBehaviour {
 
 
 			_INSTRUCTION = true;
+
 		}
 
 		//instruction check
 		if (_INSTRUCTION) {
 			checkInstruction ();
 		}
+
 
 	}
 
@@ -102,6 +106,12 @@ public class btnEvent : MonoBehaviour {
 			Debug.Log (Resource.instruction.ToString ());
 		}
 			
+		/*
+		if (!Resource.instruction.checkValid ()) {
+			failEvent ();
+			Resource.instruction = new Instructions ();
+		}
+		*/
 	}
 
 	public void checkMoveDirection()
@@ -167,12 +177,15 @@ public class btnEvent : MonoBehaviour {
 	public void failEvent()
 	{
 		square.GetComponent<SpriteRenderer> ().color = new Color (1, 0, 0);
-		Invoke ("White", 0.1f);
+		popup.GetComponent<Transform> ().position = new Vector3 (0, 0.7f, 0);
+
+		Invoke ("White", 0.5f);
 	}
 
 	public void White()
 	{
 		square.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1);
+		popup.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
 
 	}
 }
