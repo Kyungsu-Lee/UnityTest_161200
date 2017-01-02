@@ -102,7 +102,7 @@ public class makeMap : MonoBehaviour
 		int n = Map.instance.size;
 
 		for (int i = 0; i < character.Length; i++) {
-			if (character [i].GetComponent<Transform> ().position == accessory [i].GetComponent<Transform> ().position) 
+			if (character [i].GetComponent<Transform> ().position == accessory [i].GetComponent<Transform> ().position && Resource.canClear) 
 			{
 				for (int x = 0; x < n; x++)
 					for (int y = 0; y < n; y++)

@@ -14,7 +14,10 @@ namespace ObjectHierachy
 
 		protected Map map;
 
-		private Stack pointStack = new Stack ();
+		public Stack pointStack = new Stack ();
+
+		delegate void PositionAction();
+		PositionAction positionAction = () => "void action".ToString();
 
 		public MapObject ()
 		{
@@ -38,22 +41,12 @@ namespace ObjectHierachy
 			set;
 		}
 
-		public void setPosition()
+		public virtual void setPosition()
 		{
 			position = map.get (x, y).getposition ();
 			map.get (x, y).OnObject = this;
 			pointStack.Push (new Point (x, y));
-		}
-
-		public void setPosition(int x, int y)
-		{
-			map.get (this.x, this.y).OnObject = null;
-
-			this.x = x;
-			this.y = y;
-			position = map.get (x, y).getposition ();
-			map.get (this.x, this.y).OnObject = this;
-			pointStack.Push (new Point (x, y));
+			positionAction ();
 		}
 
 		public void locateAt(int x, int y)

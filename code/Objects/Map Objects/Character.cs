@@ -7,6 +7,8 @@ using System.Threading;
 
 namespace ObjectHierachy
 {
+	public delegate void ACTION();
+
 	public class Character : MapObject
 	{
 		public static ArrayList characters = new ArrayList();
@@ -14,18 +16,25 @@ namespace ObjectHierachy
 		public delegate void failedInstruction();
 		public failedInstruction fails = faultInstruction;
 
+		public Queue leftPoint = new Queue ();
+
+		public ACTION BeforeAction;
+
+		public ACTION AfterAction;
 
 		public Character (Transform obj)
 		{
 			this.obj = obj;
 			characters.Add (this);
+
+			BeforeAction = beforeAction;
+			AfterAction = afterAction;
 		}
 
 		public float speed {
 			get;
 			set;
 		}
-
 
 		private static void faultInstruction()
 		{
@@ -45,11 +54,9 @@ namespace ObjectHierachy
 
 		public void move(out INSTRUCTION direction, out bool MOVE, Instruction.Instruction instruction)
 		{
-			map.get (x, y).OnObject = null;
-			MOVE = true;
-
 			direction = INSTRUCTION.NULL;	// just for initialize
 			Instruction.Instruction _tmp = instruction;
+			MOVE = true;
 
 			if (_tmp.instruction == INSTRUCTION.NULL)
 				_tmp = _tmp.next;
@@ -59,130 +66,107 @@ namespace ObjectHierachy
 				int count = 0;
 
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
+					
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
 
-					for (int i = 0; i < count; i++) {
-						int _x = x;
-						int _y = y;
-
-
-						if (direction == INSTRUCTION.LEFT) {
-							x--;
-						} else if (direction == INSTRUCTION.UP) {
-							y++;
-						} else if (direction == INSTRUCTION.DOWN) {
-							y--;
-						} else if (direction == INSTRUCTION.RIGHT) {
-							x++;
-						}
-
-						//if ((Map.instance.checkBoundWithIndex (this.index, x, y) && map.get (x, y).OnObject != null && !(map.get (x, y).OnObject is Accessory))) 
-						{
-							if (!(Map.instance.checkBoundWithIndex (this.index, x, y) && Map.instance.checkObtcle (x, y))) {
-								x = _x;
-								y = _y;
-								break;
-							}
-						}
-
-					}
-
-				} else if (_tmp.instruction == INSTRUCTION.JUMP) {
-
-					if(_tmp != null && _tmp.next != null)
-						direction = _tmp.next.instruction;
-
-					else
-						direction = Resource.currentDirection;
-
-					count = 2;
-
-					int __x = x;
-					int __y = y;
+					int _x = x;
+					int _y = y;
 
 					for (int i = 0; i < count; i++) {
-						int _x = x;
-						int _y = y;
-
-
+						
 						if (direction == INSTRUCTION.LEFT) {
-							x--;
+							_x--;
 						} else if (direction == INSTRUCTION.UP) {
-							y++;
+							_y++;
 						} else if (direction == INSTRUCTION.DOWN) {
-							y--;
+							_y--;
 						} else if (direction == INSTRUCTION.RIGHT) {
-							x++;
+							_x++;
 						}
 
-						//if (Map.instance.checkBoundWithIndex (this.index, x, y) && map.get (x, y).OnObject != null && !(map.get (x, y).OnObject is Accessory)) 
-						{
-							
-							if (i == 0 && map.get (x, y).OnObject == null) {
-								x = _x;
-								y = _y;
-								MOVE = false;
-
-								break;
-							}
-
-							if ((i == 1 && map.get (x, y).OnObject != null)) {
-								x = __x;
-								y = __y;
-								MOVE = false;
-
-								break;
-							}
-
-
-							if (!Map.instance.checkBound (x, y) && i == 0) {
-								x = _x;
-								y = _y;
-							} else if (!Map.instance.checkBoundWithIndex (this.index, x, y)) {
-								x = __x;
-								y = __y;
-							}
-						}
-
+						leftPoint.Enqueue (new Point (_x, _y));
 					}
 
+					Point p = leftPoint.Dequeue () as Point;
+					setwithErrorCheck (p.x, p.y);
+				} 
+				else if (_tmp.instruction == INSTRUCTION.JUMP) 
+				{
+					direction = _tmp.next.instruction;
+					count = ((Number)_tmp.next.next).count ();
+					_tmp = _tmp.next.next.next;
+
+					int _x = x;
+					int _y = y;
+
+					for (int i = 0; i < count; i++) {
+
+						if (direction == INSTRUCTION.LEFT) {
+							_x -= 2;
+						} else if (direction == INSTRUCTION.UP) {
+							_y += 2;
+						} else if (direction == INSTRUCTION.DOWN) {
+							_y -= 2;
+						} else if (direction == INSTRUCTION.RIGHT) {
+							_x += 2;
+						}
+
+						leftPoint.Enqueue (new Point (_x, _y));
+					}
+
+					Point p = leftPoint.Dequeue () as Point;
+					setwithErrorCheck (p.x, p.y);
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
-					MOVE = false;
+					
+					direction = _tmp.next.instruction;
+					count = ((Number)_tmp.next.next).count ();
+					_tmp = _tmp.next.next.next;
 
-					if(_tmp != null && _tmp.next != null)
-						direction = _tmp.next.instruction;
-
-					else
-						direction = Resource.currentDirection;
 					
 					int _x = x;
 					int _y = y;
 
 
-					if (direction == INSTRUCTION.LEFT) {
-						_x--;
-					} else if (direction == INSTRUCTION.UP) {
-						_y++;
-					} else if (direction == INSTRUCTION.DOWN) {
-						_y--;
-					} else if (direction == INSTRUCTION.RIGHT) {
-						_x++;
-					}
+					for (int i = 0; i < count; i++) {
 
+						if (direction == INSTRUCTION.LEFT) {
+							_x--;
+						} else if (direction == INSTRUCTION.UP) {
+							_y++;
+						} else if (direction == INSTRUCTION.DOWN) {
+							_y--;
+						} else if (direction == INSTRUCTION.RIGHT) {
+							_x++;
+						}
 
-					if (map.get (_x, _y).OnObject != null && map.get(_x, _y).OnObject is Obtacle && map.get(_x, _y).index == this.index) {
-						map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);
-						map.get (_x, _y).OnObject = null;
+						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is Obtacle) {
+							leftPoint.Enqueue (new Point (_x, _y));
+							map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);
+							map.get (_x, _y).OnObject = null;
+						}
+						else
+							break;
 					}
+						
+
+					if (leftPoint.Count > 0) {
+						Point p = leftPoint.Dequeue () as Point;
+						setwithErrorCheck (p.x, p.y);
+					}
+				
 				}
 			}
 
-			MOVE &= true;
 		}
 
+		private void set(int x, int y)
+		{
+			this.x = x;
+			this.y = y;
+		}
 
 		public void moveUp()
 		{
@@ -206,6 +190,68 @@ namespace ObjectHierachy
 		{
 			map.get (x, y).changColor ();
 		}
+
+		public void setwithErrorCheck (int x, int y)
+		{
+			BeforeAction ();
+
+			if (checkBound (x, y))
+				boundExceptionAction ();
+			else {
+				map.get (this.x, this.y).OnObject = null;
+				set (x, y);
+			}
+		}
+
+		public bool checkBound(int x, int y)
+		{
+			return!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y));
+		}
+
+		public void boundExceptionAction()
+		{
+			Point p = pointStack.Peek () as Point;
+			set (p.x, p.y);
+			leftPoint.Clear();
+		}
+
+		public override void setPosition ()
+		{
+			base.setPosition ();
+			AfterAction ();
+		}
+
+		public void beforeAction()
+		{
+			if(map.get(x,y).index == index)
+				map.get (x, y).changColor ();
+		}
+
+		public void afterAction()
+		{
+			if (map.get (x, y).index == index) {
+				map.get (x, y).changColor ();
+			}
+
+		}
+
+		public string stackTrace()
+		{
+			string stack = "";
+			foreach (Point p in pointStack)
+				stack += p.ToString () + ", ";
+			string queue = "";
+			foreach (Point p in leftPoint)
+				queue += p.ToString () + ", ";
+
+			return ToString () + " stack : " + stack + " queue : " + queue + " Point : " + new Point (x, y).ToString ();
+		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[Character: {0}, {1}]", this.x, this.y);
+		}
+
 	}
 
 

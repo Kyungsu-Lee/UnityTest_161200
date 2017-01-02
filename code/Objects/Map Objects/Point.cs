@@ -19,6 +19,11 @@ namespace ObjectHierachy
 			this.x = x;
 			this.y = y;
 		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[Point: x={0}, y={1}]", x, y);
+		}
 	}
 }
 

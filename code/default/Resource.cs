@@ -17,5 +17,6 @@ public static class Resource {
 		public static UnityEngine.GameObject[] characters;
 
 		public static INSTRUCTION currentDirection;
+		public static bool canClear = true;
 }
 }

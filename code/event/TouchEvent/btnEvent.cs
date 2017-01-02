@@ -21,12 +21,15 @@ public class btnEvent : MonoBehaviour {
 
 	public GameObject popup;
 
+	float time = 0;
+
 	// Use this for initialization
 	void Start () {
 
 		character = Resource.character;
 
 		character.speed = 7f;
+
 	}
 	
 	// Update is called once per frame
@@ -34,7 +37,7 @@ public class btnEvent : MonoBehaviour {
 
 
 		//move character
-		if (MOVE && character.checkDistance (Map.instance.get (0, 0).length () / character.speed * 100 / 99)) {
+		if (MOVE && character.checkDistance (Map.instance.get (0, 0).length () / character.speed * 100 / 99) && character.leftPoint.Count >= 0) {
 
 			if (MOVEUP) {
 				character.moveUp ();
@@ -47,10 +50,17 @@ public class btnEvent : MonoBehaviour {
 			}
 
 		} 
+		else if (MOVE && character.leftPoint.Count > 0) 
+		{
+			character.setPosition ();
+			Point p = character.leftPoint.Dequeue() as Point;
+			character.setwithErrorCheck (p.x, p.y);
+		}
+
 		else if (MOVE)
 		{
 			character.setPosition ();
-
+			
 			MOVE 		= false;
 			MOVEUP 		= false;
 			MOVEDOWN 	= false;
@@ -59,7 +69,6 @@ public class btnEvent : MonoBehaviour {
 
 
 			_INSTRUCTION = true;
-
 		}
 
 		//instruction check
@@ -75,6 +84,8 @@ public class btnEvent : MonoBehaviour {
 		character = Resource.character;
 		character.speed = 7f;
 
+		if (Resource.instruction == null)
+			Resource.instruction = new Instructions ();
 
 		if (this.transform.Equals (btns [0].transform))
 			Resource.instruction.move ();
@@ -168,7 +179,6 @@ public class btnEvent : MonoBehaviour {
 		if (direction != INSTRUCTION.NULL)
 			Resource.currentDirection = direction;
 		
-
 		Resource.instruction = _tmp;
 		_INSTRUCTION = !MOVE;
 
