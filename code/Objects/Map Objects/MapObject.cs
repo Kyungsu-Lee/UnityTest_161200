@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 namespace ObjectHierachy
 {
@@ -12,6 +13,8 @@ namespace ObjectHierachy
 		public Transform obj;
 
 		protected Map map;
+
+		private Stack pointStack = new Stack ();
 
 		public MapObject ()
 		{
@@ -39,6 +42,7 @@ namespace ObjectHierachy
 		{
 			position = map.get (x, y).getposition ();
 			map.get (x, y).OnObject = this;
+			pointStack.Push (new Point (x, y));
 		}
 
 		public void setPosition(int x, int y)
@@ -49,7 +53,7 @@ namespace ObjectHierachy
 			this.y = y;
 			position = map.get (x, y).getposition ();
 			map.get (this.x, this.y).OnObject = this;
-
+			pointStack.Push (new Point (x, y));
 		}
 
 		public void locateAt(int x, int y)
@@ -60,6 +64,7 @@ namespace ObjectHierachy
 			this.y = y;
 			obj.GetComponent<Transform> ().position = map.get (x, y).getposition ();
 			map.get (x, y).OnObject = this;
+			pointStack.Push (new Point (x, y));
 		}
 
 		public void connectMap(Map map)
@@ -72,5 +77,6 @@ namespace ObjectHierachy
 			return this.obj.name.ToString ();
 		}
 	}
+
 }
 

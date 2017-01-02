@@ -207,5 +207,7 @@ namespace ObjectHierachy
 			map.get (x, y).changColor ();
 		}
 	}
+
+
 }
 

@@ -18,11 +18,7 @@ namespace Instruction
 
 		public override bool nextValid ()
 		{
-			return (before is Action) &&
-					(
-					(before.instruction == INSTRUCTION.MOVE && next is Number) ||
-					(before.instruction != INSTRUCTION.MOVE && (next is Action || next == null))
-					);
+			return (before is Action) && (next is Number);
 		} 
 	}
 }
