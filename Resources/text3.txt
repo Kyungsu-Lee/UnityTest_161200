@@ -1,0 +1,29 @@
+//character with c
+//obtacle with o
+//accessory with a
+//black with b
+//path with character number
+stage 1
+
+size
+5
+
+character
+1
+0 3
+
+accessory
+1
+2 2
+
+obtacle
+2
+4 2
+1 1
+
+Map
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
+1 1 1 1 1
