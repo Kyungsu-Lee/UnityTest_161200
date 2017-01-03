@@ -32,7 +32,7 @@ public class checkEvent : MonoBehaviour {
 		for (int i = 0; i < Character.characters.Count; i++)
 			foreach (Point p in (Character.characters[i] as Character).pointStack)
 				Resource.canClear &= (Map.instance.get (p.x, p.y).index == (Character.characters [i] as Character).index);
-	*/	
+		*/
 
 		if (Resource.canClear)
 			Squre.GetComponent<SpriteRenderer> ().color = Color.white;

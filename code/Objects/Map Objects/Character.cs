@@ -22,6 +22,7 @@ namespace ObjectHierachy
 
 		public ACTION AfterAction;
 
+
 		public Character (Transform obj)
 		{
 			this.obj = obj;
@@ -29,6 +30,7 @@ namespace ObjectHierachy
 
 			BeforeAction = beforeAction;
 			AfterAction = afterAction;
+			this.Mov = false;
 		}
 
 		public float speed {
@@ -41,6 +43,11 @@ namespace ObjectHierachy
 		}
 
 		public bool cleared {
+			get;
+			set;
+		}
+
+		public bool Mov {
 			get;
 			set;
 		}
@@ -253,14 +260,20 @@ namespace ObjectHierachy
 		{
 			if(map.get(x,y).index == index)
 				map.get (x, y).changColor ();
+
+
+			this.Mov = true;
 		}
 
 		public void afterAction()
 		{
 			if (map.get (x, y).index == index) {
 				map.get (x, y).changColor ();
+				map.get (this.x, this.y).OnObject = null;
+
 			}
 
+			this.Mov = false;
 		}
 
 		public string stackTrace()

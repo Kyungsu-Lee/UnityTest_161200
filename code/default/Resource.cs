@@ -18,5 +18,7 @@ public static class Resource {
 
 		public static INSTRUCTION currentDirection;
 		public static bool canClear = true;
+
+		public static ArrayList COLORS = new ArrayList ();
 }
 }

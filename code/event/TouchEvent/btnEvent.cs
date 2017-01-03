@@ -21,14 +21,13 @@ public class btnEvent : MonoBehaviour {
 
 	public GameObject popup;
 
-	float time = 0;
 
 	// Use this for initialization
 	void Start () {
 
 		character = Resource.character;
 
-		character.speed = 7f;
+		character.speed = 100f;
 
 	}
 	
@@ -82,7 +81,7 @@ public class btnEvent : MonoBehaviour {
 	public void OnMouseUp()
 	{
 		character = Resource.character;
-		character.speed = 7f;
+		character.speed = 20f;
 
 		if (Resource.instruction == null)
 			Resource.instruction = new Instructions ();

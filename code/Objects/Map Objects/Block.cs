@@ -1,12 +1,13 @@
 ﻿using System;
 using UnityEngine;
+using Instruction;
 
 namespace ObjectHierachy
 {
 	public class Block
 	{
 		public Transform obj;
-		Color defaultColor = new Color (0.25f, 0, 34f, 0.1f);
+		Color defaultColor = new Color (1f, 1, 1, 1f);
 		Color changedColor = Color.green;
 
 		public MapObject OnObject {
@@ -33,7 +34,7 @@ namespace ObjectHierachy
 			//else
 			//	obj.GetComponent<SpriteRenderer> ().color = defaultColor;
 				
-			obj.GetComponent<SpriteRenderer> ().color = new Color((Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.r, (Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.g, (Character.characters [this.index - 1] as Character).obj.GetComponent<SpriteRenderer> ().color.b, 0.3f);
+			obj.GetComponent<SpriteRenderer> ().color = new Color(((Color)Resource.COLORS [this.index - 1]).r, ((Color)Resource.COLORS [this.index - 1]).g, ((Color)Resource.COLORS [this.index - 1]).b, 1f);
 		}
 
 		public Block makeBlock()

@@ -11,8 +11,8 @@ public class Move : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		character = new Character (circle.transform);
-		character.connectMap (Map.instance);
+		//character = new Character (circle.transform);
+		//character.connectMap (Map.instance);
 	}
 	
 	// Update is called once per frame

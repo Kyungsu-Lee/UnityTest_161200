@@ -14,6 +14,11 @@ namespace ObjectHierachy
 
 		protected Map map;
 
+		public Point StartPoint {
+			get;
+			set;
+		}
+
 		public Stack pointStack = new Stack ();
 
 		delegate void PositionAction();
@@ -58,6 +63,11 @@ namespace ObjectHierachy
 			obj.GetComponent<Transform> ().position = map.get (x, y).getposition ();
 			map.get (x, y).OnObject = this;
 			pointStack.Push (new Point (x, y));
+		}
+
+		public void toStartPoint()
+		{
+			locateAt (this.StartPoint.x, this.StartPoint.y);
 		}
 
 		public void connectMap(Map map)

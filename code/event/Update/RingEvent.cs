@@ -11,9 +11,13 @@ public class RingEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+
+		foreach (Character c in Character.characters)
+			if (c == null)
+				Debug.Log ("a");
+
 		float rate = Character.clearedCharacter / (float)(Character.Count);
-		Debug.Log(rate.ToString("0.00"));
 		this.transform.GetComponent<SpriteRenderer> ().color = new Color (rate, rate, rate, 1);
 	}
 }
