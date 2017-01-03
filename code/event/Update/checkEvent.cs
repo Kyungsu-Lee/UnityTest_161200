@@ -37,7 +37,7 @@ public class checkEvent : MonoBehaviour {
 		if (Resource.canClear)
 			Squre.GetComponent<SpriteRenderer> ().color = Color.white;
 		else
-			Squre.GetComponent<SpriteRenderer> ().color = new Color (0.8f, 0.8f, 0.8f, 1f);
+			Squre.GetComponent<SpriteRenderer> ().color = new Color (1f, 0f, 0f, 0.2f);
 		
 	}
 }

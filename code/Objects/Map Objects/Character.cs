@@ -36,6 +36,34 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public static int Count {
+			get { return characters.Count; }
+		}
+
+		public bool cleared {
+			get;
+			set;
+		}
+
+		public static int clearedCharacter
+		{
+			get 
+			{
+				int count = 0;
+
+				foreach (Character c in characters)
+					if (c.cleared)
+						count++;
+
+				return count;
+			}
+		}
+
+		public Accessory Match {
+			get;
+			set;
+		}
+
 		private static void faultInstruction()
 		{
 			Debug.Log ("failed");

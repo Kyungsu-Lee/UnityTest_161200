@@ -26,8 +26,13 @@ public class makeMap : MonoBehaviour
 
 		Resource.characters = character;
 		Resource.character = Character.characters[0] as Character;
+		match ();
 
-
+		(Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color = new Color ((Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.r, (Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.g, (Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.b);
+		(Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color = new Color ((Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.r, (Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.g, (Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.b);
+	
+		foreach (Character c in Character.characters)
+			Debug.Log (c.Match.obj.name);
 	}
 
 	public void loadStage(int stage)
@@ -92,6 +97,7 @@ public class makeMap : MonoBehaviour
 				characterIndex = 0;
 			} 
 		}
+
 	
 	}
 	
@@ -101,7 +107,8 @@ public class makeMap : MonoBehaviour
 
 		int n = Map.instance.size;
 
-		for (int i = 0; i < character.Length; i++) {
+		for (int i = 0; i < character.Length; i++) 
+		{
 			if (character [i].GetComponent<Transform> ().position == accessory [i].GetComponent<Transform> ().position && Resource.canClear) 
 			{
 				for (int x = 0; x < n; x++)
@@ -112,9 +119,15 @@ public class makeMap : MonoBehaviour
 				character [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
 				accessory [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
 
+				(Character.characters [i] as Character).cleared = true;
+
+				foreach (Character c in Character.characters)
+					if (!c.cleared) {
+						activate (c);
+						break;
+					}
 			}
 		}
-
 
 	}
 
@@ -135,7 +148,8 @@ public class makeMap : MonoBehaviour
 		_character.locaScale = new Vector3 (map.Unitlength * 0.8f,map.Unitlength * 0.8f, character[0].transform.localScale.z);
 		_character.index = (++characterIndex);
 
-		unclearedCharacter.Add (_character);
+		float alpha = 0.1f;
+		_character.obj.GetComponent<SpriteRenderer> ().color = new Color (_character.obj.GetComponent<SpriteRenderer> ().color.r, _character.obj.GetComponent<SpriteRenderer> ().color.g, _character.obj.GetComponent<SpriteRenderer> ().color.b, alpha);
 	}
 
 	public void createObtacle(int x, int y)
@@ -154,6 +168,27 @@ public class makeMap : MonoBehaviour
 		_accessory.locateAt (x, y);
 		_accessory.locaScale = new Vector3 (map.Unitlength * 0.5f,map.Unitlength * 0.5f, character[0].transform.localScale.z);
 		_accessory.index = (++characterIndex);
+
+		float alpha = 0.1f;
+		_accessory.obj.GetComponent<SpriteRenderer> ().color = new Color (_accessory.obj.GetComponent<SpriteRenderer> ().color.r, _accessory.obj.GetComponent<SpriteRenderer> ().color.g, _accessory.obj.GetComponent<SpriteRenderer> ().color.b, alpha);
+	}
+
+	public void match()
+	{
+		for (int i = 0; i < Character.characters.Count; i++) {
+			(Character.characters [i] as Character).Match = (Accessory.accessory [i] as Accessory);
+			(Accessory.accessory [i] as Accessory).Match = (Character.characters [i] as Character);
+		}
+	}
+
+	public void activate(Character c)
+	{
+		c.obj.GetComponent<SpriteRenderer> ().color = new Color (c.obj.GetComponent<SpriteRenderer> ().color.r, c.obj.GetComponent<SpriteRenderer> ().color.g, c.obj.GetComponent<SpriteRenderer> ().color.b);
+		Debug.Log (c.Match.obj.name);
+		c.Match.obj.GetComponent<SpriteRenderer> ().color = new Color (c.Match.obj.GetComponent<SpriteRenderer> ().color.r, c.Match.obj.GetComponent<SpriteRenderer> ().color.g, c.Match.obj.GetComponent<SpriteRenderer> ().color.b);
+		Resource.character = c;
+		c.cleared = true;
+		Debug.Log (c.ToString ());
 	}
 }
 
