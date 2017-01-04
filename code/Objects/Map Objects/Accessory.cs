@@ -25,11 +25,6 @@ namespace ObjectHierachy
 			accessory.Add (this);
 		}
 
-		public Obtacle createObtacle()
-		{
-			Transform _tmp = MonoBehaviour.Instantiate (this.obj);
-			return new Obtacle (_tmp);
-		}
 
 
 	}

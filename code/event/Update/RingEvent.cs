@@ -18,6 +18,9 @@ public class RingEvent : MonoBehaviour {
 				Debug.Log ("a");
 
 		float rate = Character.clearedCharacter / (float)(Character.Count);
-		this.transform.GetComponent<SpriteRenderer> ().color = new Color (rate, rate, rate, 1);
+
+		if (rate == 1) {
+			Application.Quit ();
+			}
 	}
 }

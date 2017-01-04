@@ -40,6 +40,11 @@ namespace ObjectHierachy
 			set { obj.GetComponent<Transform> ().position = value; }
 		}
 
+		public Block onBlock()
+		{
+			return Map.instance.get (x, y);
+		}
+
 		public int index
 		{
 			get;

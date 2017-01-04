@@ -17,7 +17,7 @@ public class CharacterTouchEvent : MonoBehaviour {
 
 	public void OnMouseUp()
 	{
-		float alpha = 0.5f;
+		float alpha = 1f;
 
 		foreach (Character _character in Character.characters) {
 			_character.obj.GetComponent<SpriteRenderer> ().color = new Color (_character.obj.GetComponent<SpriteRenderer> ().color.r, _character.obj.GetComponent<SpriteRenderer> ().color.g, _character.obj.GetComponent<SpriteRenderer> ().color.b, alpha);

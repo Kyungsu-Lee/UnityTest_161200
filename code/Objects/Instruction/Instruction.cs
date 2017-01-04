@@ -192,6 +192,7 @@ namespace Instruction
 			Instruction _tmp = this;
 
 			while (_tmp != null) {
+				if(!_tmp.instruction.Equals(INSTRUCTION.NULL))
 				str += _tmp.instruction.ToString () + " ";
 				_tmp = _tmp.next;
 			}

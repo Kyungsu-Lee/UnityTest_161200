@@ -17,6 +17,13 @@ accessory
 4 3
 4 4
 
+obtacle
+4
+2 0 b
+2 1 w
+2 2 f
+2 3 r
+
 Map
 5 5 5 5 5
 4 4 4 4 4

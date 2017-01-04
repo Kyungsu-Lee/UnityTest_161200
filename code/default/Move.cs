@@ -50,7 +50,7 @@ public class Move : MonoBehaviour {
 
 			if (click) {
 			character.locateAt (x,y);
-			Map.instance.get (x, y).changColor ();
+			Map.instance.get (x, y).changeColor ();
 				click = false;
 			}
 

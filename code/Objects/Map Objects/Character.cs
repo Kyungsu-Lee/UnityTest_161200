@@ -71,6 +71,18 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public Color color
+		{
+			get {
+				return ((Color)Resource.COLORS [index-1]);
+			}
+		}
+
+		public bool Jump {
+			get;
+			set;
+		}
+
 		private static void faultInstruction()
 		{
 			Debug.Log ("failed");
@@ -80,6 +92,11 @@ namespace ObjectHierachy
 		{
 			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
 		}
+
+		public bool checkDistance(Block block, float delta)
+		{
+			return Vector3.Distance (block.getposition (), position) > delta;
+		} 
 
 		public Character makeCharacter()
 		{
@@ -129,6 +146,7 @@ namespace ObjectHierachy
 				} 
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
+					this.Jump = true;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -177,7 +195,7 @@ namespace ObjectHierachy
 							_x++;
 						}
 
-						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is Obtacle) {
+						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							leftPoint.Enqueue (new Point (_x, _y));
 							map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);
 							map.get (_x, _y).OnObject = null;
@@ -223,7 +241,7 @@ namespace ObjectHierachy
 
 		public void makeColorChange()
 		{
-			map.get (x, y).changColor ();
+			map.get (x, y).changeColor (this.color);
 		}
 
 		public void setwithErrorCheck (int x, int y)
@@ -252,28 +270,42 @@ namespace ObjectHierachy
 
 		public override void setPosition ()
 		{
-			base.setPosition ();
 			AfterAction ();
+			base.setPosition ();
 		}
 
 		public void beforeAction()
 		{
-			if(map.get(x,y).index == index)
-				map.get (x, y).changColor ();
-
+			//if(map.get(x,y).index == index)
+				map.get (x, y).changeColor (this.color);
 
 			this.Mov = true;
 		}
 
 		public void afterAction()
 		{
-			if (map.get (x, y).index == index) {
-				map.get (x, y).changColor ();
-				map.get (this.x, this.y).OnObject = null;
+			//if (map.get (x, y).index == index) {
+			map.get (this.x, this.y).changeColor (this.color);
+			map.get (this.x, this.y).canOn = false;
 
+			//}
+
+			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index) 
+			{
+
+				this.cleared = true;
+				Resource.movStar = true;
+
+				foreach (Character c in Character.characters)
+					if (!c.cleared) {
+						activate (c);
+						Debug.Log (c.ToString ());
+						break;
+					}
 			}
 
 			this.Mov = false;
+			map.get (this.x, this.y).OnObject = null;
 		}
 
 		public string stackTrace()
@@ -291,6 +323,18 @@ namespace ObjectHierachy
 		public override string ToString ()
 		{
 			return string.Format ("[Character: {0}, {1}]", this.x, this.y);
+		}
+
+		public void activate(Character c)
+		{
+			Resource.character = c;
+			c.onBlock ().changeColor ();
+		}
+
+		public void removeStar()
+		{
+			for (int i = 0; i < Resource.stars.Length; i++)
+				Resource.stars [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
 		}
 
 	}

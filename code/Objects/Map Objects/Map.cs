@@ -9,6 +9,7 @@ namespace ObjectHierachy
 		private Block[][] blocks;
 
 		public int size = 0;
+		public float unitSize = 0;
 
 
 		//property
@@ -16,25 +17,33 @@ namespace ObjectHierachy
 			get;
 			set;
 		}
-
+			
+		public float Length
+		{
+			get { return (size - 1) * border + size * unitSize; }
+		}
 
 		// methods for Map
-		public Map (Block block, int n, float size)
+		public Map (Block block, int numOfBlocks, float totalSize, float border)
 		{
-			this.size = n;
+			this.size = numOfBlocks;
+			this.border = border;
 
-			blocks = new Block[n][];
-			for (int i = 0; i < n; i++)
-				blocks [i] = new Block[n];
+			blocks = new Block[numOfBlocks][];
+			for (int i = 0; i < numOfBlocks; i++)
+				blocks [i] = new Block[numOfBlocks];
 
-			for (int i = 0; i < n; i++)
-				for (int j = 0; j < n; j++) {
+
+			for (int i = 0; i < numOfBlocks; i++)
+				for (int j = 0; j < numOfBlocks; j++) {
 					Block _tmp = block.makeBlock ();
-					_tmp.localscale = new Vector3 (size / (n * _tmp.localscale.x + (n - 1) / 80.0f), size / (n * _tmp.localscale.x + (n - 1) / 80.0f), _tmp.localscale.z);
+					//_tmp.localscale = new Vector3 (size / (n * _tmp.localscale.x + (n - 1) / 80.0f), size / (n * _tmp.localscale.x + (n - 1) / 80.0f), _tmp.localscale.z);
+					_tmp.localscale = new Vector3 ( totalSize/( (1+border) * numOfBlocks - border), totalSize/( (1+border) * numOfBlocks - border), _tmp.localscale.z);
+					_tmp.canOn = true;
 					blocks [i] [j] = _tmp;
 				}
 
-			border = blocks [0] [0].length ()/80.0f;
+			unitSize = totalSize / ((1 + border) * numOfBlocks - border);
 
 			instance = this;
 		}
@@ -43,7 +52,16 @@ namespace ObjectHierachy
 		{
 			for (int i = 0; i < size; i++)
 				for (int j = 0; j < size; j++)
-					blocks [i] [j].setPosition (x + (border + blocks[0][0].length())*i, y + (border + blocks[0][0].length())*j);
+					blocks [i] [j].setPosition (x + blocks[0][0].length()*(border + 1)*i, y + blocks[0][0].length()*(border + 1)*j);
+		}
+
+		public void setPositionAtCenter(float x, float y)
+		{
+			int m = size % 2;
+
+			if (size % 2 == 1) {
+				setPosition (x + unitSize/2 - Length/2, y + unitSize/2 - Length/2 );
+			}
 		}
 
 		public Block get(int x, int y)
@@ -53,12 +71,12 @@ namespace ObjectHierachy
 
 		public bool checkBound(int x, int y)
 		{
-			return (0 <= x && x < size && 0 <= y && y < size);
+			return (0 <= x && x < size && 0 <= y && y < size) && get(x,y).canOn;
 		}
 
 		public bool checkBoundWithIndex(int index, int x, int y)
 		{
-			return checkBound(x, y) && (index == get(x,y).index);
+			return checkBound(x, y) && (index == get(x,y).index) && get(x,y).canOn;
 		}
 
 		public bool checkObtcle(int x, int y)

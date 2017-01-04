@@ -22,10 +22,16 @@ accessory
 4 0
 2 2
 
+
+//fire with f
+//water with w
+//Rock with r
+//bad character with b
 obtacle
 2
-4 2
-1 1
+4 2 b
+1 1 w
+
 
 Map
 1 1 2 3 3

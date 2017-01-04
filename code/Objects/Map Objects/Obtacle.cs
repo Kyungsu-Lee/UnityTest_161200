@@ -3,18 +3,19 @@ using UnityEngine;
 
 namespace ObjectHierachy
 {
-	public class Obtacle : MapObject
+	public abstract class Obtacle : MapObject
 	{
+		public Obtacle()
+		{
+			
+		}
+
 		public Obtacle (Transform obj)
 		{
 			this.obj = obj;
 		}
 
-		public Obtacle createObtacle()
-		{
-			Transform _tmp = MonoBehaviour.Instantiate (this.obj);
-			return new Obtacle (_tmp);
-		}
+		public abstract Obtacle createObtacle();
 	}
 }
 
