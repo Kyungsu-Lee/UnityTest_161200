@@ -4,18 +4,28 @@ using Instruction;
 using ObjectHierachy;
 
 public class StarEvent : MonoBehaviour {
-
+	
 	float time = 0;
 	bool timeCheck = true;
 	float angle = 30;
 	float timeInterval = 0.15f;
 
 	float removeTime = 0;
-	float removeInterval = 1f;
+	float removeInterval = 0.15f;
+
+	float x;
+	float y;
 
 	// Use this for initialization
 	void Start () {
 	
+		for (int i = 0; i < Resource.stars.Length; i++)
+			if (this.transform.Equals (Resource.stars [i].transform)) {
+				this.x = Resource.starPosition [i].x;
+				this.y = Resource.starPosition [i].y; 
+			}
+
+		removeInterval = Random.Range (15, 25) / 100f;
 	}
 	
 	// Update is called once per frame
@@ -23,33 +33,44 @@ public class StarEvent : MonoBehaviour {
 
 		if (Resource.movStar) {
 
-			if(removeTime < 0)
-			this.transform.GetComponent<Transform> ().position = new Vector3 (0.407f, -3.453f, 0);
-			else if(removeTime < removeInterval)
-				this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
-			else if(removeTime < removeInterval * 2)
-				this.transform.GetComponent<Transform> ().position = new Vector3 (0.407f, -3.453f, 0);
-			else if(removeTime < removeInterval * 3)
-				this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
-			else if(removeTime < removeInterval * 4)
-				this.transform.GetComponent<Transform> ().position = new Vector3 (0.407f, -3.453f, 0);
-			
-
-
-			if (removeTime < removeInterval * 5)
-				removeTime += Time.deltaTime;
+			if (removeTime < removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (x, y, 0);
+			else if (removeTime < 2 * removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
+			else if (removeTime < 3 * removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (x, y, 0);
+			else if (removeTime < 4 * removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
+			else if (removeTime < 5 * removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (x, y, 0);
+			else if (removeTime < 6 * removeInterval)
+				this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
 			else {
-				removeTime = 0;
 				Resource.movStar = false;
+				removeTime = 0;
 			}
+
+
+			removeTime += Time.deltaTime;
+		} else {
+			removeTime = 0;
+			this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
+
+			/*
+			foreach (Character c in Character.characters)
+				if (!c.cleared) {
+					activate (c);
+					Debug.Log (c.ToString ());
+					break;
+				}
+				*/
 		}
-		else
-			this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
+
 		
 
 			
 
-		Debug.Log (removeTime);
+		//Debug.Log (removeTime);
 
 		if (timeCheck && time >= timeInterval) {
 			angle = Random.Range(20, 40);
@@ -65,5 +86,12 @@ public class StarEvent : MonoBehaviour {
 
 		this.transform.GetComponent<Transform> ().Rotate(new Vector3 (0, 0, angle));
 		angle = 0;
+
+	}
+
+	public void activate(Character c)
+	{
+		Resource.character = c;
+		c.onBlock ().changeColor ();
 	}
 }

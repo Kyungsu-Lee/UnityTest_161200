@@ -50,6 +50,7 @@ namespace ObjectHierachy
 
 		public void setPosition(float x, float y)
 		{
+
 			for (int i = 0; i < size; i++)
 				for (int j = 0; j < size; j++)
 					blocks [i] [j].setPosition (x + blocks[0][0].length()*(border + 1)*i, y + blocks[0][0].length()*(border + 1)*j);
@@ -57,11 +58,7 @@ namespace ObjectHierachy
 
 		public void setPositionAtCenter(float x, float y)
 		{
-			int m = size % 2;
-
-			if (size % 2 == 1) {
 				setPosition (x + unitSize/2 - Length/2, y + unitSize/2 - Length/2 );
-			}
 		}
 
 		public Block get(int x, int y)

@@ -294,7 +294,8 @@ namespace ObjectHierachy
 			{
 
 				this.cleared = true;
-				Resource.movStar = true;
+				//Resource.movStar = true;
+				Resource.movRuby[index] = true;
 
 				foreach (Character c in Character.characters)
 					if (!c.cleared) {

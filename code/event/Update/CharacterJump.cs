@@ -47,7 +47,5 @@ public class CharacterJump : MonoBehaviour {
 			x = Resource.character.obj.GetComponent<Transform> ().localScale.x;
 			y = Resource.character.obj.GetComponent<Transform> ().localScale.y;
 		}
-
-		Debug.Log (Resource.character.Jump + " : " + Resource.character.ToString());
 	}
 }

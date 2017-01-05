@@ -9,6 +9,7 @@ public class makeMap : MonoBehaviour
 {
 	public GameObject block;
 	public GameObject mapBackground;
+	public GameObject ring;
 	public GameObject[] character;
 	public GameObject[] obtacle;
 	public GameObject[] accessory;
@@ -28,8 +29,11 @@ public class makeMap : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		loadStage (2);
-
+		try{
+		loadStage (5);
+		}catch(Exception e) {
+			Debug.Log (e.StackTrace);
+		}
 
 		Resource.characters = character;
 		Resource.character = Character.characters[0] as Character;
@@ -50,9 +54,14 @@ public class makeMap : MonoBehaviour
 			startPosition [i] = stars [i].GetComponent<Transform> ().position;
 
 		Resource.starPosition = startPosition;
+		Resource.ring = ring;
+		Resource.movRuby = new bool[character.Length];
 
 		for (int i = 0; i < stars.Length; i++)
 			stars [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
+
+		for (int i = 0; i < character.Length; i++)
+			Resource.movRuby [i] = false;
 	}
 
 	public void loadStage(int stage)
