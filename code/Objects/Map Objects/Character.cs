@@ -31,6 +31,8 @@ namespace ObjectHierachy
 			BeforeAction = beforeAction;
 			AfterAction = afterAction;
 			this.Mov = false;
+
+			this.initScale = obj.GetComponent<Transform> ().localScale;
 		}
 
 		public float speed {
@@ -118,7 +120,7 @@ namespace ObjectHierachy
 				int count = 0;
 
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
-					
+					this.speed = 15f;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -146,6 +148,7 @@ namespace ObjectHierachy
 				} 
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
+					this.speed = 15f;
 					this.Jump = true;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
@@ -173,7 +176,7 @@ namespace ObjectHierachy
 					setwithErrorCheck (p.x, p.y);
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
-					
+					this.speed = 15f;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -311,6 +314,9 @@ namespace ObjectHierachy
 			}
 			else if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory )
 			{
+				//Jump = false;
+				Mov = false;
+
 				Map.instance.blockAction += changColors;
 				Map.instance.allBlockAction ();
 				this.toStartPoint ();

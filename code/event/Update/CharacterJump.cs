@@ -7,7 +7,7 @@ public class CharacterJump : MonoBehaviour {
 
 	float time = 0;
 	float due_time = 0.65f;
-	float rate = 1.2f;
+	float scaleRate = 1.2f;
 
 	float x, y;
 
@@ -19,7 +19,7 @@ public class CharacterJump : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		/*
 		if (Resource.character.Jump) {
 
 
@@ -27,8 +27,8 @@ public class CharacterJump : MonoBehaviour {
 				time += Time.deltaTime;
 				Resource.character.obj.GetComponent<Transform> ().localScale = 
 					new Vector3 (
-					x * ((4 * (1 - rate) / (due_time * due_time)) * time * (time - due_time) + 1),
-					y * ((4 * (1 - rate) / (due_time * due_time)) * time * (time - due_time) + 1),
+					x * ((4 * (1 - scaleRate) / (due_time * due_time)) * time * (time - due_time) + 1),
+					y * ((4 * (1 - scaleRate) / (due_time * due_time)) * time * (time - due_time) + 1),
 					Resource.character.obj.GetComponent<Transform> ().localScale.z
 				);
 			} else {
@@ -40,12 +40,13 @@ public class CharacterJump : MonoBehaviour {
 
 			for(int i=0; i<n; i++)
 				for(int j=0; j<n; j++)
-					if(!Resource.character.checkDistance(Map.instance.get(i,j) , Map.instance.unitSize/2))
+					if(!Resource.character.checkDistance(Map.instance.get(i,j) , Map.instance.unitSize/10))
 						Map.instance.get(i,j).changeColor(Resource.character.color);
 
 		} else {
 			x = Resource.character.obj.GetComponent<Transform> ().localScale.x;
 			y = Resource.character.obj.GetComponent<Transform> ().localScale.y;
 		}
+*/
 	}
 }

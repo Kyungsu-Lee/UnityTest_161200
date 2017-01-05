@@ -20,6 +20,11 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public Vector3 initScale {
+			get;
+			set;
+		}
+
 		public Stack pointStack = new Stack ();
 
 		delegate void PositionAction();
@@ -33,7 +38,9 @@ namespace ObjectHierachy
 		public Vector3 locaScale
 		{
 			get { return obj.GetComponent<Transform> ().localScale; }
-			set { obj.GetComponent<Transform> ().localScale = value; }
+			set {  
+				initScale = value;
+				obj.GetComponent<Transform> ().localScale = value; }
 		}
 
 		public Vector3 position
@@ -75,6 +82,11 @@ namespace ObjectHierachy
 		public void toStartPoint()
 		{
 			locateAt (this.StartPoint.x, this.StartPoint.y);
+		}
+
+		public void toInitialScale()
+		{
+			this.obj.GetComponent<Transform> ().localScale = new Vector3 (initScale.x, initScale.y, initScale.z);
 		}
 
 		public void connectMap(Map map)

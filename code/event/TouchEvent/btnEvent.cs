@@ -84,13 +84,10 @@ public class btnEvent : MonoBehaviour {
 
 		if (this.transform.Equals (btns [0].transform)) {
 			Resource.instruction.move ();
-			character.speed = 20f;
 		} else if (this.transform.Equals (btns [1].transform)) {
 			Resource.instruction.jump ();
-			character.speed = 10f;
 		} else if (this.transform.Equals (btns [2].transform)) {
 			Resource.instruction.breaks ();
-			character.speed = 20f;
 		}
 		else if (this.transform.Equals (btns [3].transform))
 			Resource.instruction.up ();
