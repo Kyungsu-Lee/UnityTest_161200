@@ -25,11 +25,13 @@ public class StarEvent : MonoBehaviour {
 				this.y = Resource.starPosition [i].y; 
 			}
 
-		removeInterval = Random.Range (15, 25) / 100f;
+		removeInterval = Random.Range (20, 35) / 100f;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		this.transform.GetComponent<SpriteRenderer> ().color = Resource.clearedColor;
 
 		if (Resource.movStar) {
 
@@ -55,7 +57,7 @@ public class StarEvent : MonoBehaviour {
 		} else {
 			removeTime = 0;
 			this.transform.GetComponent<Transform> ().position = new Vector3 (100, 100, 0);
-
+			removeInterval = Random.Range (20, 35) / 100f;
 			/*
 			foreach (Character c in Character.characters)
 				if (!c.cleared) {

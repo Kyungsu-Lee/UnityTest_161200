@@ -27,5 +27,8 @@ public static class Resource {
 		public static UnityEngine.GameObject[] characters;
 		public static GameObject[] stars;
 		public static GameObject ring;
+
+		public static int stage;
+		public static Color clearedColor;
 }
 }

@@ -30,4 +30,9 @@ public class BlockEvent : MonoBehaviour {
 				Debug.Log (i + " " + j + " : " +Map.instance.get (i, j).OnObject + " // " + Map.instance.get(i, j).index);
 	}
 
+	void OnMouseUp()
+	{
+		makeMap.clearEvent ();
+	}
+
 }

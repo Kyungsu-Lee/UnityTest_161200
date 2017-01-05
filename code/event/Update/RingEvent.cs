@@ -4,6 +4,8 @@ using ObjectHierachy;
 
 public class RingEvent : MonoBehaviour {
 
+	float time = 0;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -20,7 +22,12 @@ public class RingEvent : MonoBehaviour {
 		float rate = Character.clearedCharacter / (float)(Character.Count);
 
 		if (rate == 1) {
-			Application.Quit ();
+			if (time < 3)
+				time += Time.deltaTime;
+			else {
+				time = 0;
+				Application.Quit ();
+			}
 			}
 	}
 }

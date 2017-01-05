@@ -23,6 +23,7 @@ public class RubyEvent : MonoBehaviour {
 		foreach (Character c in Character.characters) {
 			if (c.Match.obj.transform.Equals (this.transform)) {
 				this.index = c.index;
+				c.Match.initScale = this.transform.GetComponent<Transform> ().localScale;
 				break;
 			}
 		}
@@ -34,6 +35,8 @@ public class RubyEvent : MonoBehaviour {
 
 		initScale = this.transform.GetComponent<Transform> ().localScale;
 		initPosition = this.transform.GetComponent<Transform> ().position;
+
+
 	}
 	
 	// Update is called once per frame

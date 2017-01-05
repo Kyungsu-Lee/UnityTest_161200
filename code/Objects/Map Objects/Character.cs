@@ -253,6 +253,7 @@ namespace ObjectHierachy
 			else {
 				map.get (this.x, this.y).OnObject = null;
 				set (x, y);
+				CharacterJumpUpEvent.endPosition = map.get (x, y).obj.GetComponent<Transform>().position;
 			}
 		}
 
@@ -276,6 +277,8 @@ namespace ObjectHierachy
 
 		public void beforeAction()
 		{
+			CharacterJumpUpEvent.initPotision = this.position;
+
 			//if(map.get(x,y).index == index)
 				map.get (x, y).changeColor (this.color);
 
@@ -290,12 +293,14 @@ namespace ObjectHierachy
 
 			//}
 
-			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index) 
+			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index && Resource.canClear) 
 			{
 
 				this.cleared = true;
 				//Resource.movStar = true;
+				Resource.clearedColor = this.color;
 				Resource.movRuby[index] = true;
+
 
 				foreach (Character c in Character.characters)
 					if (!c.cleared) {
@@ -304,9 +309,31 @@ namespace ObjectHierachy
 						break;
 					}
 			}
+			else if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory )
+			{
+				Map.instance.blockAction += changColors;
+				Map.instance.allBlockAction ();
+				this.toStartPoint ();
+				foreach (Accessory a in Accessory.accessory)
+					if (!a.Match.cleared)
+						a.toStartPoint ();
+				activate (this);
+				Map.instance.blockAction -= changColors;
+			}
 
 			this.Mov = false;
-			map.get (this.x, this.y).OnObject = null;
+			//map.get (this.x, this.y).OnObject = null;
+		}
+
+		private void changColors(Block block)
+		{
+			if (block.obj.GetComponent<SpriteRenderer>().color.Equals(this.color)) {
+				block.changeColor (Color.white);
+				block.canOn = true;
+			}
+
+			this.pointStack.Clear ();
+			Resource.canClear = true;
 		}
 
 		public string stackTrace()
@@ -337,6 +364,7 @@ namespace ObjectHierachy
 			for (int i = 0; i < Resource.stars.Length; i++)
 				Resource.stars [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
 		}
+
 
 	}
 

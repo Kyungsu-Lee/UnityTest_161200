@@ -5,8 +5,13 @@ using Instruction;
 using System.IO;
 using System;
 
+
 public class makeMap : MonoBehaviour
 {
+	public delegate void Clear();
+
+	public static Clear clearEvent;
+
 	public GameObject block;
 	public GameObject mapBackground;
 	public GameObject ring;
@@ -29,11 +34,9 @@ public class makeMap : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		try{
-		loadStage (5);
-		}catch(Exception e) {
-			Debug.Log (e.StackTrace);
-		}
+		Resource.stage = 5;
+
+		loadStage (Resource.stage);
 
 		Resource.characters = character;
 		Resource.character = Character.characters[0] as Character;
@@ -62,6 +65,8 @@ public class makeMap : MonoBehaviour
 
 		for (int i = 0; i < character.Length; i++)
 			Resource.movRuby [i] = false;
+
+		clearEvent += clear;
 	}
 
 	public void loadStage(int stage)
@@ -240,6 +245,37 @@ public class makeMap : MonoBehaviour
 		//c.Match.obj.GetComponent<SpriteRenderer> ().color = new Color (c.Match.obj.GetComponent<SpriteRenderer> ().color.r, c.Match.obj.GetComponent<SpriteRenderer> ().color.g, c.Match.obj.GetComponent<SpriteRenderer> ().color.b);
 		Resource.character = c;
 		c.onBlock ().changeColor ();
+	}
+
+	void OnMouseUp()
+	{
+		clear ();
+	}
+
+	public void clear()
+	{
+		Map.instance.blockAction += blockAction;
+		Map.instance.allBlockAction ();
+		Map.instance.blockAction -= blockAction;
+
+		foreach (MapObject o in MapObject.ALLOBJECT)
+			o.toStartPoint ();
+
+		foreach (Character c in Character.characters)
+			c.cleared = false;
+
+		foreach (Accessory a in Accessory.accessory)
+			a.obj.GetComponent<Transform> ().localScale = new Vector3 (a.initScale.x, a.initScale.y, a.initScale.z);
+
+		activate (Character.characters [0] as Character);
+
+		Resource.canClear = true;
+	}
+
+	public void blockAction(Block block)
+	{
+		block.changeColor (Color.white);
+		block.canOn = true;
 	}
 }
 

@@ -6,6 +6,7 @@ namespace ObjectHierachy
 {
 	public abstract class MapObject
 	{
+		public static ArrayList ALLOBJECT = new ArrayList ();
 
 		protected int x = -1;
 		protected int y = -1;
@@ -26,6 +27,7 @@ namespace ObjectHierachy
 
 		public MapObject ()
 		{
+			ALLOBJECT.Add (this);
 		}
 
 		public Vector3 locaScale

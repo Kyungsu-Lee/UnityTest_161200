@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace ObjectHierachy
 {
+	public delegate void BlockAction(Block block);
+
 	public class Map
 	{
 		public static Map instance;
@@ -10,6 +12,8 @@ namespace ObjectHierachy
 
 		public int size = 0;
 		public float unitSize = 0;
+
+		public BlockAction blockAction = ((block) => {});
 
 
 		//property
@@ -84,6 +88,13 @@ namespace ObjectHierachy
 		public float Unitlength
 		{
 			get { return blocks [0] [0].localscale.x; }
+		}
+
+		public void allBlockAction()
+		{
+			for (int i = 0; i < size; i++)
+				for (int j = 0; j < size; j++)
+					blockAction (get (i, j));
 		}
 
 	}

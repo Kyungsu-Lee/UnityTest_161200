@@ -26,9 +26,6 @@ public class btnEvent : MonoBehaviour {
 	void Start () {
 
 		character = Resource.character;
-
-		character.speed = 100f;
-
 	}
 	
 	// Update is called once per frame
@@ -81,17 +78,20 @@ public class btnEvent : MonoBehaviour {
 	public void OnMouseUp()
 	{
 		character = Resource.character;
-		character.speed = 20f;
 
 		if (Resource.instruction == null)
 			Resource.instruction = new Instructions ();
 
-		if (this.transform.Equals (btns [0].transform))
+		if (this.transform.Equals (btns [0].transform)) {
 			Resource.instruction.move ();
-		else if (this.transform.Equals (btns [1].transform))
+			character.speed = 20f;
+		} else if (this.transform.Equals (btns [1].transform)) {
 			Resource.instruction.jump ();
-		else if (this.transform.Equals (btns [2].transform))
+			character.speed = 10f;
+		} else if (this.transform.Equals (btns [2].transform)) {
 			Resource.instruction.breaks ();
+			character.speed = 20f;
+		}
 		else if (this.transform.Equals (btns [3].transform))
 			Resource.instruction.up ();
 		else if (this.transform.Equals (btns [4].transform))

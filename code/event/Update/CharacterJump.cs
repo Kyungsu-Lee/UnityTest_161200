@@ -6,7 +6,7 @@ using ObjectHierachy;
 public class CharacterJump : MonoBehaviour {
 
 	float time = 0;
-	float due_time = 0.85f;
+	float due_time = 0.65f;
 	float rate = 1.2f;
 
 	float x, y;

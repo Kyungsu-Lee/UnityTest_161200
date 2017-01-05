@@ -9,6 +9,10 @@ namespace ObjectHierachy
 	public class Accessory : MapObject
 	{
 		public static ArrayList accessory = new ArrayList();
+		public Vector3 initScale {
+			get;
+			set;
+		}
 
 		public Character Match {
 			get;

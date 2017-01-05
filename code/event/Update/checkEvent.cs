@@ -28,17 +28,17 @@ public class checkEvent : MonoBehaviour {
 			for (int j = 0; j < n; j++)
 				if(Map.instance.get(i,j).OnObject != null && Map.instance.get(i,j).OnObject is Character)
 					Resource.canClear &= (Map.instance.get (i, j).OnObject.index == Map.instance.get (i, j).index);
-		/*
+		
 		for (int i = 0; i < Character.characters.Count; i++)
 			foreach (Point p in (Character.characters[i] as Character).pointStack)
 				Resource.canClear &= (Map.instance.get (p.x, p.y).index == (Character.characters [i] as Character).index);
 		
-
+		/*
 		if (Resource.canClear)
 			Squre.GetComponent<SpriteRenderer> ().color = Color.white;
 		else
 			Squre.GetComponent<SpriteRenderer> ().color = new Color (1f, 0f, 0f, 0.2f);
 			*/
-		
+
 	}
 }
