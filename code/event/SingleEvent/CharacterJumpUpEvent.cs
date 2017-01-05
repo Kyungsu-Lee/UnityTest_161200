@@ -29,9 +29,10 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		if (Resource.character.Jump) {
 
 
-			if ( Vector3.Distance(this.transform.GetComponent<Transform>().position, endPosition) > 0.1f) 
+			if ( Vector3.Distance(Resource.character.obj.GetComponent<Transform>().position, endPosition) > 0.1f) 
 			{
 				time += Time.deltaTime;
+				if (initPotision.x != endPosition.x)
 				Resource.character.obj.GetComponent<Transform> ().localScale = 
 					/*new Vector3 (
 						x * ((4 * (1 - scaleRate) / (due_time * due_time)) * time * (time - due_time) + 1),
@@ -58,6 +59,7 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 			else{
 				Resource.character.Jump = false;
 				time = 0;
+				Resource.character.afterAction ();
 			}
 
 
@@ -84,6 +86,6 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 
 		}
 
-		//Debug.Log (time);
+		Debug.Log (Resource.character.Jump + " " + time);
 	}
 }

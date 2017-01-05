@@ -295,7 +295,7 @@ namespace ObjectHierachy
 			map.get (this.x, this.y).canOn = false;
 
 			//}
-
+			//if(!this.Jump){
 			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index && Resource.canClear) 
 			{
 
@@ -311,6 +311,8 @@ namespace ObjectHierachy
 						Debug.Log (c.ToString ());
 						break;
 					}
+
+				Jump = false;
 			}
 			else if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory )
 			{
@@ -325,10 +327,13 @@ namespace ObjectHierachy
 						a.toStartPoint ();
 				activate (this);
 				Map.instance.blockAction -= changColors;
+
+				Jump = false;
 			}
 
 			this.Mov = false;
 			//map.get (this.x, this.y).OnObject = null;
+			//}
 		}
 
 		private void changColors(Block block)
