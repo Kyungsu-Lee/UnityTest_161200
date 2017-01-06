@@ -9,9 +9,8 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 	public static Vector3 endPosition;
 
 	float time = 0;
-	float due_time = 1f;
-	float rate = 0.3f;
-	float scaleRate = 0.2f;
+	float rate = 0.2f;
+	float scaleRate = 0.1f;
 
 	float x, y;
 

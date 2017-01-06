@@ -30,5 +30,7 @@ public static class Resource {
 
 		public static int stage;
 		public static Color clearedColor;
+
+		public static Sprite deadCharacter;
 }
 }

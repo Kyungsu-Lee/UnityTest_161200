@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using Instruction;
 
 public class Base : MonoBehaviour {
 
+	public Sprite sprite;
+
 	// Use this for initialization
 	void Start () {
+
+		Resource.deadCharacter = sprite;
+
 		//Screen.SetResolution (Screen.width ,  (int)(Screen.width * 4.0 /3) , true);
 
 		this.transform.GetComponent<Transform> ().position = new Vector3 (this.transform.GetComponent<Transform> ().position.x, this.transform.GetComponent<Transform> ().position.y, this.transform.GetComponent<Transform> ().position.z * 2f);

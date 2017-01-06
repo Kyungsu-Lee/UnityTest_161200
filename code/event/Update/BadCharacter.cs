@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ObjectHierachy;
 
 public class BadCharacter : MonoBehaviour {
 
@@ -15,7 +16,16 @@ public class BadCharacter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		i += Time.deltaTime;
-		this.transform.GetComponent<SpriteRenderer> ().sprite = img [(int)Mathf.Floor((i++)/speed)%img.Length];
+
+		foreach (MapObject b in MapObject.ALLOBJECT)
+			if (b.obj.transform.Equals (this.transform)) 
+			{
+				if (!(b as ObjectHierachy.BadCharacter).Die) {
+					i += Time.deltaTime;
+					this.transform.GetComponent<SpriteRenderer> ().sprite = img [(int)Mathf.Floor((i++)/speed)%img.Length];
+				}
+			}
+
+
 	}
 }

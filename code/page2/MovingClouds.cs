@@ -11,7 +11,7 @@ public class MovingClouds : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		startPosition = this.transform.GetComponent<Transform> ().position.x;
-		speed = 0.005f;
+		speed = 0.015f;
 		bounds = Random.Range(20, 35)/10.0f;
 		flag = Random.Range (0, 100) % 2 == 0;
 	}

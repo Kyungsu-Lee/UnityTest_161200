@@ -120,7 +120,7 @@ namespace ObjectHierachy
 				int count = 0;
 
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
-					this.speed = 15f;
+					this.speed = 20f;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -148,7 +148,7 @@ namespace ObjectHierachy
 				} 
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
-					this.speed = 15f;
+					this.speed = 13f;
 					this.Jump = true;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
@@ -176,7 +176,7 @@ namespace ObjectHierachy
 					setwithErrorCheck (p.x, p.y);
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
-					this.speed = 15f;
+					this.speed = 20f;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -200,7 +200,7 @@ namespace ObjectHierachy
 
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							leftPoint.Enqueue (new Point (_x, _y));
-							map.get (_x, _y).OnObject.position = new Vector3 (-100, -100, -100);
+							(map.get (_x, _y).OnObject as BadCharacter).die ();
 							map.get (_x, _y).OnObject = null;
 						}
 						else

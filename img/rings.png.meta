@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 4d19cae782dc04ebc8686665fdca3e81
-timeCreated: 1483517284
+guid: be9aac58a72a94f06a72bf387d331de6
+timeCreated: 1483668217
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -14,6 +14,12 @@ TextureImporter:
     21300014: rings_7
     21300016: rings_8
     21300018: rings_9
+    21300020: rings_10
+    21300022: rings_11
+    21300024: rings_12
+    21300026: rings_13
+    21300028: rings_14
+    21300030: rings_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -66,12 +72,12 @@ TextureImporter:
       name: rings_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 1579
-        width: 352
-        height: 389
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 9246
+        y: 436
+        width: 64
+        height: 65
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -79,12 +85,12 @@ TextureImporter:
       name: rings_1
       rect:
         serializedVersion: 2
-        x: 480
-        y: 1561
-        width: 352
-        height: 389
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 9512
+        y: 450
+        width: 68
+        height: 67
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -92,12 +98,12 @@ TextureImporter:
       name: rings_2
       rect:
         serializedVersion: 2
-        x: 1036
-        y: 1562
-        width: 352
-        height: 386
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 3833
+        y: 0
+        width: 365
+        height: 403
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -105,12 +111,12 @@ TextureImporter:
       name: rings_3
       rect:
         serializedVersion: 2
-        x: 12
-        y: 1084
-        width: 353
-        height: 388
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 6140
+        y: 0
+        width: 360
+        height: 398
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -118,12 +124,12 @@ TextureImporter:
       name: rings_4
       rect:
         serializedVersion: 2
-        x: 489
-        y: 1111
-        width: 353
-        height: 399
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 6907
+        y: 0
+        width: 364
+        height: 403
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -131,12 +137,12 @@ TextureImporter:
       name: rings_5
       rect:
         serializedVersion: 2
-        x: 1033
-        y: 1071
-        width: 353
-        height: 380
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 7674
+        y: 0
+        width: 365
+        height: 408
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -144,12 +150,12 @@ TextureImporter:
       name: rings_6
       rect:
         serializedVersion: 2
-        x: 44
-        y: 575
-        width: 353
-        height: 387
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 8441
+        y: 0
+        width: 365
+        height: 412
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -157,12 +163,12 @@ TextureImporter:
       name: rings_7
       rect:
         serializedVersion: 2
-        x: 492
-        y: 594
-        width: 353
-        height: 399
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 9208
+        y: 0
+        width: 365
+        height: 417
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -170,12 +176,12 @@ TextureImporter:
       name: rings_8
       rect:
         serializedVersion: 2
-        x: 994
-        y: 597
-        width: 352
-        height: 392
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 9499
+        y: 394
+        width: 46
+        height: 41
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
@@ -183,12 +189,90 @@ TextureImporter:
       name: rings_9
       rect:
         serializedVersion: 2
-        x: 64
+        x: 0
         y: 0
-        width: 352
-        height: 410
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 358
+        height: 394
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_10
+      rect:
+        serializedVersion: 2
+        x: 760
+        y: 0
+        width: 365
+        height: 394
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_11
+      rect:
+        serializedVersion: 2
+        x: 1532
+        y: 0
+        width: 360
+        height: 393
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_12
+      rect:
+        serializedVersion: 2
+        x: 2299
+        y: 0
+        width: 364
+        height: 388
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_13
+      rect:
+        serializedVersion: 2
+        x: 3066
+        y: 0
+        width: 365
+        height: 394
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_14
+      rect:
+        serializedVersion: 2
+        x: 4601
+        y: 0
+        width: 364
+        height: 394
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: rings_15
+      rect:
+        serializedVersion: 2
+        x: 5368
+        y: 0
+        width: 365
+        height: 394
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

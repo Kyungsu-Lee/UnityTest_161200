@@ -32,7 +32,8 @@ public class BlockEvent : MonoBehaviour {
 
 	void OnMouseUp()
 	{
-		makeMap.clearEvent ();
+		//makeMap.clearEvent ();
+		Map.instance.remove();
 	}
 
 }

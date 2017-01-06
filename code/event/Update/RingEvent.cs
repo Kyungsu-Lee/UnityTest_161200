@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ObjectHierachy;
+using Instruction;
+using UnityEngine.SceneManagement;
 
 public class RingEvent : MonoBehaviour {
 
 	float time = 0;
+	public Sprite[] img;
 
 	// Use this for initialization
 	void Start () {
@@ -26,8 +29,12 @@ public class RingEvent : MonoBehaviour {
 				time += Time.deltaTime;
 			else {
 				time = 0;
-				Application.Quit ();
+				this.transform.GetComponent<SpriteRenderer> ().sprite = img [Resource.stage];
 			}
 			}
+	}
+
+	void OnMouseUp()
+	{
 	}
 }
