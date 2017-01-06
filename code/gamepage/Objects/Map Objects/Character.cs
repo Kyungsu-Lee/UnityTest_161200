@@ -54,6 +54,11 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public bool Break {
+			get;
+			set;
+		}
+
 		public static int clearedCharacter
 		{
 			get 
@@ -200,6 +205,7 @@ namespace ObjectHierachy
 
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							leftPoint.Enqueue (new Point (_x, _y));
+							this.Break = true;
 							(map.get (_x, _y).OnObject as BadCharacter).die ();
 							map.get (_x, _y).OnObject = null;
 						}
@@ -263,6 +269,7 @@ namespace ObjectHierachy
 		public bool checkBound(int x, int y)
 		{
 			return!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y));
+			//return!(Map.instance.checkBound (x, y) );
 		}
 
 		public void boundExceptionAction()
@@ -290,6 +297,10 @@ namespace ObjectHierachy
 
 		public void afterAction()
 		{
+			
+			
+
+			if(map.get(x,y).OnObject is Obtacle)
 			//if (map.get (x, y).index == index) {
 			map.get (this.x, this.y).changeColor (this.color);
 			map.get (this.x, this.y).canOn = false;
@@ -314,7 +325,7 @@ namespace ObjectHierachy
 
 				Jump = false;
 			}
-			else if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory )
+			else if (this.onBlock ().OnObject != null && (this.onBlock ().OnObject is Accessory))
 			{
 				//Jump = false;
 				Mov = false;
@@ -336,7 +347,7 @@ namespace ObjectHierachy
 			//}
 		}
 
-		private void changColors(Block block)
+		public void changColors(Block block)
 		{
 			if (block.obj.GetComponent<SpriteRenderer>().color.Equals(this.color)) {
 				block.changeColor (Color.white);

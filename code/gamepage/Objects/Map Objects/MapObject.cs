@@ -63,6 +63,7 @@ namespace ObjectHierachy
 		public virtual void setPosition()
 		{
 			position = map.get (x, y).getposition ();
+			if(map.get(x,y).OnObject == null)
 			map.get (x, y).OnObject = this;
 			pointStack.Push (new Point (x, y));
 			positionAction ();
@@ -75,6 +76,7 @@ namespace ObjectHierachy
 			this.x = x;
 			this.y = y;
 			obj.GetComponent<Transform> ().position = map.get (x, y).getposition ();
+			if(map.get(x,y).OnObject == null)
 			map.get (x, y).OnObject = this;
 			pointStack.Push (new Point (x, y));
 		}

@@ -22,14 +22,12 @@ public class toNextPage : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		Resource.stage = 5;
-
 		this.transform.GetComponent<SpriteRenderer> ().sprite = img [1];
 	}
 
 	void OnMouseUp()
 	{
 		this.transform.GetComponent<SpriteRenderer> ().sprite = img [0];
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene ("p3");
 	}
 }
