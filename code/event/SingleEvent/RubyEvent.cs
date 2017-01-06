@@ -21,7 +21,7 @@ public class RubyEvent : MonoBehaviour {
 		//y = this.transform.GetComponent<Transform> ().position.y;
 
 		foreach (Character c in Character.characters) {
-			if (c.Match.obj.transform.Equals (this.transform)) {
+			if (c != null && c.Match != null && c.Match.obj != null && c.Match.obj.transform.Equals (this.transform)) {
 				this.index = c.index;
 				c.Match.initScale = this.transform.GetComponent<Transform> ().localScale;
 				break;
@@ -41,6 +41,9 @@ public class RubyEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		if (Resource.movRuby == null)
+			return;
 
 		if(Resource.movRuby[index]){
 			if (Vector3.Distance (ringPosition, this.transform.GetComponent<Transform> ().position) > 0.1f) {

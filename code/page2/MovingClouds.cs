@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Instruction;
+using UnityEngine.SceneManagement;
 
 public class MovingClouds : MonoBehaviour {
 
@@ -40,5 +42,20 @@ public class MovingClouds : MonoBehaviour {
 		{
 			flag = !flag;
 		}
+	}
+
+	void OnMouseDown()
+	{
+		for(int i=0; i<4; i++)
+			if(this.transform.Equals(GameObject.Find("clouds_" + i).transform))
+				Resource.stage = i+1;
+
+		Debug.Log (Resource.stage);
+	}
+
+	void OnMouseUp()
+	{
+		
+		SceneManager.LoadScene ("Main");
 	}
 }

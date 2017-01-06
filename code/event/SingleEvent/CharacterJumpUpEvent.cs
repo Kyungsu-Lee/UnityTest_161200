@@ -22,6 +22,9 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+		if (Resource.character == null || Resource.character.obj == null)
+			return;
+
 		float position_x = Resource.character.obj.GetComponent<Transform> ().position.x;
 		float position_y = Resource.character.obj.GetComponent<Transform> ().position.y;
 

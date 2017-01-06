@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using Instruction;
 
 public class toNextPage : MonoBehaviour {
 
@@ -21,6 +22,8 @@ public class toNextPage : MonoBehaviour {
 
 	void OnMouseDown()
 	{
+		Resource.stage = 5;
+
 		this.transform.GetComponent<SpriteRenderer> ().sprite = img [1];
 	}
 

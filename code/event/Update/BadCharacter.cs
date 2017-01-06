@@ -18,7 +18,7 @@ public class BadCharacter : MonoBehaviour {
 	void Update () {
 
 		foreach (MapObject b in MapObject.ALLOBJECT)
-			if (b.obj.transform.Equals (this.transform)) 
+			if (b.obj != null && b.obj.transform.Equals (this.transform)) 
 			{
 				if (!(b as ObjectHierachy.BadCharacter).Die) {
 					i += Time.deltaTime;

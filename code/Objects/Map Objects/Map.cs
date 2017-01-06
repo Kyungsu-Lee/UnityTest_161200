@@ -97,16 +97,6 @@ namespace ObjectHierachy
 					blockAction (get (i, j));
 		}
 
-		public void remove()
-		{
-			for (int i = 0; i < size; i++)
-				for (int j = 0; j < size; j++) {
-					if (get (i, j).OnObject != null) {
-						MonoBehaviour.Destroy (get (i, j).OnObject.obj);
-					}
-					MonoBehaviour.Destroy (get (i, j).obj);
-				}
-		}
 	}
 }
 

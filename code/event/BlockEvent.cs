@@ -1,17 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ObjectHierachy;
+using Instruction;
+using UnityEngine.SceneManagement;
 
 public class BlockEvent : MonoBehaviour {
-
-	Block block;
 
 
 	// Use this for initialization
 	void Start () {
-		
-		block = new Block (this.transform);
-
 
 	}
 	
@@ -33,7 +30,10 @@ public class BlockEvent : MonoBehaviour {
 	void OnMouseUp()
 	{
 		//makeMap.clearEvent ();
-		Map.instance.remove();
+
+		Resource.clear();
+		Resource.stage = 5;
+		SceneManager.LoadScene ("p2");
 	}
 
 }

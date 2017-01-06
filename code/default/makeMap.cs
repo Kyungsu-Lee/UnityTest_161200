@@ -32,9 +32,9 @@ public class makeMap : MonoBehaviour
 
 
 	// Use this for initialization
-	void Start ()
+	public void Start ()
 	{
-		Resource.stage = 5;
+	//	Resource.stage = 5;
 
 		loadStage (Resource.stage);
 
@@ -67,6 +67,7 @@ public class makeMap : MonoBehaviour
 			Resource.movRuby [i] = false;
 
 		clearEvent += clear;
+
 	}
 
 	public void loadStage(int stage)
@@ -244,6 +245,7 @@ public class makeMap : MonoBehaviour
 
 		//c.Match.obj.GetComponent<SpriteRenderer> ().color = new Color (c.Match.obj.GetComponent<SpriteRenderer> ().color.r, c.Match.obj.GetComponent<SpriteRenderer> ().color.g, c.Match.obj.GetComponent<SpriteRenderer> ().color.b);
 		Resource.character = c;
+		Debug.Log (c.ToString ());
 		c.onBlock ().changeColor ();
 	}
 

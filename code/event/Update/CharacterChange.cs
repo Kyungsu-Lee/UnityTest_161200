@@ -20,7 +20,7 @@ public class CharacterChange : MonoBehaviour {
 	void Update () {
 
 		foreach(Character c in Character.characters)
-			if(c.obj.transform.Equals(this.transform) && c.Mov)
+			if(c.obj != null && c.obj.transform.Equals(this.transform) && c.Mov)
 				this.transform.GetComponent<SpriteRenderer> ().sprite = img [(int)Mathf.Floor((i++)/speed)%img.Length];
 
 		if (this.transform.GetComponent<Transform> ().position.x > 1.5f || this.transform.GetComponent<Transform> ().position.x < -1.5f)

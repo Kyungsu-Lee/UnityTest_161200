@@ -32,5 +32,20 @@ public static class Resource {
 		public static Color clearedColor;
 
 		public static Sprite deadCharacter;
+
+		public static void clear()
+		{
+			character = null;
+			starPosition = null;
+			canClear = true;
+			movStar = false;
+			movRuby = null;
+			characters = null;
+			stars = null;
+			ring = null;
+			MapObject.ALLOBJECT = new ArrayList();
+			Character.characters = new ArrayList ();
+			Accessory.accessory = new ArrayList ();
+		}
 }
 }
