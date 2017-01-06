@@ -4,6 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class toNextPage : MonoBehaviour {
 
+	// clicked 		: 1
+	// unclicked 	: 2
+	public Sprite[] img;
+
+
 	// Use this for initialization
 	void Start () {
 	
@@ -14,8 +19,14 @@ public class toNextPage : MonoBehaviour {
 	
 	}
 
+	void OnMouseDown()
+	{
+		this.transform.GetComponent<SpriteRenderer> ().sprite = img [1];
+	}
+
 	void OnMouseUp()
 	{
+		this.transform.GetComponent<SpriteRenderer> ().sprite = img [0];
 		SceneManager.LoadScene ("Main");
 	}
 }

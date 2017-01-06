@@ -24,6 +24,7 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 	void Update () {
 
 		float position_x = Resource.character.obj.GetComponent<Transform> ().position.x;
+		float position_y = Resource.character.obj.GetComponent<Transform> ().position.y;
 
 
 		if (Resource.character.Jump) {
@@ -45,6 +46,14 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 						y * (Mathf.Abs(( 4 * scaleRate * (position_x - initPotision.x) * (position_x - endPosition.x) / (initPotision.x * initPotision.x - endPosition.x * endPosition.x))) + 1),
 						Resource.character.obj.GetComponent<Transform>().localScale.z
 					);
+				else
+					Resource.character.obj.GetComponent<Transform> ().localScale = 
+					new Vector3 (
+						x * (Mathf.Abs((4 * scaleRate * (position_y - initPotision.y) * (position_y - endPosition.y) / (initPotision.y * initPotision.y - endPosition.y * endPosition.y))) + 1),
+						y * (Mathf.Abs(( 4 * scaleRate * (position_y - initPotision.y) * (position_y - endPosition.y) / (initPotision.y * initPotision.y - endPosition.y * endPosition.y))) + 1),
+						Resource.character.obj.GetComponent<Transform>().localScale.z
+					);
+
 
 				if (initPotision.x != endPosition.x)
 					Resource.character.obj.GetComponent<Transform> ().position = 
@@ -67,9 +76,10 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 
 			for(int i=0; i<n; i++)
 				for(int j=0; j<n; j++)
-					if(Mathf.Abs(Map.instance.get(i,j).obj.GetComponent<Transform>().position.x - x) < Map.instance.unitSize/10 
+					if(Mathf.Abs(Map.instance.get(i,j).obj.GetComponent<Transform>().position.x - position_x) < Map.instance.unitSize/10 
 						&& Map.instance.get(i,j).obj.GetComponent<Transform>().position.y - Resource.character.obj.GetComponent<Transform>().position.y < 0 
-						&& Mathf.Abs(Map.instance.get(i,j).obj.GetComponent<Transform>().position.y - Resource.character.obj.GetComponent<Transform>().position.y) < Map.instance.unitSize/2)
+						&& Mathf.Abs(Map.instance.get(i,j).obj.GetComponent<Transform>().position.y - Resource.character.obj.GetComponent<Transform>().position.y) < Map.instance.unitSize/2
+					)
 						Map.instance.get(i,j).changeColor(Resource.character.color);
 			
 
@@ -85,7 +95,5 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 			time = 0;
 
 		}
-
-		Debug.Log (Resource.character.Jump + " " + time);
 	}
 }
