@@ -8,11 +8,15 @@ public class CharacterInObtacles : MonoBehaviour {
 	Character character;
 	Vector3 localscale;
 
+	public GameObject fire;
+	Vector3 fireScale;
+
 	float time = 0;
 
 	// Use this for initialization
 	void Start () {
-		
+		fireScale = fire.GetComponent<Transform> ().localScale;
+		Debug.Log (fireScale.ToString ());
 	}
 	
 	// Update is called once per frame
@@ -43,10 +47,13 @@ public class CharacterInObtacles : MonoBehaviour {
 
 		} else if (character.obtacles == ObtacleKind.FIRE) {
 			if ((time += Time.deltaTime) < 0.5f) {
+				float rate = Mathf.Pow (time, 2.0f);
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (1, 0, 0, 1 - 2 * time);
+				this.character.onBlock ().OnObject.obj.GetComponent<Transform> ().localScale = new Vector3 (fireScale.x * (0.32f+0.2f * (0.5f-rate)), fireScale.y * (0.32f+0.2f * (0.5f-rate)), fireScale.z);
 			} else {
 				character.resetAction ();
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
+				this.character.onBlock ().OnObject.obj.GetComponent<Transform> ().localScale = fireScale;
 				time = 0;
 			}
 		}else if (character.obtacles == ObtacleKind.WATER) {
