@@ -33,7 +33,7 @@ public class btnEvent : MonoBehaviour {
 
 
 		//move character
-		if (MOVE && character.checkDistance (Map.instance.get (0, 0).length () / character.speed * 100 / 99) && character.leftPoint.Count >= 0) {
+		if (MOVE && character.checkDistance (Map.instance.get (0, 0).length () / character.speed * 100 / 99) && character.leftPoint.Count >= 0 && character.Mov) {
 
 			if (MOVEUP) {
 				character.moveUp ();
@@ -48,6 +48,8 @@ public class btnEvent : MonoBehaviour {
 		} 
 		else if (MOVE && character.leftPoint.Count > 0) 
 		{
+			Debug.Log ("p" + character.ToString());
+
 			character.setPosition ();
 			Point p = character.leftPoint.Dequeue() as Point;
 			character.setwithErrorCheck (p.x, p.y);

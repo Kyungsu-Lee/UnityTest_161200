@@ -200,16 +200,20 @@ public class makeMap : MonoBehaviour
 
 	public void createObtacle(int x, int y, string s)
 	{
-		Obtacle _obtacle = new UnMovableObtacle(obtacle[0].transform);
+		Obtacle _obtacle = new UnMovableObtacle(obtacle[0].transform, ObtacleKind.NULL);
 
-		if (s.Equals ("f"))
-			_obtacle = new UnMovableObtacle (obtacle [0].transform);
-		else if (s.Equals ("w"))
-			_obtacle = new UnMovableObtacle (obtacle [1].transform);
-		else if (s.Equals ("r"))
-			_obtacle = new UnMovableObtacle (obtacle [2].transform);
-		else
+		if (s.Equals ("f")) {
+			_obtacle = new UnMovableObtacle (obtacle [0].transform, ObtacleKind.FIRE);
+		} else if (s.Equals ("w")) {
+			_obtacle = new UnMovableObtacle (obtacle [1].transform, ObtacleKind.WATER);
+			_obtacle.obtacleKind = ObtacleKind.WATER;
+		} else if (s.Equals ("r")) {
+			_obtacle = new UnMovableObtacle (obtacle [2].transform, ObtacleKind.ROCK);
+			_obtacle.obtacleKind = ObtacleKind.ROCK;
+		} else {
 			_obtacle = new ObjectHierachy.BadCharacter (obtacle [3].transform);
+			_obtacle.obtacleKind = ObtacleKind.BAD;
+		}
 
 		_obtacle = _obtacle.createObtacle ();
 		_obtacle.StartPoint = new Point (x, y);

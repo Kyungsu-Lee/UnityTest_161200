@@ -20,6 +20,7 @@ public class CharacterColor : MonoBehaviour {
 
 		if (thisCharacter.Break) {
 			thisCharacter.Jump = true;
+			thisCharacter.Break = false;
 
 		}
 	}

@@ -9,6 +9,13 @@ namespace ObjectHierachy
 {
 	public delegate void ACTION();
 
+	public enum ObtacleKind
+	{
+		NULL,
+		FIRE, WATER, ROCK,
+		BAD
+	}
+
 	public class Character : MapObject
 	{
 		public static ArrayList characters = new ArrayList();
@@ -22,6 +29,10 @@ namespace ObjectHierachy
 
 		public ACTION AfterAction;
 
+		public ACTION resetAction;
+
+		private bool prohibit = false;
+
 
 		public Character (Transform obj)
 		{
@@ -33,6 +44,25 @@ namespace ObjectHierachy
 			this.Mov = false;
 
 			this.initScale = obj.GetComponent<Transform> ().localScale;
+
+			obtacles = ObtacleKind.NULL;
+
+			resetAction = () => {
+			
+				Mov = false;
+
+				Map.instance.blockAction += changColors;
+				Map.instance.allBlockAction ();
+				this.toStartPoint ();
+				foreach (Accessory a in Accessory.accessory)
+					if (!a.Match.cleared)
+						a.toStartPoint ();
+				activate (this);
+				Map.instance.blockAction -= changColors;
+				obtacles = ObtacleKind.NULL;
+
+				this.prohibit = false;
+			};
 		}
 
 		public float speed {
@@ -95,6 +125,11 @@ namespace ObjectHierachy
 			Debug.Log ("failed");
 		}
 
+		public ObtacleKind obtacles {
+			get;
+			set;
+		}
+
 		public bool checkDistance(float delta)
 		{
 			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
@@ -116,6 +151,9 @@ namespace ObjectHierachy
 			direction = INSTRUCTION.NULL;	// just for initialize
 			Instruction.Instruction _tmp = instruction;
 			MOVE = true;
+
+			if (prohibit)
+				return;
 
 			if (_tmp.instruction == INSTRUCTION.NULL)
 				_tmp = _tmp.next;
@@ -244,19 +282,23 @@ namespace ObjectHierachy
 
 		public void moveUp()
 		{
+			if(!prohibit)
 			position = new Vector3 (position.x, position.y + map.get (0, 0).length () / speed, position.z);
 
 		}
 		public void moveDown()
 		{
+			if(!prohibit)
 			position = new Vector3 (position.x, position.y - map.get (0, 0).length () / speed, position.z);
 		}
 		public void moveLeft()
 		{
+			if(!prohibit)
 			position = new Vector3 (position.x - map.get (0, 0).length () / speed, position.y , position.z);
 		}
 		public void moveRight()
 		{
+			if(!prohibit)
 			position = new Vector3 (position.x+  map.get (0, 0).length () / speed, position.y, position.z);
 		}
 
@@ -272,7 +314,7 @@ namespace ObjectHierachy
 			if (checkBound (x, y))
 				boundExceptionAction ();
 			else {
-				map.get (this.x, this.y).OnObject = null;
+				//map.get (this.x, this.y).OnObject = null;
 				set (x, y);
 				CharacterJumpUpEvent.endPosition = map.get (x, y).obj.GetComponent<Transform>().position;
 			}
@@ -280,8 +322,8 @@ namespace ObjectHierachy
 
 		public bool checkBound(int x, int y)
 		{
-			return!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y));
-			//return!(Map.instance.checkBound (x, y) );
+			//return!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y));
+			return!(Map.instance.checkBound (x, y) && !((Map.instance.get(x,y).OnObject != null && Map.instance.get(x,y).OnObject is Character)) );
 		}
 
 		public void boundExceptionAction()
@@ -304,16 +346,15 @@ namespace ObjectHierachy
 			//if(map.get(x,y).index == index)
 				map.get (x, y).changeColor (this.color);
 
+			if (this.onBlock ().OnObject.Equals (this))
+				onBlock ().OnObject = null;
+
 			this.Mov = true;
 		}
 
 		public void afterAction()
 		{
-			
-			
-
-			if(map.get(x,y).OnObject is Obtacle)
-			//if (map.get (x, y).index == index) {
+			//if(map.get(x,y).OnObject is Obtacle)
 			map.get (this.x, this.y).changeColor (this.color);
 			map.get (this.x, this.y).canOn = false;
 
@@ -321,11 +362,12 @@ namespace ObjectHierachy
 			//if(!this.Jump){
 			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index && Resource.canClear) 
 			{
-
 				this.cleared = true;
 				//Resource.movStar = true;
 				Resource.clearedColor = this.color;
 				Resource.movRuby[index] = true;
+
+				prohibit = true;
 
 
 				foreach (Character c in Character.characters)
@@ -339,19 +381,17 @@ namespace ObjectHierachy
 			}
 			else if (this.onBlock ().OnObject != null && (this.onBlock ().OnObject is Accessory))
 			{
-				//Jump = false;
-				Mov = false;
+				resetAction ();
+			}
 
-				Map.instance.blockAction += changColors;
-				Map.instance.allBlockAction ();
-				this.toStartPoint ();
-				foreach (Accessory a in Accessory.accessory)
-					if (!a.Match.cleared)
-						a.toStartPoint ();
-				activate (this);
-				Map.instance.blockAction -= changColors;
-
-				Jump = false;
+			if (onBlock ().OnObject != null && onBlock ().OnObject is ObjectHierachy.BadCharacter) {
+				this.obtacles = ObtacleKind.BAD;
+				this.prohibit = true;
+			} 
+			if (onBlock ().OnObject != null && onBlock ().OnObject is UnMovableObtacle) {
+				this.obtacles = (onBlock ().OnObject as UnMovableObtacle).obtacleKind;
+				this.prohibit = true;
+				Debug.Log ((onBlock ().OnObject as UnMovableObtacle).obtacleKind);
 			}
 
 			this.Mov = false;

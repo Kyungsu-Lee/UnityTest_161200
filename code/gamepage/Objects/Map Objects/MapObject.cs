@@ -71,8 +71,8 @@ namespace ObjectHierachy
 
 		public void locateAt(int x, int y)
 		{
-			if(this.x > -1 && this.y > -1)
-				map.get (this.x, this.y).OnObject = null;
+			//if(this.x > -1 && this.y > -1)
+			//	map.get (this.x, this.y).OnObject = null;
 			this.x = x;
 			this.y = y;
 			obj.GetComponent<Transform> ().position = map.get (x, y).getposition ();

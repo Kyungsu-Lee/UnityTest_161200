@@ -5,6 +5,12 @@ namespace ObjectHierachy
 {
 	public abstract class Obtacle : MapObject
 	{
+
+		public ObtacleKind obtacleKind {
+			get;
+			set;
+		}
+
 		public Obtacle()
 		{
 			

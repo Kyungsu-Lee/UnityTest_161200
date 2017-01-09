@@ -31,48 +31,49 @@ public class BadCharacter : MonoBehaviour {
 				if (!(b as ObjectHierachy.BadCharacter).Die) {
 					i += Time.deltaTime;
 					this.transform.GetComponent<SpriteRenderer> ().sprite = img [(int)Mathf.Floor((i++)/speed)%img.Length];
+
+
+					int current = before > 900 ? Random.Range (890, 1000) : Random.Range(0,910);
+
+					if (current > 900) {
+
+						before = current;
+
+						if (!flag) {
+							this.transform.GetComponent<Transform> ().position = 
+								new Vector3 (
+									this.transform.GetComponent<Transform> ().position.x + b_speed,
+									this.transform.GetComponent<Transform> ().position.y,
+									this.transform.GetComponent<Transform> ().position.z
+								);
+
+
+						} else
+							this.transform.GetComponent<Transform> ().position = 
+								new Vector3 (
+									this.transform.GetComponent<Transform> ().position.x - b_speed,
+									this.transform.GetComponent<Transform> ().position.y,
+									this.transform.GetComponent<Transform> ().position.z
+								);
+
+
+
+						if (this.transform.GetComponent<Transform> ().position.x >= startPosition + range_x || this.transform.GetComponent<Transform> ().position.x <= startPosition - range_x) {
+
+							flag = !flag;
+
+							//range_x = Random.Range (30, 40) / 100.0f;
+
+							this.transform.GetComponent<Transform> ().localScale = 
+								new Vector3 (
+									-this.transform.GetComponent<Transform> ().localScale.x,
+									this.transform.GetComponent<Transform> ().localScale.y,
+									this.transform.GetComponent<Transform> ().localScale.z
+								);
+						}
+					}
 				}
 			}
-
-		int current = before > 900 ? Random.Range (890, 1000) : Random.Range(0,910);
-		Debug.Log (current + " " + before);
-
-		if (current > 900) {
-
-			before = current;
-
-			if (!flag) {
-				this.transform.GetComponent<Transform> ().position = 
-				new Vector3 (
-					this.transform.GetComponent<Transform> ().position.x + b_speed,
-					this.transform.GetComponent<Transform> ().position.y,
-					this.transform.GetComponent<Transform> ().position.z
-				);
-
-
-			} else
-				this.transform.GetComponent<Transform> ().position = 
-				new Vector3 (
-					this.transform.GetComponent<Transform> ().position.x - b_speed,
-					this.transform.GetComponent<Transform> ().position.y,
-					this.transform.GetComponent<Transform> ().position.z
-				);
-
-
-
-			if (this.transform.GetComponent<Transform> ().position.x >= startPosition + range_x || this.transform.GetComponent<Transform> ().position.x <= startPosition - range_x) {
-
-				flag = !flag;
-
-				//range_x = Random.Range (30, 40) / 100.0f;
-
-				this.transform.GetComponent<Transform> ().localScale = 
-				new Vector3 (
-					-this.transform.GetComponent<Transform> ().localScale.x,
-					this.transform.GetComponent<Transform> ().localScale.y,
-					this.transform.GetComponent<Transform> ().localScale.z
-				);
-			}
-		}
+		
 	}
 }

@@ -31,9 +31,9 @@ public class BlockEvent : MonoBehaviour {
 	{
 		//makeMap.clearEvent ();
 
-		Resource.clear();
-		Resource.stage = 5;
-		SceneManager.LoadScene ("p2");
+		//Resource.clear();
+		//Resource.stage = 5;
+		//SceneManager.LoadScene ("p2");
 	}
 
 }
