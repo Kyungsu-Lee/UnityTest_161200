@@ -29,7 +29,7 @@ public class RingEvent : MonoBehaviour {
 				time += Time.deltaTime;
 			else {
 				time = 0;
-				this.transform.GetComponent<SpriteRenderer> ().sprite = img [Resource.stage];
+				this.transform.GetComponent<SpriteRenderer> ().sprite = img [5];
 			}
 			}
 	}

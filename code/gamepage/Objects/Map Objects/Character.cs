@@ -154,7 +154,6 @@ namespace ObjectHierachy
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
 					this.speed = 13f;
-					this.Jump = true;
 					direction = _tmp.next.instruction;
 					count = ((Number)_tmp.next.next).count ();
 					_tmp = _tmp.next.next.next;
@@ -162,23 +161,36 @@ namespace ObjectHierachy
 					int _x = x;
 					int _y = y;
 
+					int __x = x;
+					int __y = y;
+
 					for (int i = 0; i < count; i++) {
 
 						if (direction == INSTRUCTION.LEFT) {
 							_x -= 2;
+							__x--;
 						} else if (direction == INSTRUCTION.UP) {
 							_y += 2;
+							__y++;
 						} else if (direction == INSTRUCTION.DOWN) {
 							_y -= 2;
+							__y--;
 						} else if (direction == INSTRUCTION.RIGHT) {
 							_x += 2;
+							__x++;
 						}
+
+						if (map.get (__x, __y).OnObject != null && map.get (__x, __y).OnObject is ObjectHierachy.BadCharacter)
+							return;
 
 						leftPoint.Enqueue (new Point (_x, _y));
 					}
 
 					Point p = leftPoint.Dequeue () as Point;
-					setwithErrorCheck (p.x, p.y);
+					//if (map.get (p.x, p.y).OnObject == null || (map.get (p.x, p.y).OnObject != null && !(map.get (p.x, p.y).OnObject is ObjectHierachy.BadCharacter))) {
+						setwithErrorCheck (p.x, p.y);
+						this.Jump = true;
+					//}
 					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
 					this.speed = 20f;

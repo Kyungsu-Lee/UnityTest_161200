@@ -46,16 +46,11 @@ public class MovingClouds : MonoBehaviour {
 
 	void OnMouseDown()
 	{
-		for(int i=0; i<4; i++)
-			if(this.transform.Equals(GameObject.Find("clouds_" + i).transform))
-				Resource.stage = i+1;
-
-		Debug.Log (Resource.stage);
+		
 	}
 
 	void OnMouseUp()
 	{
 		
-		SceneManager.LoadScene ("Main");
 	}
 }

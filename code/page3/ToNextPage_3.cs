@@ -24,8 +24,8 @@ public class ToNextPage_3 : MonoBehaviour {
 	{
 		for(int i=3; i<7; i++)
 			if(this.transform.Equals(GameObject.Find("stage_" + i).transform))
-				Resource.stage += i * 10;
+				Resource.stage += i * 100;
 
-		SceneManager.LoadScene ("Main");	
+		SceneManager.LoadScene ("p4");	
 	}
 }
