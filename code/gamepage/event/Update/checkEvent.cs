@@ -14,7 +14,7 @@ public class checkEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		pathErrorcheck ();
+		//pathErrorcheck ();
 	}
 
 

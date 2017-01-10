@@ -16,20 +16,26 @@ public class CharacterMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 	
 		if (Resource.character != null) {
 			character = Resource.character;
 
+			Debug.Log (character.ToStringQueue ());
 
 			if (character.Moving) {
 				
-				if (character.characterStatus.PointQueue.Count > 0 && !Map.instance.checkBound (character.characterStatus.NextPositionPoint)) {
+				if (!Map.instance.checkBound (character.characterStatus.NextPositionPoint)) {
 					if ((time += Time.deltaTime) < 1) {
 						return;
 					} else {
-						character.characterStatus.PointQueue.Dequeue ();
-						character.Stop ();
+						if (character.characterStatus.PointQueue.Count > 0)
+							character.characterStatus.PointQueue.Clear ();
+						character.Moving = false;
+						if(character.characterStatus.action != ObjectHierachy.Action.JUMP)
+							character.toStartPoint ();
 						time = 0;
+						return;
 					}
 				}
 		

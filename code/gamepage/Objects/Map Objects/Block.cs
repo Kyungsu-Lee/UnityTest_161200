@@ -25,6 +25,10 @@ namespace ObjectHierachy
 			set;
 		}
 
+		public Color color {
+			get { return this.obj.GetComponent<SpriteRenderer> ().color; }
+		}
+
 		public Block(Transform obj)
 		{
 			this.obj = obj;
@@ -61,6 +65,8 @@ namespace ObjectHierachy
 			get { return obj.GetComponent<Transform> ().localScale;}
 			set { obj.GetComponent<Transform> ().localScale = value;}
 		}
+
+
 	}
 }
 

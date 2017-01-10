@@ -19,9 +19,10 @@ public class SceneTransition : MonoBehaviour {
 		if ((time += Time.deltaTime) < 1) {
 			float rate = Mathf.Pow (time, 1.2f);
 			this.transform.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1 - rate);
-		}
-		else
+		} else {
 			this.transform.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 0);
+			this.transform.GetComponent<SpriteRenderer> ().sortingOrder = 0;
+		}
 		
 	}
 }

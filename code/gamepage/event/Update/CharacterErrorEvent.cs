@@ -60,13 +60,14 @@ public class CharacterErrorEvent : MonoBehaviour {
 				){
 					flag = !flag;
 				}
-
-				Debug.Log (bound);
 				
 			} else {
 				time = 0;
 				error_jmp = false;
 				Resource.character.fitPosition ();
+				Resource.character.characterStatus.PointQueue.Clear ();
+				//Resource.character.toStartPoint ();
+				Resource.character.Moving = false;
 			}
 		} else {
 			position = Resource.character.obj.GetComponent<Transform> ().position;

@@ -129,6 +129,11 @@ namespace ObjectHierachy
 			}
 		}
 
+		public ObtacleKind obtacles {
+			get;
+			set;
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the class. Cannot use this.
 		/// </summary>
@@ -147,6 +152,7 @@ namespace ObjectHierachy
 
 			this.obj = obj;
 			characters.Add (this);
+			this.obtacles = ObtacleKind.NULL;
 
 			before += beforeAction;
 			after += afterAction;
@@ -159,13 +165,30 @@ namespace ObjectHierachy
 			if (map.get (currentPosition).OnObject == this)
 				map.get (currentPosition).OnObject = null;
 
-			if (characterstatus.action == Action.JUMP) {
+			Resource.canClear = (characterstatus.PointQueue.Count == 1);
 
-				CharacterJumpUpEvent.initPotision = map.positionParse(currentPosition);
-				CharacterJumpUpEvent.endPosition = map.positionParse(characterStatus.NextPositionPoint);
+			characterstatus.PointStack.Push (new Point(currentPosition));
+			onBlock ().canOn = false;
+
+			if (characterstatus.action == Action.JUMP || characterstatus.action == Action.BREAK) {
+
+				if (map.checkBound (characterstatus.NextPositionPoint)) {
+					CharacterJumpUpEvent.initPotision = map.positionParse (currentPosition);
+					CharacterJumpUpEvent.endPosition = map.positionParse (characterStatus.NextPositionPoint);
+				}
 				CharacterJumpUpEvent.start = true;
+				
 			}
+		}
 
+		public string ToStringQueue()
+		{
+			string str = "";
+
+			foreach (Point p in characterstatus.PointQueue)
+				str += p.ToString () + " ";
+
+			return str;
 		}
 
 		private void afterAction()
@@ -178,10 +201,10 @@ namespace ObjectHierachy
 
 			onBlock ().changeColor (Color);
 
-			if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index == index) {
+			if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index == index && Resource.canClear) {
 				this.Cleared = true;
 				Resource.clearedColor = Color;
-				Resource.movRuby[index] = true;
+				Resource.movRuby [index] = true;
 
 				foreach (Character c in Character.characters)
 					if (!c.Cleared) {
@@ -189,6 +212,23 @@ namespace ObjectHierachy
 						Debug.Log (c.ToString ());
 						break;
 					}
+			} else if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index != index) {
+				toStartPoint ();
+			}
+
+			if (characterstatus.PointQueue.Count > 0)
+				before ();
+
+			if (onBlock ().OnObject != null && onBlock ().OnObject is ObjectHierachy.BadCharacter) {
+				this.obtacles = ObtacleKind.BAD;
+				characterstatus.PointQueue.Clear ();
+				Moving = false;
+			} 
+
+			if (onBlock ().OnObject != null && onBlock ().OnObject is UnMovableObtacle) {
+				this.obtacles = (onBlock ().OnObject as UnMovableObtacle).obtacleKind;
+				characterstatus.PointQueue.Clear ();
+				Moving = false;
 			}
 		}
 
@@ -201,10 +241,10 @@ namespace ObjectHierachy
 			if (characterstatus.PointQueue.Count == 0)
 				this.Moving = false;
 
-			if (Resource.instruction != null && Resource.instruction.next != null)
+			if (Resource.instruction != null && Resource.instruction.next != null && characterstatus.PointQueue.Count == 0)
 				Resource.instructionInput = true;
 
-			afterAction ();
+			after ();
 		}
 
 		public void changeStatus(Instruction.Instruction instruction)
@@ -242,13 +282,6 @@ namespace ObjectHierachy
 							_x++;
 						}
 
-						if (!map.checkBound (_x, _y)) {
-							CharacterErrorEvent.error_mov = true;
-							CharacterErrorEvent.index = index;
-							before ();
-							this.characterstatus.action = Action.STOP;
-							return;
-						}
 
 						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
 					}
@@ -283,13 +316,6 @@ namespace ObjectHierachy
 							__x++;
 						}
 
-						if (!(map.checkBound (_x, _y) && map.checkBound (__x, __y))
-							|| map.get (__x, __y).OnObject != null && map.get (__x, __y).OnObject is ObjectHierachy.BadCharacter
-						) {
-							CharacterErrorEvent.error_jmp = true;
-							return;
-						}
-
 						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
 						characterstatus.action = Action.JUMP;
 					}
@@ -315,10 +341,9 @@ namespace ObjectHierachy
 
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							characterStatus.PointQueue.Enqueue (new Point (_x, _y));
-							characterstatus.action = Action.BREAK;
-							characterstatus.action = Action.JUMP;
 							(map.get (_x, _y).OnObject as BadCharacter).die ();
 							map.get (_x, _y).OnObject = null;
+							characterstatus.action = Action.BREAK;
 						}
 						else
 							break;
@@ -329,7 +354,7 @@ namespace ObjectHierachy
 				_tmp = _tmp.next.next.next;
 			}
 
-			beforeAction ();
+			before ();
 		}
 
 		/// <summary>
@@ -399,6 +424,29 @@ namespace ObjectHierachy
 		{
 			Resource.character = this;
 			onBlock ().changeColor (Color);
+		}
+
+		public override void toStartPoint ()
+		{
+			base.toStartPoint ();
+
+			int n = Map.instance.size;
+
+			for (int i = 0; i < n; i++)
+				for (int j = 0; j < n; j++) {
+
+
+					if (map.get (i, j).color.Equals (this.Color)) {
+						map.get (i, j).changeColor (new Color (1, 1, 1, 1));
+						map.get (i, j).canOn = true;
+						Debug.Log (i + "," + j);
+					}
+				}
+
+			this.activate ();
+			this.Cleared = false;
+			this.Match.toStartPoint ();
+			this.Match.toInitialScale ();
 		}
 	}
 

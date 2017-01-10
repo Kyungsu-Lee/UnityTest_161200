@@ -24,6 +24,7 @@ public class RingEvent : MonoBehaviour {
 
 		float rate = Character.clearedCharacter / (float)(Character.Count);
 
+
 		if (rate == 1) {
 			if (time < 3)
 				time += Time.deltaTime;

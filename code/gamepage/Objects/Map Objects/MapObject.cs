@@ -83,7 +83,7 @@ namespace ObjectHierachy
 			pointStack.Push (new Point (x, y));
 		}
 
-		public void toStartPoint()
+		public virtual void toStartPoint()
 		{
 			locateAt (this.StartPoint.x, this.StartPoint.y);
 		}

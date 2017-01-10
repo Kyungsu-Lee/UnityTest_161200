@@ -34,9 +34,31 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		float position_y = Resource.character.obj.GetComponent<Transform> ().position.y;
 
 
-		if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP && start) {
+		if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP && start 
+			|| Resource.character.characterStatus.action == ObjectHierachy.Action.BREAK && start) {
 
-			Debug.Log (initPotision.ToString () + " " + endPosition.ToString ());
+			if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP) {
+
+				Point p = Resource.character.characterStatus.PointQueue.Peek () as Point;
+				Point q;
+
+				if (Resource.character.characterStatus.direction == INSTRUCTION.UP)
+					q = new Point (p.x, p.y - 1);
+				else if (Resource.character.characterStatus.direction == INSTRUCTION.DOWN)
+					q = new Point (p.x, p.y + 1);
+				else if (Resource.character.characterStatus.direction == INSTRUCTION.RIGHT)
+					q = new Point (p.x - 1, p.y);
+				else if (Resource.character.characterStatus.direction == INSTRUCTION.LEFT)
+					q = new Point (p.x + 1, p.y);
+				else
+					return;
+
+				if (!(Map.instance.checkBound (p.x, p.y) && Map.instance.checkBound (q.x, q.y))
+				   || Map.instance.get (q.x, q.y).OnObject != null && Map.instance.get (q.x, q.y).OnObject is ObjectHierachy.BadCharacter) {
+					CharacterErrorEvent.error_jmp = true;
+					return;
+				}
+			}
 
 			if (!Resource.character.checkDistance(endPosition, 0.1f)) 
 			{
