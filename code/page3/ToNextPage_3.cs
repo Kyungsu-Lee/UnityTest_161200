@@ -26,6 +26,7 @@ public class ToNextPage_3 : MonoBehaviour {
 			if(this.transform.Equals(GameObject.Find("stage_" + i).transform))
 				Resource.stage += i * 100;
 
+		Resource.previousScene = "p3";
 		SceneManager.LoadScene ("p4");	
 	}
 }

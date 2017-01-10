@@ -40,10 +40,10 @@ public class toNextPage : MonoBehaviour {
 					//o.transform.GetComponent<Transform> ().position = new Vector3 (position.x, position.y - 3 * rate, position.z);
 					o.transform.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1 - rate);
 				}
-			}
-
-			else
+			} else {
+				Resource.previousScene = "p2";
 				SceneManager.LoadScene ("p3");	
+			}
 		}
 	}
 

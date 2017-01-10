@@ -6,7 +6,7 @@ namespace ObjectHierachy
 {
 	public abstract class MapObject
 	{
-		public static ArrayList ALLOBJECT = new ArrayList ();
+		public static ArrayList ALLOBJECT;
 
 		protected int x = -1;
 		protected int y = -1;
@@ -32,6 +32,8 @@ namespace ObjectHierachy
 
 		public MapObject ()
 		{
+			if(ALLOBJECT == null)
+			ALLOBJECT = new ArrayList ();
 			ALLOBJECT.Add (this);
 		}
 

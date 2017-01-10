@@ -10,6 +10,7 @@ public class CharacterInObtacles : MonoBehaviour {
 
 	public GameObject fire;
 	Vector3 fireScale;
+	Vector3 characterScale;
 
 	float time = 0;
 
@@ -24,7 +25,7 @@ public class CharacterInObtacles : MonoBehaviour {
 
 		character = Resource.character;
 
-		if (character.obtacles == ObtacleKind.BAD) {
+		if (character != null && character.obtacles == ObtacleKind.BAD) {
 
 			if ((time += Time.deltaTime) < 0.5f) {
 				
@@ -50,18 +51,23 @@ public class CharacterInObtacles : MonoBehaviour {
 				float rate = Mathf.Pow (time, 2.0f);
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (1, 0, 0, 1 - 2 * time);
 				this.character.onBlock ().OnObject.obj.GetComponent<Transform> ().localScale = new Vector3 (fireScale.x * (0.32f+0.2f * (0.5f-rate)), fireScale.y * (0.32f+0.2f * (0.5f-rate)), fireScale.z);
+				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (characterScale.x * (0.7f + 0.2f * (rate)), characterScale.y * (0.7f + 0.2f * (rate)), characterScale.z);
 			} else {
 				character.resetAction ();
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
 				this.character.onBlock ().OnObject.obj.GetComponent<Transform> ().localScale = fireScale;
+				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (characterScale.x, characterScale.y, characterScale.z);
 				time = 0;
 			}
 		}else if (character.obtacles == ObtacleKind.WATER) {
 			if ((time += Time.deltaTime) < 0.5f) {
+				float rate = Mathf.Pow (time, 2.0f);
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (67/255.0f, 218/255.0f, 236/255.0f, 1 - 2 * time);
+				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (characterScale.x * (0.7f + 0.2f * (rate)), characterScale.y * (0.7f + 0.2f * (rate)), characterScale.z);
 			} else {
 				character.resetAction ();
 				this.character.obj.GetComponent<SpriteRenderer> ().color = new Color (1, 1, 1, 1);
+				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (characterScale.x, characterScale.y, characterScale.z);
 				time = 0;
 			}
 		}else if (character.obtacles == ObtacleKind.ROCK) {
@@ -75,7 +81,10 @@ public class CharacterInObtacles : MonoBehaviour {
 		}
 		else
 		{
-			localscale = this.character.obj.GetComponent<Transform> ().localScale;
+			if (this.character != null && this.character.obj != null) {
+				localscale = this.transform.GetComponent<Transform> ().localScale;
+				characterScale = this.character.obj.GetComponent<Transform> ().localScale;
+			}
 		}
 	}
 }

@@ -47,5 +47,7 @@ public static class Resource {
 			Character.characters = new ArrayList ();
 			Accessory.accessory = new ArrayList ();
 		}
+
+		public static string previousScene = "";
 }
 }

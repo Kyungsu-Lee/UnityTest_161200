@@ -23,7 +23,7 @@ public class makeMap : MonoBehaviour
 
 	private Vector3[] startPosition;
 
-	public ArrayList unclearedCharacter = new ArrayList ();
+	public ArrayList unclearedCharacter;
 
 	Map map;
 	int characterIndex = 0;
@@ -35,6 +35,7 @@ public class makeMap : MonoBehaviour
 	public void Start ()
 	{
 	//	Resource.stage = 5;
+		unclearedCharacter = new ArrayList ();
 
 		loadStage (Resource.stage);
 

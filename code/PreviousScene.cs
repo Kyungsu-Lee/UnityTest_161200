@@ -3,8 +3,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using Instruction;
 
-
-public class ToNextPage4 : MonoBehaviour {
+public class PreviousScene : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -13,16 +12,11 @@ public class ToNextPage4 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-
+	
 	}
 
 	void OnMouseUp()
 	{
-		for(int i=0; i<12; i++)
-			if(this.transform.Equals(GameObject.Find("stage_circle_" + i).transform))
-				Resource.stage += i;
-
-		SceneManager.LoadScene ("Main");
+		SceneManager.LoadScene (Resource.previousScene);
 	}
 }

@@ -11,14 +11,14 @@ public class CharacterColor : MonoBehaviour {
 	void Start () {
 	
 		foreach (Character c in Character.characters)
-			if (c.obj.transform.Equals (this.transform))
+			if (c != null && c.obj != null && c.obj.transform.Equals (this.transform))
 				thisCharacter = c;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (thisCharacter.Break) {
+		if (thisCharacter!=null &&  thisCharacter.Break) {
 			thisCharacter.Jump = true;
 			thisCharacter.Break = false;
 

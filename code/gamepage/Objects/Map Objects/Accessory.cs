@@ -8,7 +8,7 @@ namespace ObjectHierachy
 
 	public class Accessory : MapObject
 	{
-		public static ArrayList accessory = new ArrayList();
+		public static ArrayList accessory;
 		public Vector3 initScale {
 			get;
 			set;
@@ -25,6 +25,8 @@ namespace ObjectHierachy
 
 		public Accessory (Transform obj)
 		{
+			if(accessory == null)
+			accessory = new ArrayList ();
 			this.obj = obj;
 			accessory.Add (this);
 		}

@@ -18,7 +18,7 @@ namespace ObjectHierachy
 
 	public class Character : MapObject
 	{
-		public static ArrayList characters = new ArrayList();
+		public static ArrayList characters;
 
 		public delegate void failedInstruction();
 		public failedInstruction fails = faultInstruction;
@@ -36,6 +36,8 @@ namespace ObjectHierachy
 
 		public Character (Transform obj)
 		{
+			if(characters == null)
+				characters = new ArrayList ();
 			this.obj = obj;
 			characters.Add (this);
 
