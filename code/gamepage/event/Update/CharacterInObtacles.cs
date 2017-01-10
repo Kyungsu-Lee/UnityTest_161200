@@ -6,7 +6,7 @@ using ObjectHierachy;
 public class CharacterInObtacles : MonoBehaviour {
 
 	Character character;
-	Vector3 localscale;
+	//Vector3 localscale;
 
 	public GameObject fire;
 	Vector3 fireScale;
@@ -31,16 +31,16 @@ public class CharacterInObtacles : MonoBehaviour {
 				
 				this.character.obj.GetComponent<Transform> ().localScale = 
 					new Vector3 (
-					localscale.x * (1 - 2 * time),
-					localscale.y * (1 - 2 * time),
-					localscale.z
+						characterScale.x * (1 - 2 * time),
+						characterScale.y * (1 - 2 * time),
+						characterScale.z
 				);
 
 				this.character.obj.GetComponent<Transform> ().Rotate (new Vector3 (360 * 2 * time, 0));
 				
 			} else if (time >= 0.5f) {
 				character.resetAction ();
-				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (localscale.x, localscale.y, localscale.z);
+				this.character.obj.GetComponent<Transform> ().localScale = new Vector3 (characterScale.x, characterScale.y, characterScale.z);
 				this.character.obj.GetComponent<Transform> ().localRotation = new Quaternion (0, 0, 0, 0);
 				time = 0;
 			}
@@ -82,7 +82,7 @@ public class CharacterInObtacles : MonoBehaviour {
 		else
 		{
 			if (this.character != null && this.character.obj != null) {
-				localscale = this.transform.GetComponent<Transform> ().localScale;
+				//localscale = this.transform.GetComponent<Transform> ().localScale;
 				characterScale = this.character.obj.GetComponent<Transform> ().localScale;
 			}
 		}

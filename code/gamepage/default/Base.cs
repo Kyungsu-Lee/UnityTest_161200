@@ -12,9 +12,9 @@ public class Base : MonoBehaviour {
 
 		Resource.deadCharacter = sprite;
 
-		//Screen.SetResolution (Screen.width ,  (int)(Screen.width * 4.0 /3) , true);
+		Screen.SetResolution (Screen.width ,  (int)(Screen.width * 4.0 /3) , true);
 
-		this.transform.GetComponent<Transform> ().position = new Vector3 (this.transform.GetComponent<Transform> ().position.x, this.transform.GetComponent<Transform> ().position.y, this.transform.GetComponent<Transform> ().position.z * 2f);
+		//this.transform.GetComponent<Transform> ().position = new Vector3 (this.transform.GetComponent<Transform> ().position.x, this.transform.GetComponent<Transform> ().position.y, this.transform.GetComponent<Transform> ().position.z * 2f);
 		/*
 		TextAsset data = Resources.Load ("text", typeof(TextAsset)) as TextAsset;
 		StringReader str = new StringReader (data.text);

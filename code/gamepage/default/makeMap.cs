@@ -69,6 +69,9 @@ public class makeMap : MonoBehaviour
 
 		clearEvent += clear;
 
+		foreach (Character c in Character.characters)
+			c.onBlock ().canOn = false;
+
 	}
 
 	public void loadStage(int stage)
