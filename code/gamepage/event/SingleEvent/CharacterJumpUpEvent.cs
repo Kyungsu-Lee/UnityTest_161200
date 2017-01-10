@@ -25,7 +25,7 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		
 		if (Resource.character == null || Resource.character.obj == null)
 			return;
 
@@ -33,7 +33,7 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		float position_y = Resource.character.obj.GetComponent<Transform> ().position.y;
 
 
-		if (Resource.character.Jump) {
+		if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP) {
 
 
 			if ( Vector3.Distance(Resource.character.obj.GetComponent<Transform>().position, endPosition) > 0.1f) 
@@ -41,12 +41,6 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 				time += Time.deltaTime;
 				if (initPotision.x != endPosition.x)
 				Resource.character.obj.GetComponent<Transform> ().localScale = 
-					/*new Vector3 (
-						x * ((4 * (1 - scaleRate) / (due_time * due_time)) * time * (time - due_time) + 1),
-						y * ((4 * (1 - scaleRate) / (due_time * due_time)) * time * (time - due_time) + 1),
-						Resource.character.obj.GetComponent<Transform> ().localScale.z
-					);
-					*/
 					new Vector3 (
 							x * (Mathf.Abs((4 * scaleRate * (position_x - initPotision.x) * (position_x - endPosition.x) / (Mathf.Pow(initPotision.x - endPosition.x,2)))) + 1),
 							y * (Mathf.Abs((4 * scaleRate * (position_x - initPotision.x) * (position_x - endPosition.x) / (Mathf.Pow(initPotision.x - endPosition.x,2)))) + 1),
@@ -78,9 +72,9 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		
 			} 
 			else{
-				Resource.character.Jump = false;
+				Resource.character.Moving = false;
 				time = 0;
-				Resource.character.afterAction ();
+				Resource.character.after ();
 			}
 
 
@@ -92,13 +86,13 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 						&& Map.instance.get(i,j).obj.GetComponent<Transform>().position.y - Resource.character.obj.GetComponent<Transform>().position.y < 0 
 						&& Mathf.Abs(Map.instance.get(i,j).obj.GetComponent<Transform>().position.y - Resource.character.obj.GetComponent<Transform>().position.y) < Map.instance.unitSize/2
 					)
-						Map.instance.get(i,j).changeColor(Resource.character.color);
+						Map.instance.get(i,j).changeColor(Resource.character.Color);
 			
 
 			for(int i=0; i<n; i++)
 				for(int j=0; j<n; j++)
-					if(!Resource.character.checkDistance(Map.instance.get(i,j) , Map.instance.unitSize/10))
-						Map.instance.get(i,j).changeColor(Resource.character.color);
+					if(Resource.character.checkDistance(Map.instance.get(i,j) , Map.instance.unitSize/10))
+						Map.instance.get(i,j).changeColor(Resource.character.Color);
 
 		} else {
 			Resource.character.toInitialScale ();

@@ -16,81 +16,68 @@ namespace ObjectHierachy
 		BAD
 	}
 
+
+
 	public class Character : MapObject
 	{
+		/// <summary>
+		/// All characters which are initiated.
+		/// </summary>
 		public static ArrayList characters;
 
-		public delegate void failedInstruction();
-		public failedInstruction fails = faultInstruction;
+		private CharacterStatus characterstatus;
 
-		public Queue leftPoint = new Queue ();
+		/// <summary>
+		/// The action before character moving.
+		/// </summary>
+		public ACTION before;
 
-		public ACTION BeforeAction;
+		/// <summary>
+		/// The action after finishing moving.
+		/// </summary>
+		public ACTION after;
 
-		public ACTION AfterAction;
-
-		public ACTION resetAction;
-
-		private bool prohibit = false;
-
-
-		public Character (Transform obj)
+		/// <summary>
+		/// Gets the character status.
+		/// </summary>
+		/// <value>The character status.</value>
+		public CharacterStatus characterStatus
 		{
-			if(characters == null)
-				characters = new ArrayList ();
-			this.obj = obj;
-			characters.Add (this);
-
-			BeforeAction = beforeAction;
-			AfterAction = afterAction;
-			this.Mov = false;
-
-			this.initScale = obj.GetComponent<Transform> ().localScale;
-
-			obtacles = ObtacleKind.NULL;
-
-			resetAction = () => {
-			
-				Mov = false;
-
-				Map.instance.blockAction += changColors;
-				Map.instance.allBlockAction ();
-				this.toStartPoint ();
-				foreach (Accessory a in Accessory.accessory)
-					if (!a.Match.cleared)
-						a.toStartPoint ();
-				activate (this);
-				Map.instance.blockAction -= changColors;
-				obtacles = ObtacleKind.NULL;
-
-				this.prohibit = false;
-			};
+			get { return this.characterstatus; }
 		}
 
-		public float speed {
+		/// <summary>
+		/// Gets or sets the matched accessory.
+		/// </summary>
+		/// <value>The match.</value>
+		public Accessory Match {
 			get;
 			set;
 		}
 
-		public static int Count {
-			get { return characters.Count; }
-		}
-
-		public bool cleared {
+		/// <summary>
+		/// Gets or sets a value indicating whether this is cleared.
+		/// </summary>
+		/// <value><c>true</c> if cleared; otherwise, <c>false</c>.</value>
+		public bool Cleared {
 			get;
 			set;
 		}
 
-		public bool Mov {
-			get;
-			set;
+		/// <summary>
+		/// Gets the count of characters.
+		/// </summary>
+		/// <value>The count.</value>
+		public static int Count
+		{
+			get {return characters.Count;}
 		}
 
-		public bool Break {
-			get;
-			set;
-		}
 
+		/// <summary>
+		/// Gets the number of cleared character.
+		/// </summary>
+		/// <value>The cleared character.</value>
 		public static int clearedCharacter
 		{
 			get 
@@ -98,83 +85,133 @@ namespace ObjectHierachy
 				int count = 0;
 
 				foreach (Character c in characters)
-					if (c.cleared)
+					if (c.Cleared)
 						count++;
 
 				return count;
 			}
 		}
 
-		public Accessory Match {
+		/// <summary>
+		/// Moving speed of this character.
+		/// </summary>
+		/// <value>The speed.</value>
+		public float Speed {
 			get;
 			set;
 		}
 
-		public Color color
+		/// <summary>
+		/// Gets or sets a value indicating whether this character is moving.
+		/// </summary>
+		/// <value><c>true</c> if moving; otherwise, <c>false</c>.</value>
+		public bool Moving
 		{
+			set {
+				if(value == false)
+					this.characterstatus.action = Action.STOP;
+			}
+
 			get {
-				return ((Color)Resource.COLORS [index-1]);
+				return this.characterstatus.action != Action.STOP;
 			}
 		}
 
-		public bool Jump {
+		public Color Color {
 			get;
 			set;
 		}
 
-		private static void faultInstruction()
-		{
-			Debug.Log ("failed");
+		public Point currentPosition {
+			get { return new Point (x, y); }
+			set {
+				this.x = value.x;
+				this.y = value.y;
+			}
 		}
 
-		public ObtacleKind obtacles {
-			get;
-			set;
+		/// <summary>
+		/// Initializes a new instance of the class. Cannot use this.
+		/// </summary>
+		private Character()
+		{
+			
 		}
 
-		public bool checkDistance(float delta)
+		public Character (Transform obj)
 		{
-			return Vector3.Distance (Map.instance.get (x, y).getposition (), position) > delta;
+			if (characters == null)
+				characters = new ArrayList ();
+
+			if (characterstatus == null)
+				characterstatus = new CharacterStatus ();
+
+			this.obj = obj;
+			characters.Add (this);
+
+			before += beforeAction;
+			after += afterAction;
 		}
 
-		public bool checkDistance(Block block, float delta)
+		private void beforeAction()
 		{
-			return Vector3.Distance (block.getposition (), position) > delta;
-		} 
+			Debug.Log ("before Action");
 
-		public Character makeCharacter()
-		{
-			Transform _tmp = MonoBehaviour.Instantiate (this.obj);
-			return new Character (_tmp);
+			if (map.get (currentPosition).OnObject == this)
+				map.get (currentPosition).OnObject = null;
 		}
 
-		public void move(out INSTRUCTION direction, out bool MOVE, Instruction.Instruction instruction)
+		private void afterAction()
 		{
-			direction = INSTRUCTION.NULL;	// just for initialize
+			Debug.Log ("After Action");
+
+			if (Map.instance.get (currentPosition).OnObject == null)
+				locateAt (currentPosition.x, currentPosition.y);
+		}
+
+		public void Stop()
+		{
+
+
+			Debug.Log ("Stop Action");
+			currentPosition = characterStatus.PointQueue.Dequeue () as Point;
+
+			if (characterstatus.PointQueue.Count == 0)
+				this.Moving = false;
+
+			if (Resource.instruction != null && Resource.instruction.next != null)
+				Resource.instructionInput = true;
+
+			afterAction ();
+		}
+
+		public void changeStatus(Instruction.Instruction instruction)
+		{
+			beforeAction ();
+
 			Instruction.Instruction _tmp = instruction;
-			MOVE = true;
-
-			if (prohibit)
-				return;
 
 			if (_tmp.instruction == INSTRUCTION.NULL)
 				_tmp = _tmp.next;
 
+
+			INSTRUCTION direction = _tmp.next.instruction;
+			int count = ((Number)_tmp.next.next).count ();
+			characterstatus.direction = direction;
+
+
+
 			if (_tmp != null) 
 			{
-				int count = 0;
-
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
-					this.speed = 20f;
-					direction = _tmp.next.instruction;
-					count = ((Number)_tmp.next.next).count ();
-					_tmp = _tmp.next.next.next;
+					this.Speed = 20f;
+					this.characterStatus.action = Action.MOVE;
 
 					int _x = x;
 					int _y = y;
 
 					for (int i = 0; i < count; i++) {
-						
+
 						if (direction == INSTRUCTION.LEFT) {
 							_x--;
 						} else if (direction == INSTRUCTION.UP) {
@@ -185,18 +222,14 @@ namespace ObjectHierachy
 							_x++;
 						}
 
-						leftPoint.Enqueue (new Point (_x, _y));
+						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
 					}
-
-					Point p = leftPoint.Dequeue () as Point;
-					setwithErrorCheck (p.x, p.y);
+						
 				} 
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
-					this.speed = 13f;
-					direction = _tmp.next.instruction;
-					count = ((Number)_tmp.next.next).count ();
-					_tmp = _tmp.next.next.next;
+					this.Speed = 13f;
+					characterstatus.action = Action.JUMP;
 
 					int _x = x;
 					int _y = y;
@@ -223,22 +256,12 @@ namespace ObjectHierachy
 						if (map.get (__x, __y).OnObject != null && map.get (__x, __y).OnObject is ObjectHierachy.BadCharacter)
 							return;
 
-						leftPoint.Enqueue (new Point (_x, _y));
+						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
 					}
 
-					Point p = leftPoint.Dequeue () as Point;
-					//if (map.get (p.x, p.y).OnObject == null || (map.get (p.x, p.y).OnObject != null && !(map.get (p.x, p.y).OnObject is ObjectHierachy.BadCharacter))) {
-						setwithErrorCheck (p.x, p.y);
-						this.Jump = true;
-					//}
-					
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
-					this.speed = 20f;
-					direction = _tmp.next.instruction;
-					count = ((Number)_tmp.next.next).count ();
-					_tmp = _tmp.next.next.next;
+					this.Speed = 20f;
 
-					
 					int _x = x;
 					int _y = y;
 
@@ -256,189 +279,70 @@ namespace ObjectHierachy
 						}
 
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
-							leftPoint.Enqueue (new Point (_x, _y));
-							this.Break = true;
+							characterStatus.PointQueue.Enqueue (new Point (_x, _y));
+							characterstatus.action = Action.BREAK;
 							(map.get (_x, _y).OnObject as BadCharacter).die ();
 							map.get (_x, _y).OnObject = null;
 						}
 						else
 							break;
 					}
-						
 
-					if (leftPoint.Count > 0) {
-						Point p = leftPoint.Dequeue () as Point;
-						setwithErrorCheck (p.x, p.y);
-					}
-				
 				}
-			}
 
+				_tmp = _tmp.next.next.next;
+			}
 		}
 
-		private void set(int x, int y)
+		/// <summary>
+		/// Checks the distance is close enough.
+		/// </summary>
+		/// <returns><c>true</c>, if distance was closed, <c>false</c> otherwise.</returns>
+		/// <param name="block">Block.</param>
+		/// <param name="delta">Delta.</param>
+		public bool checkDistance(Block block, float delta)
 		{
-			this.x = x;
-			this.y = y;
+			return Vector3.Distance (block.getposition (), position) <= delta;
+		}
+
+		public bool checkDistance(Point p, float delta)
+		{
+			return checkDistance (map.get (p.x, p.y), delta);
+		}
+
+		public bool checkDistance(Vector3 vector, float delta)
+		{
+			return Vector3.Distance (vector, position) <= delta;
+		}
+
+		/// <summary>
+		/// check character is in the next point.
+		/// </summary>
+		/// <returns><c>true</c>, if next point is close, <c>false</c> otherwise.</returns>
+		public bool onNext()
+		{
+			if (characterstatus.PointQueue == null || characterstatus.PointQueue.Count <= 0)
+				return false;
+
+			return checkDistance (characterStatus.NextPositionPoint as Point, Map.instance.Unitlength / Speed * 100 / 99);
 		}
 
 		public void moveUp()
 		{
-			if(!prohibit)
-			position = new Vector3 (position.x, position.y + map.get (0, 0).length () / speed, position.z);
-
+			position = new Vector3 (position.x, position.y + map.get (0, 0).length () / Speed, position.z);
 		}
 		public void moveDown()
 		{
-			if(!prohibit)
-			position = new Vector3 (position.x, position.y - map.get (0, 0).length () / speed, position.z);
+				position = new Vector3 (position.x, position.y - map.get (0, 0).length () / Speed, position.z);
 		}
 		public void moveLeft()
 		{
-			if(!prohibit)
-			position = new Vector3 (position.x - map.get (0, 0).length () / speed, position.y , position.z);
+				position = new Vector3 (position.x - map.get (0, 0).length () / Speed, position.y , position.z);
 		}
+
 		public void moveRight()
 		{
-			if(!prohibit)
-			position = new Vector3 (position.x+  map.get (0, 0).length () / speed, position.y, position.z);
-		}
-
-		public void makeColorChange()
-		{
-			map.get (x, y).changeColor (this.color);
-		}
-
-		public void setwithErrorCheck (int x, int y)
-		{
-			BeforeAction ();
-
-			if (checkBound (x, y))
-				boundExceptionAction ();
-			else {
-				//map.get (this.x, this.y).OnObject = null;
-				set (x, y);
-				CharacterJumpUpEvent.endPosition = map.get (x, y).obj.GetComponent<Transform>().position;
-			}
-		}
-
-		public bool checkBound(int x, int y)
-		{
-			//return!(Map.instance.checkBound (x, y) && Map.instance.checkObtcle (x, y));
-			return!(Map.instance.checkBound (x, y) && !((Map.instance.get(x,y).OnObject != null && Map.instance.get(x,y).OnObject is Character)) );
-		}
-
-		public void boundExceptionAction()
-		{
-			Point p = pointStack.Peek () as Point;
-			set (p.x, p.y);
-			leftPoint.Clear();
-		}
-
-		public override void setPosition ()
-		{
-			AfterAction ();
-			base.setPosition ();
-		}
-
-		public void beforeAction()
-		{
-			CharacterJumpUpEvent.initPotision = this.position;
-
-			//if(map.get(x,y).index == index)
-				map.get (x, y).changeColor (this.color);
-
-			if (this.onBlock ().OnObject.Equals (this))
-				onBlock ().OnObject = null;
-
-			this.Mov = true;
-		}
-
-		public void afterAction()
-		{
-			//if(map.get(x,y).OnObject is Obtacle)
-			map.get (this.x, this.y).changeColor (this.color);
-			map.get (this.x, this.y).canOn = false;
-
-			//}
-			//if(!this.Jump){
-			if (this.onBlock ().OnObject != null && this.onBlock ().OnObject is Accessory && this.onBlock ().index == this.index && Resource.canClear) 
-			{
-				this.cleared = true;
-				//Resource.movStar = true;
-				Resource.clearedColor = this.color;
-				Resource.movRuby[index] = true;
-
-				prohibit = true;
-
-
-				foreach (Character c in Character.characters)
-					if (!c.cleared) {
-						activate (c);
-						Debug.Log (c.ToString ());
-						break;
-					}
-
-				Jump = false;
-			}
-			else if (this.onBlock ().OnObject != null && (this.onBlock ().OnObject is Accessory))
-			{
-				resetAction ();
-			}
-
-			if (onBlock ().OnObject != null && onBlock ().OnObject is ObjectHierachy.BadCharacter) {
-				this.obtacles = ObtacleKind.BAD;
-				this.prohibit = true;
-			} 
-			if (onBlock ().OnObject != null && onBlock ().OnObject is UnMovableObtacle) {
-				this.obtacles = (onBlock ().OnObject as UnMovableObtacle).obtacleKind;
-				this.prohibit = true;
-				Debug.Log ((onBlock ().OnObject as UnMovableObtacle).obtacleKind);
-			}
-
-			this.Mov = false;
-			//map.get (this.x, this.y).OnObject = null;
-			//}
-		}
-
-		public void changColors(Block block)
-		{
-			if (block.obj.GetComponent<SpriteRenderer>().color.Equals(this.color)) {
-				block.changeColor (Color.white);
-				block.canOn = true;
-			}
-
-			this.pointStack.Clear ();
-			Resource.canClear = true;
-		}
-
-		public string stackTrace()
-		{
-			string stack = "";
-			foreach (Point p in pointStack)
-				stack += p.ToString () + ", ";
-			string queue = "";
-			foreach (Point p in leftPoint)
-				queue += p.ToString () + ", ";
-
-			return ToString () + " stack : " + stack + " queue : " + queue + " Point : " + new Point (x, y).ToString ();
-		}
-
-		public override string ToString ()
-		{
-			return string.Format ("[Character: {0}, {1}]", this.x, this.y);
-		}
-
-		public void activate(Character c)
-		{
-			Resource.character = c;
-			c.onBlock ().changeColor ();
-		}
-
-		public void removeStar()
-		{
-			for (int i = 0; i < Resource.stars.Length; i++)
-				Resource.stars [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
+				position = new Vector3 (position.x+  map.get (0, 0).length () / Speed, position.y, position.z);
 		}
 
 

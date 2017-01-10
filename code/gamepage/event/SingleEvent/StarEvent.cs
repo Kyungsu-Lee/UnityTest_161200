@@ -94,6 +94,6 @@ public class StarEvent : MonoBehaviour {
 	public void activate(Character c)
 	{
 		Resource.character = c;
-		c.onBlock ().changeColor ();
+		c.onBlock ().changeColor (c.Color);
 	}
 }

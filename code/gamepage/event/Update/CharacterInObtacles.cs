@@ -17,12 +17,11 @@ public class CharacterInObtacles : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		fireScale = fire.GetComponent<Transform> ().localScale;
-		Debug.Log (fireScale.ToString ());
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+		/*
 		character = Resource.character;
 
 		if (character != null && character.obtacles == ObtacleKind.BAD) {
@@ -85,6 +84,6 @@ public class CharacterInObtacles : MonoBehaviour {
 				//localscale = this.transform.GetComponent<Transform> ().localScale;
 				characterScale = this.character.obj.GetComponent<Transform> ().localScale;
 			}
-		}
+		}*/
 	}
 }

@@ -70,6 +70,11 @@ namespace ObjectHierachy
 			return blocks [x] [y];
 		}
 
+		public Block get(Point p)
+		{
+			return get (p.x, p.y);
+		}
+
 		public bool checkBound(int x, int y)
 		{
 			return (0 <= x && x < size && 0 <= y && y < size) && get(x,y).canOn;
@@ -85,6 +90,10 @@ namespace ObjectHierachy
 			return (get (x, y).OnObject == null) || (get(x,y).OnObject != null && get(x,y).OnObject is Accessory);
 		}
 
+		/// <summary>
+		/// Gets the length of a block.
+		/// </summary>
+		/// <value>The unitlength.</value>
 		public float Unitlength
 		{
 			get { return blocks [0] [0].localscale.x; }
@@ -95,6 +104,11 @@ namespace ObjectHierachy
 			for (int i = 0; i < size; i++)
 				for (int j = 0; j < size; j++)
 					blockAction (get (i, j));
+		}
+
+		public Vector3 positionParse(Point p)
+		{
+			return get (p.x, p.y).obj.GetComponent<Transform> ().position;
 		}
 
 	}

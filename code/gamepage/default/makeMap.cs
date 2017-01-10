@@ -34,8 +34,10 @@ public class makeMap : MonoBehaviour
 	// Use this for initialization
 	public void Start ()
 	{
-	//	Resource.stage = 5;
 		unclearedCharacter = new ArrayList ();
+
+		if (Resource.stage == 0)
+			Resource.stage = 400;
 
 		loadStage (Resource.stage);
 
@@ -147,35 +149,6 @@ public class makeMap : MonoBehaviour
 			initialState = false;
 		}
 
-		int n = Map.instance.size;
-		/*
-		for (int i = 0; i < character.Length; i++) 
-		{
-			if (character [i].GetComponent<Transform> ().position == accessory [i].GetComponent<Transform> ().position && Resource.canClear) 
-			{
-				if (Resource.canClear) {
-
-					for (int x = 0; x < n; x++)
-						for (int y = 0; y < n; y++)
-							if (map.get (x, y).index == i + 1)
-								map.get (x, y).changeColor ();
-
-					character [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
-					accessory [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
-
-					(Character.characters [i] as Character).cleared = true;
-
-					foreach (Character c in Character.characters)
-						if (!c.cleared) {
-							activate (c);
-							break;
-						}
-				} else {
-					(Character.characters [i] as Character).toStartPoint ();
-				}
-			}
-		}
-		*/
 
 	}
 
@@ -183,7 +156,6 @@ public class makeMap : MonoBehaviour
 	{
 		Block _block = new Block (block.transform);
 		Map map = new Map (_block, size, mapBackground.GetComponent<Transform>().localScale.x, 0.01f);
-		//map.setPosition (0, 0);
 		map.setPositionAtCenter(0,0);
 
 		this.map = map;
@@ -249,12 +221,9 @@ public class makeMap : MonoBehaviour
 
 	public void activate(Character c)
 	{
-		//c.obj.GetComponent<SpriteRenderer> ().color = new Color (c.obj.GetComponent<SpriteRenderer> ().color.r, c.obj.GetComponent<SpriteRenderer> ().color.g, c.obj.GetComponent<SpriteRenderer> ().color.b);
-
-		//c.Match.obj.GetComponent<SpriteRenderer> ().color = new Color (c.Match.obj.GetComponent<SpriteRenderer> ().color.r, c.Match.obj.GetComponent<SpriteRenderer> ().color.g, c.Match.obj.GetComponent<SpriteRenderer> ().color.b);
 		Resource.character = c;
 		Debug.Log (c.ToString ());
-		c.onBlock ().changeColor ();
+		c.onBlock ().changeColor (c.Color);
 	}
 
 	void OnMouseUp()
@@ -272,7 +241,7 @@ public class makeMap : MonoBehaviour
 			o.toStartPoint ();
 
 		foreach (Character c in Character.characters)
-			c.cleared = false;
+			c.Cleared = false;
 
 		foreach (Accessory a in Accessory.accessory)
 			a.obj.GetComponent<Transform> ().localScale = new Vector3 (a.initScale.x, a.initScale.y, a.initScale.z);

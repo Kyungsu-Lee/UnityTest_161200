@@ -31,16 +31,6 @@ namespace ObjectHierachy
 			obj.GetComponent<SpriteRenderer> ().color = defaultColor;
 		}
 
-		public void changeColor()
-		{
-			
-			//if(obj.GetComponent<SpriteRenderer>().color.Equals(defaultColor))
-			//	obj.GetComponent<SpriteRenderer> ().color = changedColor;
-			//else
-			//	obj.GetComponent<SpriteRenderer> ().color = defaultColor;
-			obj.GetComponent<SpriteRenderer> ().color = new Color(((Color)Resource.COLORS [this.index - 1]).r, ((Color)Resource.COLORS [this.index - 1]).g, ((Color)Resource.COLORS [this.index - 1]).b, 1f);
-		}
-
 		public void changeColor(Color color)
 		{
 			obj.GetComponent<SpriteRenderer> ().color = new Color (color.r, color.g, color.b);

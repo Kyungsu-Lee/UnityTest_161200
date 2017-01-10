@@ -17,6 +17,7 @@ public static class Resource {
 		public static Vector3[] starPosition;
 
 		public static INSTRUCTION currentDirection;
+		public static bool instructionInput = false;
 
 		public static ArrayList COLORS = new ArrayList ();
 
