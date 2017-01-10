@@ -7,6 +7,8 @@ public class CharacterMove : MonoBehaviour {
 
 	Character character;
 
+	float time = 0;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -19,7 +21,17 @@ public class CharacterMove : MonoBehaviour {
 			character = Resource.character;
 
 
-			if (character.Moving && character.characterStatus.action == ObjectHierachy.Action.MOVE) {
+			if (character.Moving) {
+				
+				if (character.characterStatus.PointQueue.Count > 0 && !Map.instance.checkBound (character.characterStatus.NextPositionPoint)) {
+					if ((time += Time.deltaTime) < 1) {
+						return;
+					} else {
+						character.characterStatus.PointQueue.Dequeue ();
+						character.Stop ();
+						time = 0;
+					}
+				}
 		
 				if (character.characterStatus.direction == INSTRUCTION.UP)
 					character.moveUp ();
@@ -34,7 +46,6 @@ public class CharacterMove : MonoBehaviour {
 			if (character.onNext ())
 				character.Stop ();
 			
-			Debug.Log ("crruent : " + character.currentPosition.ToString ());
 		}
 
 	}

@@ -7,6 +7,7 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 
 	public static Vector3 initPotision;
 	public static Vector3 endPosition;
+	public static bool start = false;
 
 	public GameObject camera;
 
@@ -33,10 +34,11 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		float position_y = Resource.character.obj.GetComponent<Transform> ().position.y;
 
 
-		if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP) {
+		if (Resource.character.characterStatus.action == ObjectHierachy.Action.JUMP && start) {
 
+			Debug.Log (initPotision.ToString () + " " + endPosition.ToString ());
 
-			if ( Vector3.Distance(Resource.character.obj.GetComponent<Transform>().position, endPosition) > 0.1f) 
+			if (!Resource.character.checkDistance(endPosition, 0.1f)) 
 			{
 				time += Time.deltaTime;
 				if (initPotision.x != endPosition.x)
@@ -72,9 +74,8 @@ public class CharacterJumpUpEvent : MonoBehaviour {
 		
 			} 
 			else{
-				Resource.character.Moving = false;
+				//Resource.character.Moving = false;
 				time = 0;
-				Resource.character.after ();
 			}
 
 

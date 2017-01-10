@@ -80,6 +80,11 @@ namespace ObjectHierachy
 			return (0 <= x && x < size && 0 <= y && y < size) && get(x,y).canOn;
 		}
 
+		public bool checkBound(Point p)
+		{
+			return checkBound (p.x, p.y);
+		}
+
 		public bool checkBoundWithIndex(int index, int x, int y)
 		{
 			return checkBound(x, y) && (index == get(x,y).index) && get(x,y).canOn;

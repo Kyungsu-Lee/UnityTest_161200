@@ -118,8 +118,7 @@ namespace ObjectHierachy
 		}
 
 		public Color Color {
-			get;
-			set;
+			get { return ((Color)Resource.COLORS [index-1]); }
 		}
 
 		public Point currentPosition {
@@ -159,6 +158,14 @@ namespace ObjectHierachy
 
 			if (map.get (currentPosition).OnObject == this)
 				map.get (currentPosition).OnObject = null;
+
+			if (characterstatus.action == Action.JUMP) {
+
+				CharacterJumpUpEvent.initPotision = map.positionParse(currentPosition);
+				CharacterJumpUpEvent.endPosition = map.positionParse(characterStatus.NextPositionPoint);
+				CharacterJumpUpEvent.start = true;
+			}
+
 		}
 
 		private void afterAction()
@@ -167,13 +174,28 @@ namespace ObjectHierachy
 
 			if (Map.instance.get (currentPosition).OnObject == null)
 				locateAt (currentPosition.x, currentPosition.y);
+
+
+			onBlock ().changeColor (Color);
+
+			if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index == index) {
+				this.Cleared = true;
+				Resource.clearedColor = Color;
+				Resource.movRuby[index] = true;
+
+				foreach (Character c in Character.characters)
+					if (!c.Cleared) {
+						c.activate ();
+						Debug.Log (c.ToString ());
+						break;
+					}
+			}
 		}
 
 		public void Stop()
 		{
-
-
 			Debug.Log ("Stop Action");
+			if(characterstatus.PointQueue.Count > 0)
 			currentPosition = characterStatus.PointQueue.Dequeue () as Point;
 
 			if (characterstatus.PointQueue.Count == 0)
@@ -187,7 +209,6 @@ namespace ObjectHierachy
 
 		public void changeStatus(Instruction.Instruction instruction)
 		{
-			beforeAction ();
 
 			Instruction.Instruction _tmp = instruction;
 
@@ -205,7 +226,6 @@ namespace ObjectHierachy
 			{
 				if (_tmp.instruction == INSTRUCTION.MOVE) {
 					this.Speed = 20f;
-					this.characterStatus.action = Action.MOVE;
 
 					int _x = x;
 					int _y = y;
@@ -222,14 +242,24 @@ namespace ObjectHierachy
 							_x++;
 						}
 
+						if (!map.checkBound (_x, _y)) {
+							CharacterErrorEvent.error_mov = true;
+							CharacterErrorEvent.index = index;
+							before ();
+							this.characterstatus.action = Action.STOP;
+							return;
+						}
+
 						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
 					}
+
+					this.characterStatus.action = Action.MOVE;
+
 						
 				} 
 				else if (_tmp.instruction == INSTRUCTION.JUMP) 
 				{
 					this.Speed = 13f;
-					characterstatus.action = Action.JUMP;
 
 					int _x = x;
 					int _y = y;
@@ -253,10 +283,15 @@ namespace ObjectHierachy
 							__x++;
 						}
 
-						if (map.get (__x, __y).OnObject != null && map.get (__x, __y).OnObject is ObjectHierachy.BadCharacter)
+						if (!(map.checkBound (_x, _y) && map.checkBound (__x, __y))
+							|| map.get (__x, __y).OnObject != null && map.get (__x, __y).OnObject is ObjectHierachy.BadCharacter
+						) {
+							CharacterErrorEvent.error_jmp = true;
 							return;
+						}
 
 						characterstatus.PointQueue.Enqueue (new Point (_x, _y));
+						characterstatus.action = Action.JUMP;
 					}
 
 				} else if (_tmp.instruction == INSTRUCTION.BREAK) {
@@ -281,6 +316,7 @@ namespace ObjectHierachy
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							characterStatus.PointQueue.Enqueue (new Point (_x, _y));
 							characterstatus.action = Action.BREAK;
+							characterstatus.action = Action.JUMP;
 							(map.get (_x, _y).OnObject as BadCharacter).die ();
 							map.get (_x, _y).OnObject = null;
 						}
@@ -292,6 +328,8 @@ namespace ObjectHierachy
 
 				_tmp = _tmp.next.next.next;
 			}
+
+			beforeAction ();
 		}
 
 		/// <summary>
@@ -345,7 +383,23 @@ namespace ObjectHierachy
 				position = new Vector3 (position.x+  map.get (0, 0).length () / Speed, position.y, position.z);
 		}
 
+		public void fitPosition()
+		{
+			Vector3 vector = map.positionParse (currentPosition);
 
+			obj.GetComponent<Transform> ().position
+			= new Vector3 (
+				vector.x,
+				vector.y,
+				vector.z
+			);
+		}
+
+		public void activate()
+		{
+			Resource.character = this;
+			onBlock ().changeColor (Color);
+		}
 	}
 
 
