@@ -44,6 +44,7 @@ public class RubyEvent : MonoBehaviour {
 
 		if (Resource.movRuby == null)
 			return;
+		
 
 		if(Resource.movRuby[index]){
 			if (Vector3.Distance (ringPosition, this.transform.GetComponent<Transform> ().position) > 0.1f) {

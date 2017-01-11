@@ -34,6 +34,8 @@ public static class Resource {
 
 		public static Sprite deadCharacter;
 
+		public static Sprite[][] Accessories;
+
 		public static void clear()
 		{
 			character = null;
@@ -47,6 +49,11 @@ public static class Resource {
 			MapObject.ALLOBJECT = new ArrayList();
 			Character.characters = new ArrayList ();
 			Accessory.accessory = new ArrayList ();
+			CharacterErrorEvent.error_brk = false;
+			CharacterErrorEvent.error_jmp = false;
+			CharacterErrorEvent.error_mov = false;
+			instructionInput = false;
+			CharacterJumpUpEvent.start = false;
 		}
 
 		public static string previousScene = "";

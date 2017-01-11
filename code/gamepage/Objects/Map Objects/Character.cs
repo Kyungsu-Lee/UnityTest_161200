@@ -38,6 +38,11 @@ namespace ObjectHierachy
 		public ACTION after;
 
 		/// <summary>
+		/// The action between instructions.
+		/// </summary>
+		public ACTION UnitAction;
+
+		/// <summary>
 		/// Gets the character status.
 		/// </summary>
 		/// <value>The character status.</value>
@@ -167,8 +172,8 @@ namespace ObjectHierachy
 
 			Resource.canClear = (characterstatus.PointQueue.Count == 1);
 
-			characterstatus.PointStack.Push (new Point(currentPosition));
-			onBlock ().canOn = false;
+			//characterstatus.PointStack.Push (new Point(currentPosition));
+			//onBlock ().canOn = false;
 
 			if (characterstatus.action == Action.JUMP || characterstatus.action == Action.BREAK) {
 
@@ -191,6 +196,16 @@ namespace ObjectHierachy
 			return str;
 		}
 
+		public string ToStringStack()
+		{
+			string str = "";
+
+			foreach (Point p in characterstatus.PointStack)
+				str += p.ToString () + " ";
+
+			return str;
+		}
+
 		private void afterAction()
 		{
 			Debug.Log ("After Action");
@@ -201,7 +216,8 @@ namespace ObjectHierachy
 
 			onBlock ().changeColor (Color);
 
-			if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index == index && Resource.canClear) {
+			if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index == index && Resource.canClear) 
+			{
 				this.Cleared = true;
 				Resource.clearedColor = Color;
 				Resource.movRuby [index] = true;
@@ -212,6 +228,14 @@ namespace ObjectHierachy
 						Debug.Log (c.ToString ());
 						break;
 					}
+
+				int n = Map.instance.size;
+
+				for (int i = 0; i < n; i++)
+					for (int j = 0; j < n; j++)
+						if (map.get (i, j).color.Equals (Color))
+							map.get (i, j).canOn = false;
+				
 			} else if (onBlock ().OnObject != null && onBlock ().OnObject is Accessory && (onBlock ().OnObject as Accessory).index != index) {
 				toStartPoint ();
 			}
@@ -235,8 +259,13 @@ namespace ObjectHierachy
 		public void Stop()
 		{
 			Debug.Log ("Stop Action");
-			if(characterstatus.PointQueue.Count > 0)
-			currentPosition = characterStatus.PointQueue.Dequeue () as Point;
+			if (characterstatus.PointQueue.Count > 0) {
+				currentPosition = characterStatus.PointQueue.Dequeue () as Point;
+				characterstatus.PointStack.Push (currentPosition);
+
+				if (characterstatus.PointQueue.Count == 0)
+					characterstatus.PointCursorStack.Push (new Point (currentPosition));
+			}
 
 			if (characterstatus.PointQueue.Count == 0)
 				this.Moving = false;
@@ -249,7 +278,6 @@ namespace ObjectHierachy
 
 		public void changeStatus(Instruction.Instruction instruction)
 		{
-
 			Instruction.Instruction _tmp = instruction;
 
 			if (_tmp.instruction == INSTRUCTION.NULL)
@@ -439,7 +467,6 @@ namespace ObjectHierachy
 					if (map.get (i, j).color.Equals (this.Color)) {
 						map.get (i, j).changeColor (new Color (1, 1, 1, 1));
 						map.get (i, j).canOn = true;
-						Debug.Log (i + "," + j);
 					}
 				}
 
@@ -447,6 +474,28 @@ namespace ObjectHierachy
 			this.Cleared = false;
 			this.Match.toStartPoint ();
 			this.Match.toInitialScale ();
+		}
+
+		public void toPoint(Point from, Point to)
+		{
+			Point p = from - to;
+
+			Debug.Log (from.ToString () + " " + to.ToString ());
+			Debug.Log (p.ToString ());
+
+			int count = 0;
+
+			for (int i = 0; !(i * p.unitPoint ()).Equals(p); i++, count++) {
+
+				map.get (to + i * p.unitPoint ()).changeColor(new Color (1, 1, 1, 1));
+				if (count > 100)
+					break;
+			}
+
+			map.get (from).changeColor (new Color (1, 1, 1));
+
+			locateAt (to);
+			activate ();
 		}
 	}
 

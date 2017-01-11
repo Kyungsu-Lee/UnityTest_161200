@@ -14,7 +14,7 @@ public class CharacterErrorEvent : MonoBehaviour {
 	float time = 0;
 
 	float bound;
-	Vector3 position;
+	public static Vector3 position;
 	bool flag = true;
 
 	// Use this for initialization
@@ -24,13 +24,10 @@ public class CharacterErrorEvent : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-
 	
 		if (error_mov) {
 			if ((time += Time.deltaTime) < 1) {
 				//action is in CharacterImgChang
-				;
 			} else {
 				time = 0;
 				error_mov = false;
@@ -60,6 +57,9 @@ public class CharacterErrorEvent : MonoBehaviour {
 				){
 					flag = !flag;
 				}
+
+				Debug.Log (flag + " " + error_jmp);
+				Debug.Log ((Resource.character.obj.GetComponent<Transform> ().position.y).ToString ("0.00") + " >= " + (position.y + bound).ToString("0.00") + " " + position.y.ToString("0.00"));
 				
 			} else {
 				time = 0;
@@ -70,7 +70,8 @@ public class CharacterErrorEvent : MonoBehaviour {
 				Resource.character.Moving = false;
 			}
 		} else {
-			position = Resource.character.obj.GetComponent<Transform> ().position;
+			//if(Resource.character != null)
+				position = Resource.character.obj.GetComponent<Transform> ().position;
 		}
 
 	}

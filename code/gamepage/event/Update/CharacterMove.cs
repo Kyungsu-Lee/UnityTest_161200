@@ -21,7 +21,6 @@ public class CharacterMove : MonoBehaviour {
 		if (Resource.character != null) {
 			character = Resource.character;
 
-			Debug.Log (character.ToStringQueue ());
 
 			if (character.Moving) {
 				
@@ -32,8 +31,9 @@ public class CharacterMove : MonoBehaviour {
 						if (character.characterStatus.PointQueue.Count > 0)
 							character.characterStatus.PointQueue.Clear ();
 						character.Moving = false;
-						if(character.characterStatus.action != ObjectHierachy.Action.JUMP)
-							character.toStartPoint ();
+						if (character.characterStatus.action != ObjectHierachy.Action.JUMP && character.characterStatus.PointCursorStack.Count > 0) {
+							character.toPoint (character.currentPosition, character.characterStatus.PointCursorStack.Peek () as Point);
+						}
 						time = 0;
 						return;
 					}

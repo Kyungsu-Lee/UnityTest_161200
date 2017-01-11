@@ -1,0 +1,409 @@
+fileFormatVersion: 2
+guid: 45d172a6613f14ef99bc2fb0e7cce1f4
+timeCreated: 1484098308
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Accessory_0
+    21300002: Accessory_1
+    21300004: Accessory_2
+    21300006: Accessory_3
+    21300008: Accessory_4
+    21300010: Accessory_5
+    21300012: Accessory_6
+    21300014: Accessory_7
+    21300016: Accessory_8
+    21300018: Accessory_9
+    21300020: Accessory_10
+    21300022: Accessory_11
+    21300024: Accessory_12
+    21300026: Accessory_13
+    21300028: Accessory_14
+    21300030: Accessory_15
+    21300032: Accessory_16
+    21300034: Accessory_17
+    21300036: Accessory_18
+    21300038: Accessory_19
+    21300040: Accessory_20
+    21300042: Accessory_21
+    21300044: Accessory_22
+    21300046: Accessory_23
+    21300048: Accessory_24
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Accessory_0
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 3797
+        width: 436
+        height: 432
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_1
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 3799
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_2
+      rect:
+        serializedVersion: 2
+        x: 1896
+        y: 3799
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_3
+      rect:
+        serializedVersion: 2
+        x: 2827
+        y: 3799
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_4
+      rect:
+        serializedVersion: 2
+        x: 3758
+        y: 3799
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 2857
+        width: 436
+        height: 433
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_6
+      rect:
+        serializedVersion: 2
+        x: 965
+        y: 2859
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_7
+      rect:
+        serializedVersion: 2
+        x: 1896
+        y: 2859
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_8
+      rect:
+        serializedVersion: 2
+        x: 2827
+        y: 2859
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_9
+      rect:
+        serializedVersion: 2
+        x: 3758
+        y: 2859
+        width: 432
+        height: 430
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_10
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 1886
+        width: 380
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_11
+      rect:
+        serializedVersion: 2
+        x: 992
+        y: 1886
+        width: 378
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_12
+      rect:
+        serializedVersion: 2
+        x: 1923
+        y: 1886
+        width: 378
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_13
+      rect:
+        serializedVersion: 2
+        x: 2854
+        y: 1886
+        width: 380
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_14
+      rect:
+        serializedVersion: 2
+        x: 3785
+        y: 1886
+        width: 380
+        height: 494
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_15
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 992
+        width: 473
+        height: 401
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_16
+      rect:
+        serializedVersion: 2
+        x: 945
+        y: 992
+        width: 472
+        height: 401
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_17
+      rect:
+        serializedVersion: 2
+        x: 1876
+        y: 992
+        width: 472
+        height: 401
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_18
+      rect:
+        serializedVersion: 2
+        x: 2807
+        y: 992
+        width: 472
+        height: 401
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_19
+      rect:
+        serializedVersion: 2
+        x: 3738
+        y: 992
+        width: 473
+        height: 401
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 503
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_21
+      rect:
+        serializedVersion: 2
+        x: 930
+        y: 0
+        width: 502
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_22
+      rect:
+        serializedVersion: 2
+        x: 1859
+        y: 0
+        width: 506
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_23
+      rect:
+        serializedVersion: 2
+        x: 2790
+        y: 0
+        width: 506
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: Accessory_24
+      rect:
+        serializedVersion: 2
+        x: 3722
+        y: 0
+        width: 502
+        height: 507
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

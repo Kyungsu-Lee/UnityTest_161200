@@ -6,6 +6,7 @@ using ObjectHierachy;
 public class InstructionCheck : MonoBehaviour {
 
 	Character character;
+	public GameObject popup;
 
 
 	// Use this for initialization
@@ -73,6 +74,14 @@ public class InstructionCheck : MonoBehaviour {
 
 	public void failEvent()
 	{
-		
+		popup.GetComponent<Transform> ().position = new Vector3 (0, 0, 0);
+
+		Invoke ("depose", 0.3f);
+	}
+
+	public void depose()
+	{
+		popup.GetComponent<Transform> ().position = new Vector3 (-100, -100, 0);
+
 	}
 }

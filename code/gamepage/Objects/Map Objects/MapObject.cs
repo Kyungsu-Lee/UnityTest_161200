@@ -67,7 +67,7 @@ namespace ObjectHierachy
 			position = map.get (x, y).getposition ();
 			if(map.get(x,y).OnObject == null)
 			map.get (x, y).OnObject = this;
-			pointStack.Push (new Point (x, y));
+			//pointStack.Push (new Point (x, y));
 			positionAction ();
 		}
 
@@ -77,10 +77,16 @@ namespace ObjectHierachy
 			//	map.get (this.x, this.y).OnObject = null;
 			this.x = x;
 			this.y = y;
+			if(this.obj != null && map.get(x,y).obj != null)
 			obj.GetComponent<Transform> ().position = map.get (x, y).getposition ();
 			if(map.get(x,y).OnObject == null)
 			map.get (x, y).OnObject = this;
-			pointStack.Push (new Point (x, y));
+			//pointStack.Push (new Point (x, y));
+		}
+
+		public void locateAt(Point p)
+		{
+			locateAt (p.x, p.y);
 		}
 
 		public virtual void toStartPoint()
@@ -90,6 +96,7 @@ namespace ObjectHierachy
 
 		public void toInitialScale()
 		{
+			if(this.obj != null)
 			this.obj.GetComponent<Transform> ().localScale = new Vector3 (initScale.x, initScale.y, initScale.z);
 		}
 

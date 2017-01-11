@@ -16,6 +16,7 @@ namespace ObjectHierachy
 	{
 		private Queue pointQueue;
 		private Stack pointStack;
+		private Stack pointCursorStack;
 
 		public Point CurrentPositionPoint {
 			get;
@@ -62,6 +63,11 @@ namespace ObjectHierachy
 			get { return this.pointStack; }
 		}
 
+		public Stack PointCursorStack
+		{
+			get { return this.pointCursorStack; }
+		}
+
 		public Vector3 NextPositionVector
 		{
 			get {
@@ -73,6 +79,7 @@ namespace ObjectHierachy
 		{
 			this.pointQueue = new Queue ();
 			this.pointStack = new Stack ();
+			this.pointCursorStack = new Stack ();
 			this.action = Action.STOP;
 		}
 

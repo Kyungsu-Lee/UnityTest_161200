@@ -12,9 +12,7 @@ public class SetCircle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		int index = 0;
-	
 		TextAsset data = Resources.Load ("stage" + Resource.stage, typeof(TextAsset)) as TextAsset;
 		StringReader str = new StringReader (data.text);
 
@@ -28,10 +26,13 @@ public class SetCircle : MonoBehaviour {
 				circles [(index)++].transform.GetComponent<SpriteRenderer> ().sprite = circle_clear;
 			}
 		}
+	
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+
+
 	}
 }

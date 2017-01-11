@@ -1,4 +1,4 @@
-﻿
+
 //character with c
 //obtacle with o
 //accessory with a
@@ -11,19 +11,18 @@ size
 
 character
 2
-0 2
-0 0
+1 1
+0 1
 
 accessory
 2
-2 2
-2 0
+0 2 0
+2 0 0
 
 obtacle
-1
-1 1 b
+0
 
 Map
 1 1 1
-0 0 0
+2 1 1
 2 2 2

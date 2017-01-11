@@ -30,6 +30,14 @@ public class BlockEvent : MonoBehaviour {
 
 	void OnMouseUp()
 	{
+		/*
+		Resource.stage++;
+		MapObject.ALLOBJECT.Clear ();
+		Accessory.accessory.Clear ();
+		Character.characters.Clear();
+		SceneManager.LoadScene ("Main");
+		*/
+
 		//makeMap.clearEvent ();
 
 		//Resource.clear();

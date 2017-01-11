@@ -21,6 +21,8 @@ public class makeMap : MonoBehaviour
 	public GameObject[] colorObject;
 	public GameObject[] stars;
 
+	public Sprite[] rubies;
+
 	private Vector3[] startPosition;
 
 	public ArrayList unclearedCharacter;
@@ -34,17 +36,31 @@ public class makeMap : MonoBehaviour
 	// Use this for initialization
 	public void Start ()
 	{
+
 		unclearedCharacter = new ArrayList ();
 
+		if (Resource.Accessories == null) {
+
+			Resource.Accessories = new Sprite[5][];
+			for(int i=0; i<5; i++)
+				Resource.Accessories[i] = new Sprite[5];
+
+			for (int i = 0; i < 5; i++)
+				for (int j = 0; j < 5; j++)
+					Resource.Accessories [i] [j] = rubies [5 * i + j];
+		}
+
 		if (Resource.stage == 0)
-			Resource.stage = 400;
+			Resource.stage = 300;
 
 		loadStage (Resource.stage);
-
+		
 		Resource.characters = character;
 		Resource.character = Character.characters[0] as Character;
 		Resource.stars = stars;
 		match ();
+
+
 		/*
 		(Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color = new Color ((Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.r, (Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.g, (Character.characters[0] as Character).obj.GetComponent<SpriteRenderer> ().color.b);
 		(Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color = new Color ((Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.r, (Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.g, (Accessory.accessory[0] as Accessory).obj.GetComponent<SpriteRenderer> ().color.b);
@@ -61,7 +77,7 @@ public class makeMap : MonoBehaviour
 
 		Resource.starPosition = startPosition;
 		Resource.ring = ring;
-		Resource.movRuby = new bool[character.Length];
+		Resource.movRuby = new bool[character.Length + 1];
 
 		for (int i = 0; i < stars.Length; i++)
 			stars [i].GetComponent<Transform> ().position = new Vector3 (100, 100, 100);
@@ -73,11 +89,18 @@ public class makeMap : MonoBehaviour
 
 		foreach (Character c in Character.characters)
 			c.onBlock ().canOn = false;
+		
+		int n = Map.instance.size;
 
+		for (int i = 0; i < n; i++)
+			for (int j = 0; j < n; j++)
+				Debug.Log (i + " " + j + " : " +Map.instance.get (i, j).OnObject + " // " + Map.instance.get(i, j).index);
 	}
 
 	public void loadStage(int stage)
 	{
+		//Character.characters.Clear ();
+
 		TextAsset data = Resources.Load ("text" + stage, typeof(TextAsset)) as TextAsset;
 		StringReader str = new StringReader (data.text);
 
@@ -130,7 +153,7 @@ public class makeMap : MonoBehaviour
 
 					string[] s = line.Split (new char[]{ ' ' });
 
-					createAccessory (int.Parse (s [0]), int.Parse (s [1]));
+					createAccessory (int.Parse (s [0]), int.Parse (s [1]), int.Parse(s[2]));
 
 				}
 
@@ -145,10 +168,10 @@ public class makeMap : MonoBehaviour
 	void Update ()
 	{
 		if (initialState) {
+			if (Resource.character != null)
 			activate (Resource.character);
 			initialState = false;
 		}
-
 
 	}
 
@@ -198,7 +221,7 @@ public class makeMap : MonoBehaviour
 		_obtacle.locaScale = new Vector3 (map.Unitlength * 0.19f,map.Unitlength * 0.19f, obtacle[0].transform.localScale.z);
 	}
 
-	public void createAccessory(int x, int y)
+	public void createAccessory(int x, int y, int idx)
 	{
 		Accessory _accessory = new Accessory (accessory[characterIndex].transform);
 		_accessory.connectMap (map);
@@ -209,6 +232,8 @@ public class makeMap : MonoBehaviour
 
 		float alpha = 1f;
 		_accessory.obj.GetComponent<SpriteRenderer> ().color = new Color (_accessory.obj.GetComponent<SpriteRenderer> ().color.r, _accessory.obj.GetComponent<SpriteRenderer> ().color.g, _accessory.obj.GetComponent<SpriteRenderer> ().color.b, alpha);
+
+		_accessory.obj.GetComponent<SpriteRenderer>().sprite = Resource.Accessories[_accessory.index-1][idx];
 	}
 
 	public void match()
@@ -222,7 +247,7 @@ public class makeMap : MonoBehaviour
 	public void activate(Character c)
 	{
 		Resource.character = c;
-		Debug.Log (c.ToString ());
+		//Debug.Log (c.ToString ());
 		c.onBlock ().changeColor (c.Color);
 	}
 
