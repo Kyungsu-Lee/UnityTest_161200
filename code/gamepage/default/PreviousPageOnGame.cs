@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Instruction;
+using UnityEngine.SceneManagement;
 
 public class PreviousPageOnGame : MonoBehaviour {
 
@@ -18,6 +19,6 @@ public class PreviousPageOnGame : MonoBehaviour {
 	{
 		Resource.clear ();
 		Resource.stage = (Resource.stage / 100) * 100;
-		Resource.previousScene = "p3";
+		SceneManager.LoadScene ("p4");
 	}
 }

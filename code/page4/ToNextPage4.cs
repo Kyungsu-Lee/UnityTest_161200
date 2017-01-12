@@ -19,11 +19,21 @@ public class ToNextPage4 : MonoBehaviour {
 
 	void OnMouseUp()
 	{
-		for(int i=0; i<12; i++)
-			if(this.transform.Equals(GameObject.Find("stage_circle_" + i).transform))
-				Resource.stage += i;
+		int idx = 0;
 
-		Resource.previousScene = "p4";
-		SceneManager.LoadScene ("Main");
+		for (int i = 0; i < 12; i++)
+			if (this.transform.Equals (GameObject.Find ("stage_circle_" + i).transform))
+				idx = i;
+
+		//if (idx == 0 || SetCircle.isclear [idx] || SetCircle.isclear [idx - 1])
+		{
+			for (int i = 0; i < 12; i++)
+				if (this.transform.Equals (GameObject.Find ("stage_circle_" + i).transform))
+					Resource.stage += i;
+
+			Resource.previousScene = "p4";
+
+			SceneManager.LoadScene ("Main");
+		}
 	}
 }

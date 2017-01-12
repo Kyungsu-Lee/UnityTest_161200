@@ -17,6 +17,6 @@ public class PreviousScene : MonoBehaviour {
 
 	void OnMouseUp()
 	{
-		SceneManager.LoadScene (Resource.previousScene);
+		SceneManager.LoadScene ("p3");
 	}
 }

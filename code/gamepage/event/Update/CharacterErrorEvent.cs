@@ -70,7 +70,7 @@ public class CharacterErrorEvent : MonoBehaviour {
 				Resource.character.Moving = false;
 			}
 		} else {
-			//if(Resource.character != null)
+			if(Resource.character != null)
 				position = Resource.character.obj.GetComponent<Transform> ().position;
 		}
 

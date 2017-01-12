@@ -182,7 +182,6 @@ namespace ObjectHierachy
 					CharacterJumpUpEvent.endPosition = map.positionParse (characterStatus.NextPositionPoint);
 				}
 				CharacterJumpUpEvent.start = true;
-				
 			}
 		}
 
@@ -253,6 +252,10 @@ namespace ObjectHierachy
 				this.obtacles = (onBlock ().OnObject as UnMovableObtacle).obtacleKind;
 				characterstatus.PointQueue.Clear ();
 				Moving = false;
+			}
+
+
+			if (characterstatus.action == Action.BREAK) {
 			}
 		}
 
@@ -370,7 +373,7 @@ namespace ObjectHierachy
 						if (map.get (_x, _y).OnObject != null && map.get (_x, _y).OnObject is ObjectHierachy.BadCharacter) {
 							characterStatus.PointQueue.Enqueue (new Point (_x, _y));
 							(map.get (_x, _y).OnObject as BadCharacter).die ();
-							map.get (_x, _y).OnObject = null;
+							map.get (_x, _y).OnObject = this;
 							characterstatus.action = Action.BREAK;
 						}
 						else

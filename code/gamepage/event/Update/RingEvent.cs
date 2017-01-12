@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using ObjectHierachy;
 using Instruction;
 using UnityEngine.SceneManagement;
 using System.IO;
+using FileHelper;
 
 public class RingEvent : MonoBehaviour {
 
@@ -43,27 +45,27 @@ public class RingEvent : MonoBehaviour {
 
 			} else {
 				time = 0;
-				TextAsset data = Resources.Load ("stage" + (Resource.stage / 100) * 100, typeof(TextAsset)) as TextAsset;
-				StringReader str = new StringReader (data.text);
 
-				string line;
+				string str = FileStreamHelper.readStringFromFile ("stage" + (Resource.stage / 100) * 100 + ".txt");
 
-				string[] stages = new string[100];
-				int idx = 0;
+				Debug.Log (str);
 
-				while ((line = str.ReadLine ()) != null) {
-					stages [idx++] = (line);
+				string[] stages = str.Split (new char[]{ ',' });
+
+				try{
+				stages [Resource.stage % 100] = "1";
+				}catch(Exception e) {
+					Debug.Log (e.StackTrace);
+					Debug.Log (Resource.stage % 100 + " : " + stages.Length);
 				}
-
-				stages [Resource.stage % 12] = "1";
 
 				string s = "";
 				for (int i = 0; i < 12; i++)
-					s += stages [i] + "\n";
+					s += stages [i] + ",";
 
-				File.WriteAllText ("Assets/Resources/stage" + (Resource.stage / 100) * 100 + ".txt", s);
+				FileStreamHelper.writeStringToFile (s, "stage" + (Resource.stage / 100) * 100 + ".txt");
 
-				for (int i = 0; i < 12; i++)
+				//for (int i = 0; i < 12; i++)
 					Debug.Log (s);
 
 				if (Resource.stage % 100 <= 12) {

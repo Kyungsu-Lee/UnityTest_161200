@@ -32,7 +32,7 @@ namespace ObjectHierachy
 		public void die()
 		{
 			this.Die = true;
-			this.obj.GetComponent<SpriteRenderer> ().sprite = Resource.deadCharacter;
+			//this.obj.GetComponent<SpriteRenderer> ().sprite = Resource.deadCharacter;
 		}
 	}
 }

@@ -92,9 +92,13 @@ public class makeMap : MonoBehaviour
 		
 		int n = Map.instance.size;
 
+		string gdb = "";
+
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < n; j++)
-				Debug.Log (i + " " + j + " : " +Map.instance.get (i, j).OnObject + " // " + Map.instance.get(i, j).index);
+				gdb += i + " " + j + " : " +Map.instance.get (i, j).OnObject + " // " + Map.instance.get(i, j).index + "\n";
+
+		Debug.Log (gdb);
 	}
 
 	public void loadStage(int stage)
